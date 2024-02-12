@@ -1,0 +1,12 @@
+# ESP-IDF
+sdkconfig.old
+build
+managed_components
+
+# CLion
+.idea
+cmake-build-*
+
+# VSCode
+.vscode
+.cache
