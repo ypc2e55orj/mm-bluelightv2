@@ -69,4 +69,9 @@ int main(int argc, char **argv) {
     usleep(1000 * DELAY_MS);
   }
   // 最短走行
+  map.initStepsToGoal(goal_x, goal_y);
+  map.makeSteps(true);
+  // 出力
+  printf("\x1b[0;0H");
+  map.print();
 }
