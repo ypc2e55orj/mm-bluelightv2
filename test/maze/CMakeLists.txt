@@ -5,6 +5,7 @@ project(test-maze)
 file(
         GLOB SOURCES
         "main.cc"
+        "data/*.inc"
         "../../parameters.h"
         "../../map.h"
         "../../search.h")

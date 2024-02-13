@@ -12,3 +12,6 @@ cmake-build-*
 # VSCode
 .vscode
 .cache
+
+# maze data
+test/maze/data/*.inc
