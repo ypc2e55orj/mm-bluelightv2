@@ -14,7 +14,7 @@
 #include "indicator.h"
 #include "motor.h"
 #include "photo.h"
-#include "pin.h"
+#include "pins.h"
 #include "spi.h"
 
 struct DriverClass {

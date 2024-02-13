@@ -1,7 +1,9 @@
 # ESP-IDF
 sdkconfig.old
-build
 managed_components
+
+# CMake
+build
 
 # CLion
 .idea
