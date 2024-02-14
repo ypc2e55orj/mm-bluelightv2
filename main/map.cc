@@ -294,10 +294,6 @@ void Map::print() {
   static constexpr auto MAZE_HORIZ_INDEX_PADDING = "    ";
   static constexpr auto MAZE_HORIZ_INDEX_FORMAT = " %2d ";
 
-  printf("%sNot Exists :     %s\n", WALL_COLOR_NOT_EXISTS, WALL_COLOR_RESET);
-  printf("%sExists     : --- %s\n", WALL_COLOR_EXISTS, WALL_COLOR_RESET);
-  printf("%sNot Visited: --- %s\n", WALL_COLOR_UNKNOWN, WALL_COLOR_RESET);
-
   for (auto y = MAZE_SIZE_Y - 1; y > -1; y--) {
     printf("%s", MAZE_VERT_INDEX_PADDING);
     // 北側の壁を出力
