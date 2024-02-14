@@ -2,13 +2,12 @@ cmake_minimum_required(VERSION 3.16)
 
 project(test-maze)
 
-file(
-        GLOB SOURCES
+file(GLOB SOURCES
         "main.cc"
         "data/*.inc"
-        "../../parameters.h"
-        "../../map.h"
-        "../../search.h")
+        "../../main/map.h"
+        "../../main/map.cc"
+        "../../main/parameters.h")
 
 message("### maze-test ##")
 foreach (SOURCE IN LISTS SOURCES)
