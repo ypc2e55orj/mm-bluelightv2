@@ -230,6 +230,7 @@ Map::Direction Map::getNextDir() {
 
 // 自身の向きを標準出力する
 void Map::printPos(Map::Direction dir) {
+  printf("\x1b[34m");
   switch (dir) {
     case DIRECTION_NORTH:
       printf(" ^ ");
@@ -244,6 +245,7 @@ void Map::printPos(Map::Direction dir) {
       printf(" < ");
       break;
   }
+  printf("\x1b[0m");
 }
 
 // 壁を標準出力する
