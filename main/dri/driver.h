@@ -17,7 +17,7 @@
 #include "pins.h"
 #include "spi.h"
 
-struct DriverClass {
+struct Driver {
   std::unique_ptr<Fs> fs;
   std::unique_ptr<Battery> battery;
   std::unique_ptr<Buzzer> buzzer;
@@ -109,5 +109,3 @@ void init_app() {
   std::unique_ptr<Spi> spi_encoder_;
   std::unique_ptr<Spi> spi_imu_;
 };
-
-extern DriverClass Driver;
