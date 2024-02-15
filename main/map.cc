@@ -1,8 +1,7 @@
 #include "map.h"
 
 // コンストラクタ
-Map::Map(const int (&goal_xs)[MAZE_GOAL_SIZE_X],
-         const int (&goal_ys)[MAZE_GOAL_SIZE_Y])
+Map::Map(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y])
     : steps_(), walls_(), dir_(), pos_() {
   initWalls();
   initStepsToGoal(goal_xs, goal_ys);
@@ -47,8 +46,7 @@ void Map::initStepsToStart() {
   updateQueue_.push({0, 0});
 }
 // ゴールまでの歩数マップを初期化
-void Map::initStepsToGoal(const int (&goal_xs)[MAZE_GOAL_SIZE_X],
-                          const int (&goal_ys)[MAZE_GOAL_SIZE_Y]) {
+void Map::initStepsToGoal(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y]) {
   initSteps();
   // ゴール座標の歩数を最小値に設定
   for (const auto &y : goal_ys) {
@@ -75,26 +73,22 @@ void Map::makeSteps(bool shortest) {
     const auto &walls = walls_[coord.y][coord.x];
     if ((walls.byte.stepped & visited_mask) == visited_mask) {
       // 北
-      if (coord.y + 1 < MAZE_SIZE_Y && steps_[coord.y + 1][coord.x] == 255 &&
-          !walls.exist.north) {
+      if (coord.y + 1 < MAZE_SIZE_Y && steps_[coord.y + 1][coord.x] == 255 && !walls.exist.north) {
         steps_[coord.y + 1][coord.x] = step + 1;
         updateQueue_.push({coord.x, coord.y + 1});
       }
       // 東
-      if (coord.x + 1 < MAZE_SIZE_X && steps_[coord.y][coord.x + 1] == 255 &&
-          !walls.exist.east) {
+      if (coord.x + 1 < MAZE_SIZE_X && steps_[coord.y][coord.x + 1] == 255 && !walls.exist.east) {
         steps_[coord.y][coord.x + 1] = step + 1;
         updateQueue_.push({coord.x + 1, coord.y});
       }
       // 南
-      if (coord.y - 1 > -1 && steps_[coord.y - 1][coord.x] == 255 &&
-          !walls.exist.south) {
+      if (coord.y - 1 > -1 && steps_[coord.y - 1][coord.x] == 255 && !walls.exist.south) {
         steps_[coord.y - 1][coord.x] = step + 1;
         updateQueue_.push({coord.x, coord.y - 1});
       }
       // 西
-      if (coord.x - 1 > -1 && steps_[coord.y][coord.x - 1] == 255 &&
-          !walls.exist.west) {
+      if (coord.x - 1 > -1 && steps_[coord.y][coord.x - 1] == 255 && !walls.exist.west) {
         steps_[coord.y][coord.x - 1] = step + 1;
         updateQueue_.push({coord.x - 1, coord.y});
       }
@@ -106,8 +100,7 @@ void Map::makeSteps(bool shortest) {
 }
 
 // 壁を設定する
-void Map::setWall(int x, int y, bool frontLeft, bool left, bool right,
-                  bool frontRight) {
+void Map::setWall(int x, int y, bool frontLeft, bool left, bool right, bool frontRight) {
   Walls walls{};
   switch (dir_) {
     case DIRECTION_NORTH:
