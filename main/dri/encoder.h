@@ -16,6 +16,9 @@ class Encoder {
   uint8_t *rx_buffer_;
   uint16_t raw_;
 
+  // 分解能
+  static constexpr uint16_t RESOLUTION = 1024 - 1;  // 10 bit
+
   // 送受信バッファサイズ
   static constexpr size_t BUFFER_SIZE = 2;
 
@@ -78,4 +81,6 @@ class Encoder {
   }
 
   [[nodiscard]] uint16_t raw() const { return raw_; }
+
+  static constexpr uint16_t resolution() { return RESOLUTION; }
 };
