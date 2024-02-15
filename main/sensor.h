@@ -21,9 +21,12 @@ struct Sensed {
   float y;
   // バッテリー電圧 [mV]
   int battery_voltage;
+  // バッテリー移動平均電圧 [mV]
+  int battery_voltage_average;
   // 壁情報
   struct Wall {
     int raw;
+    int error;
     bool exist;
   } wall_left90, wall_left45, wall_right45, wall_right90;
 };

@@ -1,5 +1,8 @@
 #pragma once
 
+// C++
+#include <utility>
+
 // Project
 #include "dri/driver.h"
 #include "parameters.h"
@@ -81,12 +84,17 @@ class Motion {
   Pid velo_pid_{VELOCITY_PID_GAIN[0], VELOCITY_PID_GAIN[1], VELOCITY_PID_GAIN[2]};
   // 角速度フィードバック
   Pid ang_velo_pid_{ANGULAR_VELOCITY_PID_GAIN[0], ANGULAR_VELOCITY_PID_GAIN[1], ANGULAR_VELOCITY_PID_GAIN[2]};
+  // 壁フィードバック
+  Pid wall_adj_side_pid_{WALL_ADJUST_SIDE_PID_GAIN[0], WALL_ADJUST_SIDE_PID_GAIN[1], WALL_ADJUST_SIDE_PID_GAIN[2]};
 
   // 目標値を計算する
   static void calcTarget(RunParameter &param, RunTarget &target);
 
   // 横壁からの目標値を計算する
-  static void calcSideWallAdjust(RunParameter &param, RunTarget &target);
+  bool calcSideWallAdjust(RunParameter &param, RunTarget &target, Sensed &sensed);
+
+  // 目標速度と現在速度のフィードバック値を計算する
+  std::pair<float, float> calcFeedback(RunParameter &param, RunTarget &target, Sensed &sensed);
 };
 
 /**

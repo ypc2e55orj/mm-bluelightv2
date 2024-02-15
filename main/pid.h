@@ -47,7 +47,7 @@ class Pid {
       ret += gain_.ki.value * (sum_target_ - sum_);
     }
     if (gain_.kd.enable) {
-      ret += gain_.kd.value * (prev_target_ - prev_) / dt;
+      ret -= gain_.kd.value * (prev_target_ - prev_) / dt;
     }
 
     if ((!std::signbit(target) && (sum_target_ + target) > sum_target_) ||

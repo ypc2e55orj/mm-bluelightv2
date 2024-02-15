@@ -15,6 +15,10 @@ Motion *motion = nullptr;
   // センサ初期化
   sensor->setup();
 
+  // モーター有効
+  driver->motor_left->enable();
+  driver->motor_right->enable();
+
   auto xLastWakeTime = xTaskGetTickCount();
   while (true) {
     sensor->update();
@@ -34,7 +38,7 @@ Motion *motion = nullptr;
 extern "C" void app_main(void) {
   driver = new Driver();
   sensor = new Sensor(driver);
-  motion = new Motion(driver);
+  motion = new Motion(driver, sensor->getSensedQueue());
   xTaskCreatePinnedToCore(proTask, "proTask", 8192, nullptr, 20, nullptr, 0);
   xTaskCreatePinnedToCore(appTask, "appTask", 8192, nullptr, 20, nullptr, 1);
 }

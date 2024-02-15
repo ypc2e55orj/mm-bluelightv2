@@ -25,14 +25,12 @@ constexpr float ANGULAR_ACCELERATION_DEFAULT = 20 * std::numbers::pi_v<float>;
 // 角速度PIDゲイン
 constexpr float ANGULAR_VELOCITY_PID_GAIN[3] = {0.7f, 0.01f, 0.1f};
 
-// 壁センサでの壁有無しきい値
+// 壁センサでの壁有無しきい値 (l90, l45, r45, r90)
 constexpr int WALL_THRESHOLD_EXIST[4] = {0, 0, 0, 0};
-// 壁センサでの基準ADC値
+// 壁センサの迷路中央基準値 (l90, l45, r45, r90)
 constexpr int WALL_REFERENCE_VALUE[4] = {0, 0, 0, 0};
-// 横壁制御の強さ
-constexpr float WALL_SIDE_ADJUST_PID_GAIN[3] = {5.0f, 0.0f, 0.0f};
-// 前壁制御の強さ
-constexpr float WALL_FRONT_ADJUST_PID_GAIN[3] = {5.0f, 0.0f, 0.0f};
+// 横壁制御PIDゲイン
+constexpr float WALL_ADJUST_SIDE_PID_GAIN[3] = {5.0f, 0.0f, 0.0f};
 
 // 迷路の大きさ
 constexpr int MAZE_SIZE_X = 32;
