@@ -46,7 +46,7 @@ void Sensor::updateWallSensor(Sensed &sensed) {
 
 // 更新
 void Sensor::update() {
-  // 最新のセンサー値取得
+  // 最新のセンサー値を取得
   dri_->battery->update();
   dri_->photo->update();
   dri_->imu->update();
