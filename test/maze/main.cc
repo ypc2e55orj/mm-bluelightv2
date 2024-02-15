@@ -1,14 +1,13 @@
 #include <unistd.h>
 
 #include "../../main/map.h"
-#include "data/32MM2022HX.inc"
+#include "data/16MM2020H_student.inc"
 
 #define DELAY_MS 100
 
 int main(int argc, char **argv) {
-  const auto mazeData = _32MM2022HX_maze;
-  int goal_x[MAZE_GOAL_SIZE_X] = {14, 15, 16},
-      goal_y[MAZE_GOAL_SIZE_Y] = {14, 15, 16};
+  const auto mazeData = _16MM2020H_student_maze;
+  int goal_x[MAZE_GOAL_SIZE_X] = {3, 4}, goal_y[MAZE_GOAL_SIZE_Y] = {3, 4};
   Map map(goal_x, goal_y);
 
   // 自己位置を原点に設定
