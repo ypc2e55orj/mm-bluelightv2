@@ -19,21 +19,55 @@ void Sensor::setup() {
   reset();
 }
 
+void Sensor::updateWallSensor(Sensed &sensed) {
+  auto &left90 = dri_->photo->left90();
+  auto &left45 = dri_->photo->left45();
+  auto &right45 = dri_->photo->right45();
+  auto &right90 = dri_->photo->right90();
+
+  // TODO: 後で簡潔に書き直す
+  // 左90度 (前壁)
+  sensed.wall_left90.raw = left90.flash - left90.ambient;
+  sensed.wall_left90.exist = sensed.wall_left90.raw > WALL_THRESHOLD_EXIST[0];
+  sensed.wall_left90.error = WALL_REFERENCE_VALUE[0] - sensed.wall_left90.raw;
+  // 左45度 (左壁)
+  sensed.wall_left45.raw = left45.flash - left45.ambient;
+  sensed.wall_left45.exist = sensed.wall_left45.raw > WALL_THRESHOLD_EXIST[1];
+  sensed.wall_left45.error = WALL_REFERENCE_VALUE[1] - sensed.wall_left45.raw;
+  // 右45度 (右壁)
+  sensed.wall_right45.raw = right45.flash - right45.ambient;
+  sensed.wall_right45.exist = sensed.wall_right45.raw > WALL_THRESHOLD_EXIST[2];
+  sensed.wall_right45.error = WALL_REFERENCE_VALUE[2] - sensed.wall_right45.raw;
+  // 右90度 (前壁)
+  sensed.wall_right90.raw = right90.flash - right90.ambient;
+  sensed.wall_right90.exist = sensed.wall_right90.raw > WALL_THRESHOLD_EXIST[3];
+  sensed.wall_right90.error = WALL_REFERENCE_VALUE[3] - sensed.wall_right90.raw;
+}
+
 // 更新
 void Sensor::update() {
+  // 最新のセンサー値取得
   dri_->battery->update();
   dri_->photo->update();
   dri_->imu->update();
   dri_->encoder_left->update();
   dri_->encoder_right->update();
   dri_->photo->wait();
+  // オドメトリを計算
   auto timestamp = esp_timer_get_time();
   odom_.update(timestamp - timestamp_);
   timestamp_ = timestamp;
+  // 値を設定
+  Sensed sensed{};
+  sensed.velocity = odom_.velocity() / 1000.0f;
+  sensed.angular_velocity = odom_.angular_velocity();
+  sensed.angle = odom_.angle() * 180.0f / std::numbers::pi_v<float>;
+  sensed.length = odom_.length();
+  sensed.x = odom_.x();
+  sensed.y = odom_.y();
+  sensed.battery_voltage = dri_->battery->average();
+  updateWallSensor(sensed);
 
-  sensed_.velocity = odom_.velocity() / 1000;
-  sensed_.length = odom_.length();
-  sensed_.angular_velocity = odom_.angular_velocity();
-  sensed_.angle = odom_.angle() * 180.0f / std::numbers::pi_v<float>;
-  sensed_.battery_voltage = static_cast<float>(dri_->battery->average()) / 1000.0f;
+  // キューに上書き
+  sensed_queue_.overwrite(&sensed);
 }
