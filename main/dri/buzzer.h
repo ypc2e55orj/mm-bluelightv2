@@ -87,10 +87,8 @@ class Buzzer {
   using BuzzerEncoderHandle = BuzzerEncoder *;
 
   // copy_encoderをハンドルするコールバック
-  static size_t rmt_buzzer_encode(rmt_encoder_t *encoder,
-                                  rmt_channel_handle_t channel,
-                                  const void *primary_data, size_t,
-                                  rmt_encode_state_t *ret_state) {
+  static size_t rmt_buzzer_encode(rmt_encoder_t *encoder, rmt_channel_handle_t channel, const void *primary_data,
+                                  size_t, rmt_encode_state_t *ret_state) {
     auto buzzer_encoder = __containerof(encoder, BuzzerEncoder, base);
     auto copy_encoder = buzzer_encoder->copy_encoder;
     auto note = reinterpret_cast<const Note *>(primary_data);
@@ -101,8 +99,7 @@ class Buzzer {
     symbol.level1 = 1;
     symbol.duration1 = static_cast<uint16_t>(duration);
 
-    return copy_encoder->encode(copy_encoder, channel, &symbol,
-                                sizeof(rmt_symbol_word_t), ret_state);
+    return copy_encoder->encode(copy_encoder, channel, &symbol, sizeof(rmt_symbol_word_t), ret_state);
   }
 
   static esp_err_t rmt_buzzer_delete(rmt_encoder_t *encoder) {
@@ -126,8 +123,7 @@ class Buzzer {
   BuzzerEncoderHandle encoder_;
 
  public:
-  explicit Buzzer(gpio_num_t buzzer_num, uint32_t queue_size, bool with_dma)
-      : channel_(nullptr), encoder_(nullptr) {
+  explicit Buzzer(gpio_num_t buzzer_num, uint32_t queue_size, bool with_dma) : channel_(nullptr), encoder_(nullptr) {
     // RMT送信チャンネルを初期化
     rmt_tx_channel_config_t rmt_config = {};
     rmt_config.gpio_num = buzzer_num;
@@ -139,16 +135,14 @@ class Buzzer {
     ESP_ERROR_CHECK(rmt_new_tx_channel(&rmt_config, &channel_));
 
     // ブザー用エンコーダーを初期化
-    encoder_ = reinterpret_cast<BuzzerEncoder *>(
-        heap_caps_calloc(1, sizeof(BuzzerEncoder), MALLOC_CAP_DMA));
+    encoder_ = reinterpret_cast<BuzzerEncoder *>(heap_caps_calloc(1, sizeof(BuzzerEncoder), MALLOC_CAP_DMA));
     encoder_->base.encode = Buzzer::rmt_buzzer_encode;
     encoder_->base.del = Buzzer::rmt_buzzer_delete;
     encoder_->base.reset = Buzzer::rmt_buzzer_reset;
     encoder_->resolution = BUZZER_RESOLUTION_HZ;
     // copy_encoderを初期化
     rmt_copy_encoder_config_t copy_encoder_config = {};
-    ESP_ERROR_CHECK(
-        rmt_new_copy_encoder(&copy_encoder_config, &encoder_->copy_encoder));
+    ESP_ERROR_CHECK(rmt_new_copy_encoder(&copy_encoder_config, &encoder_->copy_encoder));
   }
 
   ~Buzzer() { rmt_del_channel(channel_); }
@@ -163,12 +157,12 @@ class Buzzer {
     return disable_err == ESP_OK;
   }
 
-  bool tone(const Note *note) {
+  bool tone(uint32_t frequency, uint32_t duration_ms) {
+    Note note{frequency, duration_ms};
     rmt_transmit_config_t tx_config = {};
-    tx_config.loop_count =
-        static_cast<int>(note->duration * note->frequency / 1000);
-    esp_err_t transmit_err =
-        rmt_transmit(channel_, &encoder_->base, note, sizeof(Note), &tx_config);
-    return transmit_err == ESP_OK;
+    tx_config.loop_count = static_cast<int>(note.duration * note.frequency / 1000);
+    esp_err_t transmit_err = rmt_transmit(channel_, &encoder_->base, &note, sizeof(Note), &tx_config);
+    esp_err_t wait_err = rmt_tx_wait_all_done(channel_, -1);
+    return transmit_err == ESP_OK && wait_err == ESP_OK;
   }
 };
