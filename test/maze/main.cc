@@ -3,7 +3,7 @@
 #include "../../main/map.h"
 #include "data/32MM2022HX.inc"
 
-#define DELAY_MS 50
+#define DELAY_MS 100
 
 int main(int argc, char **argv) {
   const auto mazeData = _32MM2022HX_maze;
