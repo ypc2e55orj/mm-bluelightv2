@@ -29,19 +29,15 @@ void Sensor::updateWallSensor(Sensed &sensed) {
   // 左90度 (前壁)
   sensed.wall_left90.raw = left90.flash - left90.ambient;
   sensed.wall_left90.exist = sensed.wall_left90.raw > WALL_THRESHOLD_EXIST[0];
-  sensed.wall_left90.error = WALL_REFERENCE_VALUE[0] - sensed.wall_left90.raw;
   // 左45度 (左壁)
   sensed.wall_left45.raw = left45.flash - left45.ambient;
   sensed.wall_left45.exist = sensed.wall_left45.raw > WALL_THRESHOLD_EXIST[1];
-  sensed.wall_left45.error = WALL_REFERENCE_VALUE[1] - sensed.wall_left45.raw;
   // 右45度 (右壁)
   sensed.wall_right45.raw = right45.flash - right45.ambient;
   sensed.wall_right45.exist = sensed.wall_right45.raw > WALL_THRESHOLD_EXIST[2];
-  sensed.wall_right45.error = WALL_REFERENCE_VALUE[2] - sensed.wall_right45.raw;
   // 右90度 (前壁)
   sensed.wall_right90.raw = right90.flash - right90.ambient;
   sensed.wall_right90.exist = sensed.wall_right90.raw > WALL_THRESHOLD_EXIST[3];
-  sensed.wall_right90.error = WALL_REFERENCE_VALUE[3] - sensed.wall_right90.raw;
 }
 
 // 更新
@@ -57,6 +53,7 @@ void Sensor::update() {
   auto timestamp = esp_timer_get_time();
   odom_.update(timestamp - timestamp_);
   timestamp_ = timestamp;
+
   // 値を設定
   Sensed sensed{};
   sensed.velocity = odom_.velocity() / 1000.0f;
