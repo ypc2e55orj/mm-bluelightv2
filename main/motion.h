@@ -81,11 +81,14 @@ class Motion {
   rtos::Queue<RunTarget> target_queue_{1};
 
   // 速度フィードバック
-  Pid velo_pid_{VELOCITY_PID_GAIN[0], VELOCITY_PID_GAIN[1], VELOCITY_PID_GAIN[2]};
+  Pid velo_pid_{VELOCITY_PID_GAIN[PARAMETER_PID_KP], VELOCITY_PID_GAIN[PARAMETER_PID_KI],
+                VELOCITY_PID_GAIN[PARAMETER_PID_KD]};
   // 角速度フィードバック
-  Pid ang_velo_pid_{ANGULAR_VELOCITY_PID_GAIN[0], ANGULAR_VELOCITY_PID_GAIN[1], ANGULAR_VELOCITY_PID_GAIN[2]};
+  Pid ang_velo_pid_{ANGULAR_VELOCITY_PID_GAIN[PARAMETER_PID_KP], ANGULAR_VELOCITY_PID_GAIN[PARAMETER_PID_KI],
+                    ANGULAR_VELOCITY_PID_GAIN[PARAMETER_PID_KD]};
   // 壁フィードバック
-  Pid wall_adj_side_pid_{WALL_ADJUST_SIDE_PID_GAIN[0], WALL_ADJUST_SIDE_PID_GAIN[1], WALL_ADJUST_SIDE_PID_GAIN[2]};
+  Pid wall_adj_side_pid_{WALL_ADJUST_SIDE_PID_GAIN[PARAMETER_PID_KP], WALL_ADJUST_SIDE_PID_GAIN[PARAMETER_PID_KI],
+                         WALL_ADJUST_SIDE_PID_GAIN[PARAMETER_PID_KD]};
 
   // 目標値を計算する
   static void calcTarget(RunParameter &param, RunTarget &target);
@@ -102,7 +105,5 @@ class Motion {
  */
 class Run {
  public:
-  explicit Run();
-
  private:
 };
