@@ -70,8 +70,6 @@ bool Motion::calcSideWallAdjust(RunParameter &param, RunTarget &target, Sensed &
 }
 
 std::pair<float, float> Motion::calcFeedback(RunParameter &param, RunTarget &target, Sensed &sensed) {
-  float voltage_left = 0, voltage_right = 0;
-
   switch (param.pattern) {
     case RunPattern::Straight:
     case RunPattern::PivotTurnLeft:
