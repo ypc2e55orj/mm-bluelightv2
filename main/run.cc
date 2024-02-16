@@ -11,48 +11,46 @@ void Run::straight(float length, float acceleration, float max_velocity, float e
 
   auto &sensed = sensor_->getSensed();
   auto &target = motion_->getTarget();
+  auto &param = motion_->getParameter();
 
-  MotionParameter param{};
-  param.pattern = MotionPattern::Straight;
+  sensor_->reset();
+  motion_->reset();
+
   param.enable_side_wall_adjust = false;
   param.acceleration = acceleration;
   param.max_velocity = max_velocity;
-  param.reset_pid = true;
-  param.reset_sensor = true;
+  param.pattern = MotionPattern::Straight;
 
   driver_->motor_right->enable();
   driver_->motor_left->enable();
-
-  motion_->getParameterQueue().overwrite(&param);
-  param.reset_pid = false;
-  param.reset_sensor = false;
 
   // 台形加速→等速待ち
   // 2as = v^2 - v0^2
   while (length - LENGTH_OFFSET - sensed.length >
          1000.0f * (target.velocity * target.velocity - end_velocity * end_velocity) / 2.0f * param.acceleration) {
+    printf("a %f, %f\n", sensed.length, target.velocity);
   }
   // 減速
   param.acceleration = -1.0f * acceleration;
-  motion_->getParameterQueue().overwrite(&param);
   auto offset = end_velocity == 0.0f ? 1.0f : 0.0f;
   while (sensed.length < length - offset) {
+    printf("d %f, %f\n", sensed.length, target.velocity);
     if (target.velocity < VELOCITY_MIN) {
       param.acceleration = 0.0f;
       param.max_velocity = VELOCITY_MIN;
-      motion_->getParameterQueue().overwrite(&param);
     }
   }
+  // 終了速度が停止の場合は停止するまで待つ
   if (end_velocity == 0.0f) {
+    param.max_velocity = 0;
     // 停止まで待つ
     while (sensed.velocity >= 0.0f) {
+      printf("s %f, %f\n", sensed.length, target.velocity);
     }
   }
   // 完了
   param.acceleration = 0;
-  param.reset_sensor = true;
-  param.reset_pid = true;
-  motion_->getParameterQueue().overwrite(&param);
+  param.pattern = MotionPattern::Stop;
 
   driver_->motor_left->disable();
   driver_->motor_right->disable();
@@ -66,13 +64,4 @@ void Run::turn(float degree, float angular_acceleration, float max_angular_veloc
   param.enable_side_wall_adjust = false;
   param.max_angular_velocity = max_angular_velocity;
   param.angular_acceleration = angular_acceleration;
-  param.reset_pid = true;
-  param.reset_sensor = true;
-
-  driver_->motor_right->enable();
-  driver_->motor_left->enable();
-
-  motion_->getParameterQueue().overwrite(&param);
-  param.reset_pid = false;
-  param.reset_sensor = false;
 }

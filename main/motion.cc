@@ -63,10 +63,22 @@ std::pair<float, float> Motion::calcFeedback(const MotionParameter &param, const
   switch (param.pattern) {
     case MotionPattern::Straight:
     case MotionPattern::Turn: {
-      auto velo = velo_pid_.update(target.velocity, sensed.velocity, 1.0f);
-      auto ang_velo = ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
+      // https://rt-net.jp/mobility/archives/16525
+      // 速度・角速度でPIDフィードバック
+      auto velo = target.velocity + velo_pid_.update(target.velocity, sensed.velocity, 1.0f);
+      auto ang_velo =
+          target.angular_velocity + ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
+      // 目標車輪角速度を算出
+      auto omega_r = velo / (TIRE_DIAMETER / 2.0f) + ang_velo * (TREAD_WIDTH / TIRE_DIAMETER);
+      auto omega_l = velo / (TIRE_DIAMETER / 2.0f) - ang_velo * (TREAD_WIDTH / TIRE_DIAMETER);
+      // rpmに換算
+      auto rpm_r = 30 * omega_r / std::numbers::pi_v<float>;
+      auto rpm_l = 30 * omega_l / std::numbers::pi_v<float>;
+      // モーター電圧を計算
+      auto e_r = MOTOR_KE * rpm_r;
+      auto e_l = MOTOR_KE * rpm_l;
 
-      return {velo + ang_velo, velo - ang_velo};
+      return {e_r, e_l};
     }
 
     default:

@@ -18,7 +18,16 @@ enum {
   NUM_PARAMETER_PID,
 };
 
-// タイヤの直径 [mm]
+/**
+ * パラメータの意味は下記:
+ * https://rt-net.jp/mobility/archives/16525
+ * http://hidejrlab.blog104.fc2.com/blog-entry-1234.html
+ */
+// トレッド間距離 [mm]
+constexpr float TREAD_WIDTH = 33.0f;
+// モーターの逆起電圧定数 [mV/rpm]
+constexpr float MOTOR_KE = 0.062f;
+// タイヤの直径 / 半径 [mm]
 constexpr float TIRE_DIAMETER = 12.80f;
 
 // 動作停止電圧 [mV]
