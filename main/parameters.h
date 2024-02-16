@@ -26,18 +26,20 @@ constexpr int VOLTAGE_LOW_LIMIT = 3200;
 // モーター電圧上限 [V]
 constexpr float VOLTAGE_MOTOR_LIMIT = 2.0f;
 
+// 最小速度 [m/s]
+constexpr float VELOCITY_MIN = 0.1f;
 // デフォルト速度 [m/s]
 constexpr float VELOCITY_DEFAULT = 0.3f;
 // デフォルト加速度 [m/s^2]
 constexpr float ACCELERATION_DEFAULT = 1.0f;
 // 速度PIDゲイン
-constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {40.0f, 0.0f, 10.0f};
+constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {6.0f, 0.05f, 0.0f};
 // デフォルト角速度 [rad/s]
 constexpr float ANGULAR_VELOCITY_DEFAULT = std::numbers::pi_v<float>;
 // デフォルト角速度 [rad/s^2]
 constexpr float ANGULAR_ACCELERATION_DEFAULT = 20 * std::numbers::pi_v<float>;
 // 角速度PIDゲイン
-constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {40.0f, 0.0f, 10.0f};
+constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.4f, 0.005f, 0.0f};
 
 // 壁センサでの壁有無しきい値 (r90, r45, l45, l90)
 constexpr int WALL_THRESHOLD_EXIST[NUM_PARAMETER_WALL] = {0, 0, 0, 0};

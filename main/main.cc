@@ -88,7 +88,7 @@ void printParam() {
 // センサ値表示
 [[noreturn]] void printSensor(bool is_csv) {
   auto &sensed = sensor->getSensed();
-  MotionTarget target{};
+  auto &target = motion->getTarget();
 
   // 出力モードを示す
   driver->indicator->clear();
@@ -109,10 +109,10 @@ void printParam() {
       printf("%f, ", static_cast<double>(sensed.angle));
       printf("%f, ", static_cast<double>(sensed.x));
       printf("%f, ", static_cast<double>(sensed.y));
-      printf("%d, ", sensed.wall_right90.raw) printf("%d, ", sensed.wall_right45.raw);
+      printf("%d, ", sensed.wall_right90.raw);
+      printf("%d, ", sensed.wall_right45.raw);
       printf("%d, ", sensed.wall_left45.raw);
       printf("%d, ", sensed.wall_left90.raw);
-      ;
       printf("%f, ", static_cast<double>(target.velocity));
       printf("%f\n", static_cast<double>(target.angular_velocity));
     } else {
@@ -140,26 +140,13 @@ void printParam() {
 }
 
 // テスト直線
-[[noreturn]] void testStraight() {
+void testStraight() {
   // 動作テストモードを示す
   driver->indicator->clear();
   driver->indicator->set(0, 0x0F, 0x0F, 0);
   driver->indicator->update();
 
-  // モーター有効
-  driver->motor_right->enable();
-  driver->motor_left->enable();
-
-  // 走行パラメータ
-  MotionParameter param{};
-  param.pattern = MotionPattern::Straight;
-  param.max_velocity = VELOCITY_DEFAULT;
-  param.acceleration = ACCELERATION_DEFAULT;
-  param.max_angular_velocity = ANGULAR_VELOCITY_DEFAULT;
-  param.angular_acceleration = ANGULAR_ACCELERATION_DEFAULT;
-  motion->getParameterQueue().overwrite(&param);
-
-  printSensor(true);
+  run->straight(90, ACCELERATION_DEFAULT, VELOCITY_DEFAULT, 0.0f);
 }
 
 // テスト宴会芸
