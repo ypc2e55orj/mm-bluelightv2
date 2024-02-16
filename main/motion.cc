@@ -44,12 +44,12 @@ bool Motion::calcSideWallAdjust(const MotionParameter &param, const Sensed &sens
   }
   // 左右の壁センサが制御に使用できる状態なら、目標値との差分を使って制御
   int error;
-  if (sensed.wall_left45.exist && sensed.wall_right45.exist) {
+  if (sensed.wall_right45.exist && sensed.wall_left45.exist) {
     // 両方の壁が使える場合はそのまま
-    error = sensed.wall_left45.error - sensed.wall_right45.error;
-  } else if (sensed.wall_left45.exist || sensed.wall_right90.exist) {
+    error = sensed.wall_right45.error - sensed.wall_left45.error;
+  } else if (sensed.wall_right90.exist || sensed.wall_left45.exist) {
     // 片方の壁だけが使える場合は2倍
-    error = (sensed.wall_left45.error - sensed.wall_right45.error) * 2;
+    error = (sensed.wall_right45.error - sensed.wall_left45.error) * 2;
   } else {
     // 壁制御できない
     wall_adj_side_pid_.reset();
@@ -79,26 +79,31 @@ std::pair<float, float> Motion::calcFeedback(const MotionParameter &param, const
 
 // 更新
 void Motion::update() {
-  MotionParameter param{};
-
   // 走行パラメータがあれば取得
-  if (param_queue_.receive(&param, 0)) {
+  if (param_queue_.receive(&param_, 0)) {
+    if (param_.reset_pid) {
+      velo_pid_.reset();
+      ang_velo_pid_.reset();
+    }
+    if (param_.reset_sensor) {
+      sensor_->reset();
+    }
   }
   // 走行パターンに応じた目標速度生成
-  calcTarget(param, target_);
+  calcTarget(param_, target_);
   // 横壁制御が出来る場合は目標角度生成
-  if (param.enable_side_wall_adjust) {
-    calcSideWallAdjust(param, sensor_->getSensed(), target_);
+  if (param_.enable_side_wall_adjust) {
+    calcSideWallAdjust(param_, sensor_->getSensed(), target_);
   }
 
   // フィードバック
-  auto [left, right] = calcFeedback(param, sensor_->getSensed(), target_);
+  auto [right, left] = calcFeedback(param_, sensor_->getSensed(), target_);
 
   // モーター電圧の制限
-  left = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, left));
   right = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, right));
+  left = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, left));
 
   // モーター電圧を設定
-  driver_->motor_left->speed(static_cast<int>(left * 1000.0f), sensor_->getSensed().battery_voltage);
   driver_->motor_right->speed(static_cast<int>(right * 1000.0f), sensor_->getSensed().battery_voltage);
+  driver_->motor_left->speed(static_cast<int>(left * 1000.0f), sensor_->getSensed().battery_voltage);
 }

@@ -5,10 +5,10 @@
 #include <numbers>
 
 enum {
+  PARAMETER_WALL_RIGHT90,
+  PARAMETER_WALL_RIGHT45,
   PARAMETER_WALL_LEFT90,
   PARAMETER_WALL_LEFT45,
-  PARAMETER_WALL_RIGHT45,
-  PARAMETER_WALL_RIGHT90,
   NUM_PARAMETER_WALL,
 };
 enum {
@@ -29,22 +29,22 @@ constexpr float VOLTAGE_MOTOR_LIMIT = 2.0f;
 // デフォルト速度 [m/s]
 constexpr float VELOCITY_DEFAULT = 0.3f;
 // デフォルト加速度 [m/s^2]
-constexpr float ACCELERATION_DEFAULT = 1.0;
+constexpr float ACCELERATION_DEFAULT = 1.0f;
 // 速度PIDゲイン
-constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {10.0f, 0.05f, 0.1f};
+constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {40.0f, 0.0f, 10.0f};
 // デフォルト角速度 [rad/s]
 constexpr float ANGULAR_VELOCITY_DEFAULT = std::numbers::pi_v<float>;
 // デフォルト角速度 [rad/s^2]
 constexpr float ANGULAR_ACCELERATION_DEFAULT = 20 * std::numbers::pi_v<float>;
 // 角速度PIDゲイン
-constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.7f, 0.01f, 0.1f};
+constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {40.0f, 0.0f, 10.0f};
 
-// 壁センサでの壁有無しきい値 (l90, l45, r45, r90)
+// 壁センサでの壁有無しきい値 (r90, r45, l45, l90)
 constexpr int WALL_THRESHOLD_EXIST[NUM_PARAMETER_WALL] = {0, 0, 0, 0};
-// 壁センサの迷路中央基準値 (l90, l45, r45, r90)
+// 壁センサの迷路中央基準値 (r90, r45, l45, l90)
 constexpr int WALL_REFERENCE_VALUE[NUM_PARAMETER_WALL] = {0, 0, 0, 0};
 // 横壁制御PIDゲイン
-constexpr float WALL_ADJUST_SIDE_PID_GAIN[NUM_PARAMETER_PID] = {5.0f, 0.0f, 0.0f};
+constexpr float WALL_ADJUST_SIDE_PID_GAIN[NUM_PARAMETER_PID] = {0.0f, 0.0f, 0.0f};
 
 // 迷路の大きさ
 constexpr int MAZE_SIZE_X = 32;

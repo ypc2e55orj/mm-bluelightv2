@@ -24,8 +24,8 @@
  * @berif 左右車輪の値
  */
 struct WheelsPair {
-  float left;
   float right;
+  float left;
 };
 
 /**
@@ -140,18 +140,18 @@ class Odometry {
  public:
   explicit Odometry(Driver *dri)
       : dri_(dri),
-        left_(dri_->encoder_left->resolution(), TIRE_DIAMETER, false),
-        right_(dri_->encoder_right->resolution(), TIRE_DIAMETER, true) {}
+        right_(dri_->encoder_right->resolution(), TIRE_DIAMETER, false),
+        left_(dri_->encoder_left->resolution(), TIRE_DIAMETER, true) {}
   ~Odometry() = default;
 
   /**
    * @brief リセット
    */
   void reset() {
-    // 左
-    left_.reset();
     // 右
     right_.reset();
+    // 左
+    left_.reset();
     // 車体
     angle_ = 0.0f;
     x_ = 0.0f;
@@ -163,23 +163,23 @@ class Odometry {
    * @param delta_us 更新周期
    */
   void update(uint32_t delta_us) {
-    // 左
-    left_.update(dri_->encoder_left->raw(), delta_us);
     // 右
     right_.update(dri_->encoder_right->raw(), delta_us);
+    // 左
+    left_.update(dri_->encoder_left->raw(), delta_us);
 
-    wheel_ang_vel_.left = left_.angular_velocity();
-    wheel_ang_accel_.left = left_.angular_acceleration();
     wheel_ang_vel_.right = right_.angular_velocity();
     wheel_ang_accel_.right = right_.angular_acceleration();
+    wheel_ang_vel_.left = left_.angular_velocity();
+    wheel_ang_accel_.left = left_.angular_acceleration();
 
     // 車体加速度[mm/s^2]
     auto &accel = dri_->imu->linear_acceleration();
     acceleration_ = accel.y * 9.80665f;
     // 車体速度 [mm/s]
-    wheel_vel_.left = left_.velocity();
     wheel_vel_.right = right_.velocity();
-    velocity_ = (wheel_vel_.left + wheel_vel_.right) / 2.0f;
+    wheel_vel_.left = left_.velocity();
+    velocity_ = (wheel_vel_.right + wheel_vel_.left) / 2.0f;
     // 車体並進距離 [mm]
     length_ = length_ + velocity_ / 1000.0f;
 
@@ -189,8 +189,7 @@ class Odometry {
     angular_acceleration_ = angular_velocity - angular_velocity_;
     // 車体角速度 [rad/s]
     /*
-    angular_velocity_ =
-        (wheel_vel_.left - wheel_vel_.right) / wheel_track_width_;
+    angular_velocity_ = (wheel_vel_.right - wheel_vel_.left) / wheel_track_width_;
     */
     angular_velocity_ = angular_velocity;
     // 車体角度 [rad]
@@ -230,7 +229,7 @@ class Odometry {
   Driver *dri_;
 
   //! 車輪
-  Wheel left_, right_;
+  Wheel right_, left_;
   WheelsPair wheel_ang_accel_{};
   WheelsPair wheel_ang_vel_{};
   WheelsPair wheel_vel_{};

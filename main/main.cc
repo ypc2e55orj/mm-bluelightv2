@@ -6,6 +6,7 @@
 #include "dri/driver.h"
 #include "map.h"
 #include "motion.h"
+#include "run.h"
 #include "sensor.h"
 
 // バックグラウンドタスク
@@ -19,6 +20,8 @@ Driver *driver = nullptr;
 Sensor *sensor = nullptr;
 // 目標値生成・モーター出力クラス
 Motion *motion = nullptr;
+// 走行
+Run *run = nullptr;
 
 // モード選択
 static uint8_t selectMode() {
@@ -106,10 +109,10 @@ void printParam() {
       printf("%f, ", static_cast<double>(sensed.angle));
       printf("%f, ", static_cast<double>(sensed.x));
       printf("%f, ", static_cast<double>(sensed.y));
-      printf("%d, ", sensed.wall_left90.raw);
+      printf("%d, ", sensed.wall_right90.raw) printf("%d, ", sensed.wall_right45.raw);
       printf("%d, ", sensed.wall_left45.raw);
-      printf("%d, ", sensed.wall_right45.raw);
-      printf("%d, ", sensed.wall_right90.raw);
+      printf("%d, ", sensed.wall_left90.raw);
+      ;
       printf("%f, ", static_cast<double>(target.velocity));
       printf("%f\n", static_cast<double>(target.angular_velocity));
     } else {
@@ -124,10 +127,10 @@ void printParam() {
       printf("x: %f\n", static_cast<double>(sensed.x));
       printf("y: %f\n", static_cast<double>(sensed.y));
 
-      printf("left90 : %d\n", sensed.wall_left90.raw);
-      printf("left45 : %d\n", sensed.wall_left45.raw);
-      printf("right45: %d\n", sensed.wall_right45.raw);
       printf("right90: %d\n", sensed.wall_right90.raw);
+      printf("right45: %d\n", sensed.wall_right45.raw);
+      printf("left45 : %d\n", sensed.wall_left45.raw);
+      printf("left90 : %d\n", sensed.wall_left90.raw);
 
       printf("----- Target ----- \n");
       printf("velo     : %f\n", static_cast<double>(target.velocity));
@@ -144,8 +147,8 @@ void printParam() {
   driver->indicator->update();
 
   // モーター有効
-  driver->motor_left->enable();
   driver->motor_right->enable();
+  driver->motor_left->enable();
 
   // 走行パラメータ
   MotionParameter param{};
@@ -167,8 +170,8 @@ void printParam() {
   driver->indicator->update();
 
   // モーター有効
-  driver->motor_left->enable();
   driver->motor_right->enable();
+  driver->motor_left->enable();
 
   // 走行パラメータ
   MotionParameter param{};
@@ -203,12 +206,15 @@ void printParam() {
 
       case 0x01:
         printSensor(false);
+        break;
 
       case 0x02:
         testStraight();
+        break;
 
       case 0x03:
         testEnkaigei();
+        break;
 
       case 0x04:
       case 0x05:
@@ -253,6 +259,7 @@ extern "C" void app_main(void) {
   driver = new Driver();
   sensor = new Sensor(driver);
   motion = new Motion(driver, sensor);
+  run = new Run(driver, sensor, motion);
   xTaskCreatePinnedToCore(proTask, "proTask", 8192, nullptr, 20, nullptr, 0);
   xTaskCreatePinnedToCore(appTask, "appTask", 8192, nullptr, 20, nullptr, 1);
 }

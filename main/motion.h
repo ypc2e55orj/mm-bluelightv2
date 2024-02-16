@@ -31,6 +31,10 @@ struct MotionParameter {
   float angular_acceleration;
   // 横壁制御 有効/無効
   bool enable_side_wall_adjust;
+  // PID積分値をリセットするか
+  bool reset_pid;
+  // センサをリセットするか
+  bool reset_sensor;
 };
 
 // 目標値
@@ -69,6 +73,7 @@ class Motion {
 
   // 走行パラメータを保持するキュー
   rtos::Queue<MotionParameter> param_queue_{1};
+  MotionParameter param_{};
 
   // 目標値を保持する
   MotionTarget target_{};

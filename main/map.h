@@ -112,7 +112,7 @@ class Map {
   [[nodiscard]] bool inStart() const { return pos_.y == 0 && pos_.x == 0; }
 
   // 壁を設定する
-  void setWall(int x, int y, bool frontLeft, bool left, bool right, bool frontRight);
+  void setWall(int x, int y, bool frontRight, bool right, bool left, bool frontLeft);
   void setWall(int x, int y, Walls walls);
 
   // 次に進む方向を取得する

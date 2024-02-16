@@ -100,7 +100,7 @@ void Map::makeSteps(bool shortest) {
 }
 
 // 壁を設定する
-void Map::setWall(int x, int y, bool frontLeft, bool left, bool right, bool frontRight) {
+void Map::setWall(int x, int y, bool frontRight, bool right, bool left, bool frontLeft) {
   Walls walls{};
   switch (dir_) {
     case DIRECTION_NORTH:
