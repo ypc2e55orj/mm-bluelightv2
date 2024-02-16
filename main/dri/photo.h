@@ -69,6 +69,8 @@ class Photo {
     // 読み取り
     this_ptr->adc_[this_ptr->index_]->read_isr(
         this_ptr->result_[this_ptr->index_].ambient);
+    // TODO: 下位ビット揺れ対策 後で原因を調べる
+    this_ptr->result_[this_ptr->index_].ambient >>= 2;
     // 点灯
     this_ptr->gpio_[this_ptr->index_]->set(true);
     // 受光タイマー開始
@@ -86,6 +88,8 @@ class Photo {
     // 読み取り
     this_ptr->adc_[this_ptr->index_]->read_isr(
         this_ptr->result_[this_ptr->index_].flash);
+    // TODO: 下位ビット揺れ対策 後で原因を調べる
+    this_ptr->result_[this_ptr->index_].flash >>= 2;
     // 消灯
     this_ptr->gpio_[this_ptr->index_]->set(false);
     // タイマー停止
