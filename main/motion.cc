@@ -2,53 +2,43 @@
 
 // C++
 #include <cmath>
-#include <numbers>
 
 // コンストラクタ
-Motion::Motion(Driver *dri, rtos::Queue<Sensed> &sensed_queue) : dri_(dri), sensed_queue_(sensed_queue) {}
+Motion::Motion(Driver *dri, Sensor *sensor) : driver_(dri), sensor_(sensor) {}
 // デストラクタ
 Motion::~Motion() = default;
 
 // 目標値を計算する
-void Motion::calcTarget(RunParameter &param, RunTarget &target) {
+void Motion::calcTarget(MotionParameter &param, MotionTarget &target) {
   switch (param.pattern) {
-    case RunPattern::PivotTurnLeft:
-    case RunPattern::PivotTurnRight:
-    case RunPattern::TurnLeft:
-    case RunPattern::TurnRight: {
+    case MotionPattern::Turn: {
       // 角加速度から目標角速度を生成
-      target.angular_velocity = target.angular_velocity + param.max_angular_velocity / 1000.0f;
-      // 目標角速度から目標角度を生成
-      target.angle = target.angle + (target.angular_velocity * 180.0f / std::numbers::pi_v<float>) / 1000;
+      target.angular_velocity += param.max_angular_velocity / 1000.0f;
       // 制限
-      float sign = param.pattern == RunPattern::PivotTurnLeft || param.pattern == RunPattern::TurnLeft ? -1.0f : 1.0f;
       if (std::abs(target.angular_velocity) > param.max_angular_velocity) {
-        target.angular_velocity = sign * param.max_angular_velocity;
-      }
-      if (std::abs(target.angle) > param.max_angle) {
-        target.angle = sign * param.max_angle;
+        target.angular_velocity = (std::signbit(target.angular_velocity) ? -1.0f : 1.0f) * param.max_angular_velocity;
       }
     }
       [[fallthrough]];
 
-    case RunPattern::Straight:
+    case MotionPattern::Straight:
       // 加速度から目標速度を生成
-      target.velocity = target.velocity + param.acceleration / 1000.0f;
+      target.velocity += param.acceleration / 1000.0f;
       // 制限
       if (target.velocity > param.max_velocity) {
         target.velocity = param.max_velocity;
       }
       break;
 
-    case RunPattern::FrontAdjust:
-    case RunPattern::Stop:
+    case MotionPattern::Stop:
       break;
   }
 }
 
 // 横壁からの目標値を計算する
-bool Motion::calcSideWallAdjust(RunParameter &param, RunTarget &target, Sensed &sensed) {
-  if (param.pattern != RunPattern::Straight) {
+bool Motion::calcSideWallAdjust(const MotionParameter &param, const Sensed &sensed, MotionTarget &target) {
+  if (param.pattern != MotionPattern::Straight) {
+    // 壁制御できない
     wall_adj_side_pid_.reset();
     return false;
   }
@@ -69,14 +59,11 @@ bool Motion::calcSideWallAdjust(RunParameter &param, RunTarget &target, Sensed &
   return true;
 }
 
-std::pair<float, float> Motion::calcFeedback(RunParameter &param, RunTarget &target, Sensed &sensed) {
+std::pair<float, float> Motion::calcFeedback(const MotionParameter &param, const Sensed &sensed, MotionTarget &target) {
   switch (param.pattern) {
-    case RunPattern::Straight:
-    case RunPattern::PivotTurnLeft:
-    case RunPattern::PivotTurnRight:
-    case RunPattern::TurnLeft:
-    case RunPattern::TurnRight: {
-      auto velo = velo_pid_.update(target.velocity, sensed.velocity, 0.0f);
+    case MotionPattern::Straight:
+    case MotionPattern::Turn: {
+      auto velo = velo_pid_.update(target.velocity, sensed.velocity, 1.0f);
       auto ang_velo = ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
 
       return {velo + ang_velo, velo - ang_velo};
@@ -92,43 +79,26 @@ std::pair<float, float> Motion::calcFeedback(RunParameter &param, RunTarget &tar
 
 // 更新
 void Motion::update() {
-  Sensed sensed{};
-  RunParameter param{};
-  RunTarget target{};
+  MotionParameter param{};
 
-  // センサー値を取得
-  if (!sensed_queue_.peek(&sensed, pdMS_TO_TICKS(1))) {
-    return;
+  // 走行パラメータがあれば取得
+  if (param_queue_.receive(&param, 0)) {
   }
-  // 走行パラメータを取得
-  if (!param_queue_.peek(&param, pdMS_TO_TICKS(1))) {
-    return;
-  }
-  // 目標値を取得
-  if (!target_queue_.peek(&target, pdMS_TO_TICKS(1))) {
-    return;
-  }
-
   // 走行パターンに応じた目標速度生成
-  calcTarget(param, target);
-
+  calcTarget(param, target_);
   // 横壁制御が出来る場合は目標角度生成
-  if (!calcSideWallAdjust(param, target, sensed)) {
+  if (param.enable_side_wall_adjust) {
+    calcSideWallAdjust(param, sensor_->getSensed(), target_);
   }
 
   // フィードバック
-  auto [left, right] = calcFeedback(param, target, sensed);
+  auto [left, right] = calcFeedback(param, sensor_->getSensed(), target_);
 
   // モーター電圧の制限
   left = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, left));
   right = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, right));
 
   // モーター電圧を設定
-  dri_->motor_left->speed(static_cast<int>(left * 1000.0f), sensed.battery_voltage);
-  dri_->motor_right->speed(static_cast<int>(right * 1000.0f), sensed.battery_voltage);
-
-  // 目標値を上書き
-  if (!target_queue_.overwrite(&target)) {
-    // 異常
-  }
+  driver_->motor_left->speed(static_cast<int>(left * 1000.0f), sensor_->getSensed().battery_voltage);
+  driver_->motor_right->speed(static_cast<int>(right * 1000.0f), sensor_->getSensed().battery_voltage);
 }

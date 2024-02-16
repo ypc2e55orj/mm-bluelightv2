@@ -5,11 +5,9 @@
 #include <freertos/queue.h>
 
 namespace rtos {
+// キューラッパー
 template <typename T>
 class Queue {
- private:
-  QueueHandle_t queue_;
-
  public:
   explicit Queue(UBaseType_t uxQueueLength) {
     queue_ = xQueueCreate(uxQueueLength, sizeof(T));
@@ -28,7 +26,7 @@ class Queue {
     return xQueueSendToFront(queue_, item, xTickToWait) == pdTRUE;
   }
   bool send_front_isr(const T* item, BaseType_t* pxHigherPriorityTaskWoken) {
-    return xQueueSendFromISR(queue_, item, pxHigherPriorityTaskWoken) == pdTRUE;
+    return xQueueSendToFrontFromISR(queue_, item, pxHigherPriorityTaskWoken) == pdTRUE;
   }
 
   // 上書き送信 (長さ1のキューで使う想定のメソッド)
@@ -53,5 +51,8 @@ class Queue {
 
   // 空きアイテム数を取得
   UBaseType_t available() { return uxQueueSpacesAvailable(queue_); }
+
+ private:
+  QueueHandle_t queue_;
 };
 }  // namespace rtos

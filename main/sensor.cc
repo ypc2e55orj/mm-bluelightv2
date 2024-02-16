@@ -7,7 +7,7 @@
 #include <esp_timer.h>
 
 // コンストラクタ
-Sensor::Sensor(Driver *dri) : dri_(dri), odom_(dri) {}
+Sensor::Sensor(Driver *dri) : driver_(dri), odom_(dri) {}
 // コンストラクタ
 Sensor::~Sensor() = default;
 
@@ -20,10 +20,10 @@ void Sensor::setup() {
 }
 
 void Sensor::updateWallSensor(Sensed &sensed) {
-  auto &left90 = dri_->photo->left90();
-  auto &left45 = dri_->photo->left45();
-  auto &right45 = dri_->photo->right45();
-  auto &right90 = dri_->photo->right90();
+  auto &left90 = driver_->photo->left90();
+  auto &left45 = driver_->photo->left45();
+  auto &right45 = driver_->photo->right45();
+  auto &right90 = driver_->photo->right90();
 
   // TODO: 後で簡潔に書き直す
   // 左90度 (前壁)
@@ -51,29 +51,25 @@ void Sensor::updateWallSensor(Sensed &sensed) {
 // 更新
 void Sensor::update() {
   // 最新のセンサー値を取得
-  dri_->battery->update();
-  dri_->photo->update();
-  dri_->imu->update();
-  dri_->encoder_left->update();
-  dri_->encoder_right->update();
-  dri_->photo->wait();
+  driver_->battery->update();
+  driver_->photo->update();
+  driver_->imu->update();
+  driver_->encoder_left->update();
+  driver_->encoder_right->update();
+  driver_->photo->wait();
   // オドメトリを計算
   auto timestamp = esp_timer_get_time();
   odom_.update(timestamp - timestamp_);
   timestamp_ = timestamp;
 
   // 値を設定
-  Sensed sensed{};
-  sensed.velocity = odom_.velocity() / 1000.0f;
-  sensed.angular_velocity = odom_.angular_velocity();
-  sensed.angle = odom_.angle() * 180.0f / std::numbers::pi_v<float>;
-  sensed.length = odom_.length();
-  sensed.x = odom_.x();
-  sensed.y = odom_.y();
-  sensed.battery_voltage = dri_->battery->voltage();
-  sensed.battery_voltage_average = dri_->battery->average();
-  updateWallSensor(sensed);
-
-  // キューに上書き
-  sensed_queue_.overwrite(&sensed);
+  sensed_.velocity = odom_.velocity() / 1000.0f;
+  sensed_.angular_velocity = odom_.angular_velocity();
+  sensed_.angle = odom_.angle() * 180.0f / std::numbers::pi_v<float>;
+  sensed_.length = odom_.length();
+  sensed_.x = odom_.x();
+  sensed_.y = odom_.y();
+  sensed_.battery_voltage = driver_->battery->voltage();
+  sensed_.battery_voltage_average = driver_->battery->average();
+  updateWallSensor(sensed_);
 }

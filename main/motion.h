@@ -3,49 +3,42 @@
 // C++
 #include <utility>
 
+// ESP-IDF
+#include <freertos/FreeRTOS.h>
+#include <freertos/semphr.h>
+
 // Project
 #include "dri/driver.h"
 #include "parameters.h"
 #include "pid.h"
-#include "queue.h"
+#include "rtos.h"
 #include "sensor.h"
 
-// 走行モード
-enum class RunMode { Search, Shortest };
-
 // 走行パターン
-enum class RunPattern { Stop, Straight, PivotTurnLeft, PivotTurnRight, TurnLeft, TurnRight, FrontAdjust };
+enum class MotionPattern { Stop, Straight, Turn };
 
 // 走行パラメータ
-struct RunParameter {
-  // 走行モード
-  RunMode mode;
+struct MotionParameter {
   // 走行パターン
-  RunPattern pattern;
+  MotionPattern pattern;
   // 最大速度 [m/s]
   float max_velocity;
   // 加速度 [m/s^2]
   float acceleration;
-  // 最大距離 [mm]
-  float max_length;
   // 最大角速度 [rad/s]
   float max_angular_velocity;
   // 角加速度 [rad/s^2]
   float angular_acceleration;
-  // 最大角度 [deg]
-  float max_angle;
+  // 横壁制御 有効/無効
+  bool enable_side_wall_adjust;
 };
 
 // 目標値
-struct RunTarget {
+struct MotionTarget {
   // 目標速度 [m/s]
   float velocity;
-  // 目標距離 [mm]
-  float length;
   // 目標角速度 [rad/s]
   float angular_velocity;
-  // 目標角度 [deg]
-  float angle;
 };
 
 /**
@@ -54,31 +47,31 @@ struct RunTarget {
 class Motion {
  public:
   // コンストラクタ
-  explicit Motion(Driver *dri, rtos::Queue<Sensed> &sensed_queue);
+  explicit Motion(Driver *dri, Sensor *sensor);
   // デストラクタ
   ~Motion();
 
   // パラメータキューを取得
-  rtos::Queue<RunParameter> &getParameterQueue() { return param_queue_; }
+  rtos::Queue<MotionParameter> &getParameterQueue() { return param_queue_; }
 
-  // 目標値キューを取得
-  rtos::Queue<RunTarget> &getTargetQueue() { return target_queue_; }
+  // 目標値を取得
+  const MotionTarget &getTarget() { return target_; }
 
   // 更新
   void update();
 
  private:
   // ドライバ
-  Driver *dri_;
+  Driver *driver_;
 
-  // センサ値を取得するキュー
-  rtos::Queue<Sensed> &sensed_queue_;
+  // センサ値計算クラス
+  Sensor *sensor_;
 
   // 走行パラメータを保持するキュー
-  rtos::Queue<RunParameter> param_queue_{1};
+  rtos::Queue<MotionParameter> param_queue_{1};
 
-  // 目標値を保持するキュー
-  rtos::Queue<RunTarget> target_queue_{1};
+  // 目標値を保持する
+  MotionTarget target_{};
 
   // 速度フィードバック
   Pid velo_pid_{VELOCITY_PID_GAIN[PARAMETER_PID_KP], VELOCITY_PID_GAIN[PARAMETER_PID_KI],
@@ -91,19 +84,11 @@ class Motion {
                          WALL_ADJUST_SIDE_PID_GAIN[PARAMETER_PID_KD]};
 
   // 目標値を計算する
-  static void calcTarget(RunParameter &param, RunTarget &target);
+  static void calcTarget(MotionParameter &param, MotionTarget &target);
 
   // 横壁からの目標値を計算する
-  bool calcSideWallAdjust(RunParameter &param, RunTarget &target, Sensed &sensed);
+  bool calcSideWallAdjust(const MotionParameter &param, const Sensed &sensed, MotionTarget &target);
 
   // 目標速度と現在速度のフィードバック値を計算する
-  std::pair<float, float> calcFeedback(RunParameter &param, RunTarget &target, Sensed &sensed);
-};
-
-/**
- * 走行パターン・目標追従待ちクラス (App CPUで動作)
- */
-class Run {
- public:
- private:
+  std::pair<float, float> calcFeedback(const MotionParameter &param, const Sensed &sensed, MotionTarget &target);
 };

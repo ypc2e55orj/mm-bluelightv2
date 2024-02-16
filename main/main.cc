@@ -22,14 +22,12 @@ Motion *motion = nullptr;
 
 // モード選択
 static uint8_t selectMode() {
+  auto &sensed = sensor->getSensed();
   uint8_t mode = 0;
-  Sensed sensed{};
 
   auto xLastWakeTime = xTaskGetTickCount();
   while (true) {
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(50));
-    // 最新センサー値取得
-    sensor->getSensedQueue().peek(&sensed, pdMS_TO_TICKS(1));
 
     // 車輪が一定速度以上か一定速度以下で回されたらモード変更
     if (std::abs(sensed.velocity) > MODE_THRESHOLD_SPEED) {
@@ -49,9 +47,6 @@ static uint8_t selectMode() {
       xLastWakeTime = xTaskGetTickCount();
       while (true) {
         vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(50));
-        // 最新センサー値取得
-        sensor->getSensedQueue().peek(&sensed, pdMS_TO_TICKS(1));
-
         // 左壁センサが一定以上ならモード確定
         if (sensed.wall_left90.raw > MODE_THRESHOLD_WALL[PARAMETER_WALL_LEFT90] &&
             sensed.wall_left45.raw > MODE_THRESHOLD_WALL[PARAMETER_WALL_LEFT45]) {
@@ -88,8 +83,9 @@ void printParam() {
 }
 
 // センサ値表示
-[[noreturn]] void printSensor() {
-  Sensed sensed{};
+[[noreturn]] void printSensor(bool is_csv) {
+  auto &sensed = sensor->getSensed();
+  MotionTarget target{};
 
   // 出力モードを示す
   driver->indicator->clear();
@@ -99,26 +95,91 @@ void printParam() {
   auto xLastWakeTime = xTaskGetTickCount();
   while (true) {
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(50));
-    // 最新センサー値取得
-    sensor->getSensedQueue().peek(&sensed, pdMS_TO_TICKS(1));
 
     // 表示
-    printf("\x1b[2J\x1b[0;0H");
-    printf(" ----- Sensor Info ----- \n");
-    printf("bat_vol    : %d\n", sensed.battery_voltage);
-    printf("bat_vol_avg: %d\n", sensed.battery_voltage_average);
-    printf("velo    : %f\n", static_cast<double>(sensed.velocity));
-    printf("length  : %f\n", static_cast<double>(sensed.length));
-    printf("ang_velo: %f\n", static_cast<double>(sensed.angular_velocity));
-    printf("angle   : %f\n", static_cast<double>(sensed.angle));
-    printf("x: %f\n", static_cast<double>(sensed.x));
-    printf("y: %f\n", static_cast<double>(sensed.y));
+    if (is_csv) {
+      printf("%d, ", sensed.battery_voltage);
+      printf("%d, ", sensed.battery_voltage_average);
+      printf("%f, ", static_cast<double>(sensed.velocity));
+      printf("%f, ", static_cast<double>(sensed.length));
+      printf("%f, ", static_cast<double>(sensed.angular_velocity));
+      printf("%f, ", static_cast<double>(sensed.angle));
+      printf("%f, ", static_cast<double>(sensed.x));
+      printf("%f, ", static_cast<double>(sensed.y));
+      printf("%d, ", sensed.wall_left90.raw);
+      printf("%d, ", sensed.wall_left45.raw);
+      printf("%d, ", sensed.wall_right45.raw);
+      printf("%d, ", sensed.wall_right90.raw);
+      printf("%f, ", static_cast<double>(target.velocity));
+      printf("%f\n", static_cast<double>(target.angular_velocity));
+    } else {
+      printf("\x1b[2J\x1b[0;0H");
+      printf(" ----- Sensor Info ----- \n");
+      printf("bat_vol    : %d\n", sensed.battery_voltage);
+      printf("bat_vol_avg: %d\n", sensed.battery_voltage_average);
+      printf("velo    : %f\n", static_cast<double>(sensed.velocity));
+      printf("length  : %f\n", static_cast<double>(sensed.length));
+      printf("ang_velo: %f\n", static_cast<double>(sensed.angular_velocity));
+      printf("angle   : %f\n", static_cast<double>(sensed.angle));
+      printf("x: %f\n", static_cast<double>(sensed.x));
+      printf("y: %f\n", static_cast<double>(sensed.y));
 
-    printf("left90 : %d\n", sensed.wall_left90.raw);
-    printf("left45 : %d\n", sensed.wall_left45.raw);
-    printf("right45: %d\n", sensed.wall_right45.raw);
-    printf("right90: %d\n", sensed.wall_right90.raw);
+      printf("left90 : %d\n", sensed.wall_left90.raw);
+      printf("left45 : %d\n", sensed.wall_left45.raw);
+      printf("right45: %d\n", sensed.wall_right45.raw);
+      printf("right90: %d\n", sensed.wall_right90.raw);
+
+      printf("----- Target ----- \n");
+      printf("velo     : %f\n", static_cast<double>(target.velocity));
+      printf("ang velo : %f\n", static_cast<double>(target.angular_velocity));
+    }
   }
+}
+
+// テスト直線
+[[noreturn]] void testStraight() {
+  // 動作テストモードを示す
+  driver->indicator->clear();
+  driver->indicator->set(0, 0x0F, 0x0F, 0);
+  driver->indicator->update();
+
+  // モーター有効
+  driver->motor_left->enable();
+  driver->motor_right->enable();
+
+  // 走行パラメータ
+  MotionParameter param{};
+  param.pattern = MotionPattern::Straight;
+  param.max_velocity = VELOCITY_DEFAULT;
+  param.acceleration = ACCELERATION_DEFAULT;
+  param.max_angular_velocity = ANGULAR_VELOCITY_DEFAULT;
+  param.angular_acceleration = ANGULAR_ACCELERATION_DEFAULT;
+  motion->getParameterQueue().overwrite(&param);
+
+  printSensor(true);
+}
+
+// テスト宴会芸
+[[noreturn]] void testEnkaigei() {
+  // 動作テストモードを示す
+  driver->indicator->clear();
+  driver->indicator->set(0, 0x0F, 0x0F, 0);
+  driver->indicator->update();
+
+  // モーター有効
+  driver->motor_left->enable();
+  driver->motor_right->enable();
+
+  // 走行パラメータ
+  MotionParameter param{};
+  param.pattern = MotionPattern::Turn;
+  param.max_velocity = 0;
+  param.acceleration = 0;
+  param.max_angular_velocity = 0;
+  param.angular_acceleration = 0;
+  motion->getParameterQueue().overwrite(&param);
+
+  printSensor(true);
 }
 
 /**
@@ -141,10 +202,14 @@ void printParam() {
         break;
 
       case 0x01:
-        printSensor();
+        printSensor(false);
 
       case 0x02:
+        testStraight();
+
       case 0x03:
+        testEnkaigei();
+
       case 0x04:
       case 0x05:
       case 0x06:
@@ -187,7 +252,7 @@ void printParam() {
 extern "C" void app_main(void) {
   driver = new Driver();
   sensor = new Sensor(driver);
-  motion = new Motion(driver, sensor->getSensedQueue());
+  motion = new Motion(driver, sensor);
   xTaskCreatePinnedToCore(proTask, "proTask", 8192, nullptr, 20, nullptr, 0);
   xTaskCreatePinnedToCore(appTask, "appTask", 8192, nullptr, 20, nullptr, 1);
 }

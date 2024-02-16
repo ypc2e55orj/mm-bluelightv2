@@ -3,7 +3,7 @@
 // Project
 #include "dri/driver.h"
 #include "odometry.h"
-#include "queue.h"
+#include "rtos.h"
 
 // 現在の車体情報を保持する構造体
 struct Sensed {
@@ -48,21 +48,21 @@ class Sensor {
   // 更新
   void update();
 
-  // センサ値キューを取得
-  rtos::Queue<Sensed> &getSensedQueue() { return sensed_queue_; }
+  // センサ値を取得
+  const Sensed &getSensed() { return sensed_; }
 
   // リセット
   void reset() { odom_.reset(); }
 
  private:
   // ドライバ
-  Driver *dri_;
+  Driver *driver_;
 
   // 内部計算値
   Odometry odom_;
 
-  // 最新のセンサー値を保持するキュー
-  rtos::Queue<Sensed> sensed_queue_{1};
+  // 最新のセンサー値
+  Sensed sensed_{};
 
   // タイムスタンプ
   int64_t timestamp_{};
