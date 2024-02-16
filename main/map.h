@@ -57,7 +57,7 @@ class Map {
   static constexpr auto WALL_COLOR_RESET = "\x1b[0m";
 
   // コンストラクタ
-  explicit Map(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y]);
+  explicit Map(const int (&goal_xs)[MAZE_GOAL_SIZE], const int (&goal_ys)[MAZE_GOAL_SIZE]);
   // デストラクタ
   ~Map();
 
@@ -67,7 +67,7 @@ class Map {
   // スタートまでの歩数マップを初期化
   void initStepsToStart();
   // ゴールまでの歩数マップを初期化
-  void initStepsToGoal(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y]);
+  void initStepsToGoal(const int (&goal_xs)[MAZE_GOAL_SIZE], const int (&goal_ys)[MAZE_GOAL_SIZE]);
 
   // 歩数を作成
   void makeSteps(bool shortest);
@@ -100,7 +100,7 @@ class Map {
   void rotateDir() { dir_ = static_cast<Direction>((dir_ + 2) & 0x03); }
 
   // 自身がゴールしているか取得する
-  [[nodiscard]] bool inGoal(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y]) const {
+  [[nodiscard]] bool inGoal(const int (&goal_xs)[MAZE_GOAL_SIZE], const int (&goal_ys)[MAZE_GOAL_SIZE]) const {
     for (const auto &y : goal_ys) {
       for (const auto &x : goal_xs) {
         if (pos_.y == y && pos_.x == x) return true;

@@ -1,7 +1,7 @@
 #include "map.h"
 
 // コンストラクタ
-Map::Map(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y])
+Map::Map(const int (&goal_xs)[MAZE_GOAL_SIZE], const int (&goal_ys)[MAZE_GOAL_SIZE])
     : steps_(), walls_(), dir_(), pos_() {
   initWalls();
   initStepsToGoal(goal_xs, goal_ys);
@@ -46,7 +46,7 @@ void Map::initStepsToStart() {
   updateQueue_.push({0, 0});
 }
 // ゴールまでの歩数マップを初期化
-void Map::initStepsToGoal(const int (&goal_xs)[MAZE_GOAL_SIZE_X], const int (&goal_ys)[MAZE_GOAL_SIZE_Y]) {
+void Map::initStepsToGoal(const int (&goal_xs)[MAZE_GOAL_SIZE], const int (&goal_ys)[MAZE_GOAL_SIZE]) {
   initSteps();
   // ゴール座標の歩数を最小値に設定
   for (const auto &y : goal_ys) {
