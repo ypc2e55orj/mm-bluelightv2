@@ -16,8 +16,7 @@ class Battery {
   int average_voltage_{};
 
  public:
-  explicit Battery(adc_unit_t unit, adc_channel_t channel)
-      : adc_(unit, channel) {}
+  explicit Battery(adc_unit_t unit, adc_channel_t channel) : adc_(unit, channel) {}
   ~Battery() = default;
 
   bool update() {

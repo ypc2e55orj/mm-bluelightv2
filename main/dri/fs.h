@@ -20,8 +20,6 @@ class Fs {
   }
   ~Fs() { ESP_ERROR_CHECK(esp_vfs_spiffs_unregister(PARTITION_LABEL)); }
 
-  static void info(size_t &total, size_t &used) {
-    ESP_ERROR_CHECK(esp_spiffs_info(PARTITION_LABEL, &total, &used));
-  }
+  static void info(size_t &total, size_t &used) { ESP_ERROR_CHECK(esp_spiffs_info(PARTITION_LABEL, &total, &used)); }
   static const char *base_path() { return BASE_PATH; }
 };

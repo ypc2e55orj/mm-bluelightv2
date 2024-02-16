@@ -16,7 +16,7 @@
 
 class Imu {
  public:
-  static constexpr float ANGULAR_RATE_SENSITIVITY = 70.0f;  // [mdps/LSB]
+  static constexpr float ANGULAR_RATE_SENSITIVITY = 70.0f;          // [mdps/LSB]
   static constexpr float LINEAR_ACCELERATION_SENSITIVITY = 0.061f;  // [mg/LSB]
 
   template <typename T>
@@ -129,13 +129,10 @@ class Imu {
   }
 
  public:
-  explicit Imu(Spi &spi, gpio_num_t spics_io_num)
-      : spi_(spi), raw_gyro_(), raw_accel_(), gyro_(), accel_() {
+  explicit Imu(Spi &spi, gpio_num_t spics_io_num) : spi_(spi), raw_gyro_(), raw_accel_(), gyro_(), accel_() {
     // 転送用バッファを確保
-    tx_buffer_ = reinterpret_cast<uint8_t *>(
-        heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
-    rx_buffer_ = reinterpret_cast<uint8_t *>(
-        heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
+    tx_buffer_ = reinterpret_cast<uint8_t *>(heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
+    rx_buffer_ = reinterpret_cast<uint8_t *>(heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
 
     // バスにデバイスを追加
     index_ = spi_.add(0, 8, 3, SPI_MASTER_FREQ_10M, spics_io_num, 1);
@@ -249,12 +246,9 @@ class Imu {
       gyro_.x = static_cast<float>(raw_gyro_.x) * ANGULAR_RATE_SENSITIVITY;
       gyro_.y = static_cast<float>(raw_gyro_.y) * ANGULAR_RATE_SENSITIVITY;
       gyro_.z = static_cast<float>(raw_gyro_.z) * ANGULAR_RATE_SENSITIVITY;
-      accel_.x =
-          static_cast<float>(raw_accel_.x) * LINEAR_ACCELERATION_SENSITIVITY;
-      accel_.y =
-          static_cast<float>(raw_accel_.y) * LINEAR_ACCELERATION_SENSITIVITY;
-      accel_.z =
-          static_cast<float>(raw_accel_.z) * LINEAR_ACCELERATION_SENSITIVITY;
+      accel_.x = static_cast<float>(raw_accel_.x) * LINEAR_ACCELERATION_SENSITIVITY;
+      accel_.y = static_cast<float>(raw_accel_.y) * LINEAR_ACCELERATION_SENSITIVITY;
+      accel_.z = static_cast<float>(raw_accel_.z) * LINEAR_ACCELERATION_SENSITIVITY;
     }
     return ret;
   }
@@ -265,9 +259,8 @@ class Imu {
   const Axis<float> &linear_acceleration() { return accel_; }
 
   void offset(int n) {
-    const float output_data_rate = 1660;  // [Hz]
-    const float user_offset_weight =
-        1000.0f * std::pow(2.0f, -10.0f);  // [mg/LSB]
+    const float output_data_rate = 1660;                                // [Hz]
+    const float user_offset_weight = 1000.0f * std::pow(2.0f, -10.0f);  // [mg/LSB]
     const float delay = 1.0f / output_data_rate;
     float sum_x = 0.0f, sum_x_2 = 0.0f;
     Axis<float> accel_coeff{}, accel_inter{}, gyro_coeff{}, gyro_inter{};
@@ -284,12 +277,9 @@ class Imu {
       update();
       const float x = delay * static_cast<float>(i);
       auto &accel = raw_linear_acceleration();
-      auto accel_x =
-          static_cast<float>(accel.x) * LINEAR_ACCELERATION_SENSITIVITY;
-      auto accel_y =
-          static_cast<float>(accel.y) * LINEAR_ACCELERATION_SENSITIVITY;
-      auto accel_z =
-          static_cast<float>(accel.z) * LINEAR_ACCELERATION_SENSITIVITY;
+      auto accel_x = static_cast<float>(accel.x) * LINEAR_ACCELERATION_SENSITIVITY;
+      auto accel_y = static_cast<float>(accel.y) * LINEAR_ACCELERATION_SENSITIVITY;
+      auto accel_z = static_cast<float>(accel.z) * LINEAR_ACCELERATION_SENSITIVITY;
 
       auto &gyro = raw_angular_rate();
       auto gyro_x = static_cast<float>(gyro.x) * ANGULAR_RATE_SENSITIVITY;
@@ -316,8 +306,7 @@ class Imu {
              (static_cast<float>(n) * sum_x_2 - std::pow(sum_x, 2.0f));
     };
     auto inter_b = [&](float sum_xy, float sum_y) {
-      return (sum_x_2 * sum_y - sum_xy * sum_x) /
-             (static_cast<float>(n) * sum_x_2 - std::pow(sum_x, 2.0f));
+      return (sum_x_2 * sum_y - sum_xy * sum_x) / (static_cast<float>(n) * sum_x_2 - std::pow(sum_x, 2.0f));
     };
     accel_coeff.x = coeff_a(sum_accel_xy.x, sum_accel_y.x);
     accel_coeff.y = coeff_a(sum_accel_xy.y, sum_accel_y.y);
@@ -327,8 +316,7 @@ class Imu {
     accel_inter.z = inter_b(sum_accel_xy.z, sum_accel_y.z);
     accel_offset.x = static_cast<int8_t>(accel_inter.x / user_offset_weight);
     accel_offset.y = static_cast<int8_t>(accel_inter.y / user_offset_weight);
-    accel_offset.z =
-        static_cast<int8_t>((accel_inter.z - 1000.0f) / user_offset_weight);
+    accel_offset.z = static_cast<int8_t>((accel_inter.z - 1000.0f) / user_offset_weight);
     write_byte(REG_X_OFS_USR, static_cast<uint8_t>(accel_offset.x));
     write_byte(REG_Y_OFS_USR, static_cast<uint8_t>(accel_offset.y));
     write_byte(REG_Z_OFS_USR, static_cast<uint8_t>(accel_offset.z));
@@ -340,20 +328,14 @@ class Imu {
     gyro_inter.y = inter_b(sum_gyro_xy.y, sum_gyro_y.y);
     gyro_inter.z = inter_b(sum_gyro_xy.z, sum_gyro_y.z);
 
-    printf("Accel X: %f x + %f\n", static_cast<double>(accel_coeff.x),
-           static_cast<double>(accel_inter.x));
-    printf("Accel Y: %f x + %f\n", static_cast<double>(accel_coeff.y),
-           static_cast<double>(accel_inter.y));
-    printf("Accel Z: %f x + %f\n", static_cast<double>(accel_coeff.z),
-           static_cast<double>(accel_inter.z));
+    printf("Accel X: %f x + %f\n", static_cast<double>(accel_coeff.x), static_cast<double>(accel_inter.x));
+    printf("Accel Y: %f x + %f\n", static_cast<double>(accel_coeff.y), static_cast<double>(accel_inter.y));
+    printf("Accel Z: %f x + %f\n", static_cast<double>(accel_coeff.z), static_cast<double>(accel_inter.z));
     printf("%d, %d, %d\n", accel_offset.x, accel_offset.y, accel_offset.z);
 
-    printf("Gyro X: %f x + %f\n", static_cast<double>(gyro_coeff.x),
-           static_cast<double>(gyro_inter.x));
-    printf("Gyro Y: %f x + %f\n", static_cast<double>(gyro_coeff.y),
-           static_cast<double>(gyro_inter.y));
-    printf("Gyro Z: %f x + %f\n", static_cast<double>(gyro_coeff.z),
-           static_cast<double>(gyro_inter.z));
+    printf("Gyro X: %f x + %f\n", static_cast<double>(gyro_coeff.x), static_cast<double>(gyro_inter.x));
+    printf("Gyro Y: %f x + %f\n", static_cast<double>(gyro_coeff.y), static_cast<double>(gyro_inter.y));
+    printf("Gyro Z: %f x + %f\n", static_cast<double>(gyro_coeff.z), static_cast<double>(gyro_inter.z));
   }
 
   void calibration() { offset(10000); }

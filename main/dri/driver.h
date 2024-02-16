@@ -21,12 +21,12 @@ struct Driver {
   std::unique_ptr<Fs> fs;
   std::unique_ptr<Battery> battery;
   std::unique_ptr<Buzzer> buzzer;
-  std::unique_ptr<Encoder> encoder_left;
   std::unique_ptr<Encoder> encoder_right;
+  std::unique_ptr<Encoder> encoder_left;
   std::unique_ptr<Imu> imu;
   std::unique_ptr<Indicator> indicator;
-  std::unique_ptr<Motor> motor_left;
   std::unique_ptr<Motor> motor_right;
+  std::unique_ptr<Motor> motor_left;
   std::unique_ptr<Photo> photo;
 
   /**
@@ -56,34 +56,34 @@ struct Driver {
       GPIO_NUM_ENCODER_SPI_MOSI,
       GPIO_NUM_ENCODER_SPI_SCLK,
       4);
-  encoder_left = std::make_unique<Encoder>(
-      *spi_encoder_,
-      GPIO_NUM_ENCODER_SPI_CS_LEFT);
   encoder_right = std::make_unique<Encoder>(
       *spi_encoder_,
       GPIO_NUM_ENCODER_SPI_CS_RIGHT);
+  encoder_left = std::make_unique<Encoder>(
+      *spi_encoder_,
+      GPIO_NUM_ENCODER_SPI_CS_LEFT);
 
-  motor_left = std::make_unique<Motor>(
-      0,
-      GPIO_NUM_MOTOR_LEFT_IN1,
-      GPIO_NUM_MOTOR_LEFT_IN2);
   motor_right = std::make_unique<Motor>(
       1,
       GPIO_NUM_MOTOR_RIGHT_IN1,
       GPIO_NUM_MOTOR_RIGHT_IN2);
+  motor_left = std::make_unique<Motor>(
+      0,
+      GPIO_NUM_MOTOR_LEFT_IN1,
+      GPIO_NUM_MOTOR_LEFT_IN2);
 
   Photo::Config config{
       .adc_unit = ADC_UNIT_PHOTO,
       .adc_channel = {
-          ADC_CHANNEL_PHOTO_LEFT90,
-          ADC_CHANNEL_PHOTO_LEFT45,
+          ADC_CHANNEL_PHOTO_RIGHT90,
           ADC_CHANNEL_PHOTO_RIGHT45,
-          ADC_CHANNEL_PHOTO_RIGHT90},
+          ADC_CHANNEL_PHOTO_LEFT45,
+          ADC_CHANNEL_PHOTO_LEFT90},
       .gpio_num = {
-          GPIO_NUM_PHOTO_LEFT90,
-          GPIO_NUM_PHOTO_LEFT45,
+          GPIO_NUM_PHOTO_RIGHT90,
           GPIO_NUM_PHOTO_RIGHT45,
-          GPIO_NUM_PHOTO_RIGHT90}};
+          GPIO_NUM_PHOTO_LEFT45,
+          GPIO_NUM_PHOTO_LEFT90}};
   photo = std::make_unique<Photo>(config);
   // clang-format off
   }

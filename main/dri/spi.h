@@ -20,8 +20,7 @@ class Spi {
   std::vector<SpiDevice *> devices_;
 
  public:
-  explicit Spi(spi_host_device_t host_id, gpio_num_t miso_io_num,
-               gpio_num_t mosi_io_num, gpio_num_t sclk_io_num,
+  explicit Spi(spi_host_device_t host_id, gpio_num_t miso_io_num, gpio_num_t mosi_io_num, gpio_num_t sclk_io_num,
                int max_transfer_sz)
       : host_id_(host_id), devices_() {
     spi_bus_config_t bus_config = {};
@@ -42,12 +41,11 @@ class Spi {
     }
   }
 
-  int add(uint8_t command_bits, uint8_t address_bits, uint8_t mode,
-          int clock_speed_hz, gpio_num_t spics_io_num, int queue_size) {
+  int add(uint8_t command_bits, uint8_t address_bits, uint8_t mode, int clock_speed_hz, gpio_num_t spics_io_num,
+          int queue_size) {
     auto device = new SpiDevice();
     device->spics_io_num = spics_io_num;
-    device->transaction = (spi_transaction_t *)heap_caps_calloc(
-        1, sizeof(spi_transaction_t), MALLOC_CAP_DMA);
+    device->transaction = (spi_transaction_t *)heap_caps_calloc(1, sizeof(spi_transaction_t), MALLOC_CAP_DMA);
     device->transaction->user = device;
 
     spi_device_interface_config_t device_interface_config = {};
@@ -58,8 +56,7 @@ class Spi {
     device_interface_config.spics_io_num = spics_io_num;
     device_interface_config.queue_size = queue_size;
 
-    if (spi_bus_add_device(host_id_, &device_interface_config,
-                           &device->handle) != ESP_OK) {
+    if (spi_bus_add_device(host_id_, &device_interface_config, &device->handle) != ESP_OK) {
       free(device->transaction);
       delete device;
       return -1;
@@ -70,11 +67,8 @@ class Spi {
   }
   bool transmit(int index) {
     auto device = devices_[index];
-    esp_err_t transmit_err =
-        spi_device_transmit(device->handle, device->transaction);
+    esp_err_t transmit_err = spi_device_transmit(device->handle, device->transaction);
     return transmit_err == ESP_OK;
   }
-  spi_transaction_t *transaction(int index) {
-    return devices_[index]->transaction;
-  }
+  spi_transaction_t *transaction(int index) { return devices_[index]->transaction; }
 };

@@ -11,17 +11,13 @@ class Gpio {
   gpio_num_t num_;
 
  public:
-  explicit Gpio(gpio_num_t num, gpio_mode_t mode, bool enable_pullup,
-                bool enable_pulldown)
-      : num_(num) {
+  explicit Gpio(gpio_num_t num, gpio_mode_t mode, bool enable_pullup, bool enable_pulldown) : num_(num) {
     // 引数で指定されたピンを初期化
     gpio_config_t config = {};
     config.pin_bit_mask = 1ULL << num;
     config.mode = mode;
-    config.pull_up_en =
-        enable_pullup ? GPIO_PULLUP_ENABLE : GPIO_PULLUP_DISABLE;
-    config.pull_down_en =
-        enable_pulldown ? GPIO_PULLDOWN_ENABLE : GPIO_PULLDOWN_DISABLE;
+    config.pull_up_en = enable_pullup ? GPIO_PULLUP_ENABLE : GPIO_PULLUP_DISABLE;
+    config.pull_down_en = enable_pulldown ? GPIO_PULLDOWN_ENABLE : GPIO_PULLDOWN_DISABLE;
     ESP_ERROR_CHECK(gpio_config(&config));
   }
   ~Gpio() = default;

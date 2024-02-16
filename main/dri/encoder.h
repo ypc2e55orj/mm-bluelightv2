@@ -45,10 +45,8 @@ class Encoder {
  public:
   explicit Encoder(Spi &spi, gpio_num_t spics_io_num) : spi_(spi), raw_(0) {
     // 転送用バッファを確保
-    tx_buffer_ = reinterpret_cast<uint8_t *>(
-        heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
-    rx_buffer_ = reinterpret_cast<uint8_t *>(
-        heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
+    tx_buffer_ = reinterpret_cast<uint8_t *>(heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
+    rx_buffer_ = reinterpret_cast<uint8_t *>(heap_caps_calloc(BUFFER_SIZE, sizeof(uint8_t), MALLOC_CAP_DMA));
 
     // デバイスを追加
     index_ = spi_.add(0, 0, 1, SPI_MASTER_FREQ_10M, spics_io_num, 1);

@@ -39,9 +39,7 @@ class RingBuffer {
   std::size_t size() { return size_; }
 
   // 添字アクセス (読み)
-  const T &operator[](std::size_t index) const {
-    return buffer_[(head_ + index) & mask_];
-  }
+  const T &operator[](std::size_t index) const { return buffer_[(head_ + index) & mask_]; }
   // 添字アクセス (書き)
   T &operator[](std::size_t index) { return buffer_[(head_ + index) & mask_]; }
 

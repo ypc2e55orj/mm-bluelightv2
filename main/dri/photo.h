@@ -15,13 +15,18 @@
 
 class Photo {
  public:
-  static constexpr size_t PHOTO_COUNTS = 4;
-
   struct Result {
     int ambient;
     int flash;
   };
 
+  enum {
+    PHOTO_RIGHT90,
+    PHOTO_RIGHT45,
+    PHOTO_LEFT45,
+    PHOTO_LEFT90,
+    NUM_PHOTO,
+  };
   struct Config {
     adc_unit_t adc_unit;
     adc_channel_t adc_channel[4];
@@ -33,17 +38,9 @@ class Photo {
 
   static constexpr uint32_t TIMER_RESOLUTION_HZ = 1'000'000;   // [Hz]
   static constexpr uint32_t INTERVAL_TIMER_FREQUENCY = 5'000;  // [Hz]
-  static constexpr uint32_t INTERVAL_TIMER_COUNTS =
-      TIMER_RESOLUTION_HZ / INTERVAL_TIMER_FREQUENCY;
+  static constexpr uint32_t INTERVAL_TIMER_COUNTS = TIMER_RESOLUTION_HZ / INTERVAL_TIMER_FREQUENCY;
   static constexpr uint32_t FLASH_TIMER_FREQUENCY = 10'000;  // [Hz]
-  static constexpr uint32_t FLASH_TIMER_COUNTS =
-      TIMER_RESOLUTION_HZ / FLASH_TIMER_FREQUENCY;
-
-  // テーブルの添字
-  static constexpr size_t LEFT90_POS = 0;
-  static constexpr size_t LEFT45_POS = 1;
-  static constexpr size_t RIGHT45_POS = 2;
-  static constexpr size_t RIGHT90_POS = 3;
+  static constexpr uint32_t FLASH_TIMER_COUNTS = TIMER_RESOLUTION_HZ / FLASH_TIMER_FREQUENCY;
 
   // 取得中のセンサ位置
   uint8_t index_;
@@ -53,22 +50,19 @@ class Photo {
   gptimer_handle_t receive_timer_;
 
   // GPIOテーブル
-  std::array<std::unique_ptr<Gpio>, PHOTO_COUNTS> gpio_;
+  std::array<std::unique_ptr<Gpio>, NUM_PHOTO> gpio_;
   // ADCテーブル
-  std::array<std::unique_ptr<Adc>, PHOTO_COUNTS> adc_;
+  std::array<std::unique_ptr<Adc>, NUM_PHOTO> adc_;
   // 結果テーブル
-  std::array<Result, PHOTO_COUNTS> result_;
+  std::array<Result, NUM_PHOTO> result_;
 
   // 完了通知先
   TaskHandle_t task_;
 
-  static bool IRAM_ATTR flash_callback(gptimer_handle_t,
-                                       const gptimer_alarm_event_data_t *,
-                                       void *user_ctx) {
+  static bool IRAM_ATTR flash_callback(gptimer_handle_t, const gptimer_alarm_event_data_t *, void *user_ctx) {
     auto this_ptr = reinterpret_cast<Photo *>(user_ctx);
     // 読み取り
-    this_ptr->adc_[this_ptr->index_]->read_isr(
-        this_ptr->result_[this_ptr->index_].ambient);
+    this_ptr->adc_[this_ptr->index_]->read_isr(this_ptr->result_[this_ptr->index_].ambient);
     // TODO: 下位ビット揺れ対策 後で原因を調べる
     this_ptr->result_[this_ptr->index_].ambient >>= 2;
     // 点灯
@@ -80,14 +74,11 @@ class Photo {
     return false;
   }
 
-  static bool IRAM_ATTR receive_callback(gptimer_handle_t timer,
-                                         const gptimer_alarm_event_data_t *,
-                                         void *user_ctx) {
+  static bool IRAM_ATTR receive_callback(gptimer_handle_t timer, const gptimer_alarm_event_data_t *, void *user_ctx) {
     auto this_ptr = reinterpret_cast<Photo *>(user_ctx);
     BaseType_t xHigherPriorityTaskWoken = pdFALSE;
     // 読み取り
-    this_ptr->adc_[this_ptr->index_]->read_isr(
-        this_ptr->result_[this_ptr->index_].flash);
+    this_ptr->adc_[this_ptr->index_]->read_isr(this_ptr->result_[this_ptr->index_].flash);
     // TODO: 下位ビット揺れ対策 後で原因を調べる
     this_ptr->result_[this_ptr->index_].flash >>= 2;
     // 消灯
@@ -107,12 +98,10 @@ class Photo {
   }
 
  public:
-  explicit Photo(Config &config)
-      : index_(0), flash_timer_(), receive_timer_(), result_(), task_() {
+  explicit Photo(Config &config) : index_(0), flash_timer_(), receive_timer_(), result_(), task_() {
     // GPIO/ADCを初期化
-    for (size_t i = 0; i < PHOTO_COUNTS; i++) {
-      gpio_[i] = std::make_unique<Gpio>(config.gpio_num[i], GPIO_MODE_OUTPUT,
-                                        false, true);
+    for (size_t i = 0; i < NUM_PHOTO; i++) {
+      gpio_[i] = std::make_unique<Gpio>(config.gpio_num[i], GPIO_MODE_OUTPUT, false, true);
       adc_[i] = std::make_unique<Adc>(config.adc_unit, config.adc_channel[i]);
     }
 
@@ -126,8 +115,7 @@ class Photo {
     // 受光タイマー コールバックを登録
     gptimer_event_callbacks_t receive_callback_config = {};
     receive_callback_config.on_alarm = receive_callback;
-    ESP_ERROR_CHECK(gptimer_register_event_callbacks(
-        receive_timer_, &receive_callback_config, this));
+    ESP_ERROR_CHECK(gptimer_register_event_callbacks(receive_timer_, &receive_callback_config, this));
 
     // 受光タイマー コールバックが発火する条件を設定
     gptimer_alarm_config_t receive_alarm = {};
@@ -146,8 +134,7 @@ class Photo {
     // 発光タイマー コールバックを登録
     gptimer_event_callbacks_t flash_callback_config = {};
     flash_callback_config.on_alarm = flash_callback;
-    ESP_ERROR_CHECK(gptimer_register_event_callbacks(
-        flash_timer_, &flash_callback_config, this));
+    ESP_ERROR_CHECK(gptimer_register_event_callbacks(flash_timer_, &flash_callback_config, this));
 
     // 発光タイマー コールバックが発火する条件を設定
     gptimer_alarm_config_t flash_alarm = {};
@@ -166,8 +153,7 @@ class Photo {
     esp_err_t receive_enable_err = gptimer_enable(receive_timer_);
     esp_err_t flash_enable_err = gptimer_enable(flash_timer_);
     esp_err_t flash_start_err = gptimer_start(flash_timer_);
-    return receive_enable_err == ESP_OK && flash_enable_err == ESP_OK &&
-           flash_start_err == ESP_OK;
+    return receive_enable_err == ESP_OK && flash_enable_err == ESP_OK && flash_start_err == ESP_OK;
   }
 
   bool wait() {
@@ -177,8 +163,8 @@ class Photo {
     return receive_disable_err == ESP_OK && flash_disable_err == ESP_OK;
   }
 
-  const Result &left90() { return result_[LEFT90_POS]; }
-  const Result &left45() { return result_[LEFT45_POS]; }
-  const Result &right45() { return result_[RIGHT45_POS]; }
-  const Result &right90() { return result_[RIGHT90_POS]; }
+  const Result &right90() { return result_[PHOTO_RIGHT90]; }
+  const Result &right45() { return result_[PHOTO_RIGHT45]; }
+  const Result &left45() { return result_[PHOTO_LEFT45]; }
+  const Result &left90() { return result_[PHOTO_LEFT90]; }
 };

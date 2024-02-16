@@ -35,11 +35,7 @@ class Adc {
 
  public:
   explicit Adc(adc_unit_t unit, adc_channel_t channel)
-      : channel_(channel),
-        unit_(nullptr),
-        unit_cali_(nullptr),
-        raw_(0),
-        voltage_(0) {
+      : channel_(channel), unit_(nullptr), unit_cali_(nullptr), raw_(0), voltage_(0) {
     adc_oneshot_unit_init_cfg_t init_cfg = {};
     adc_cali_curve_fitting_config_t cali_cfg = {};
     cali_cfg.atten = ATTEN_DB;
@@ -52,8 +48,7 @@ class Adc {
           init_cfg.unit_id = ADC_UNIT_1;
           ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_cfg, &unit1_));
           cali_cfg.unit_id = ADC_UNIT_1;
-          ESP_ERROR_CHECK(
-              adc_cali_create_scheme_curve_fitting(&cali_cfg, &unit1_cali_));
+          ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&cali_cfg, &unit1_cali_));
         }
         unit_ = unit1_;
         unit_cali_ = unit1_cali_;
@@ -63,8 +58,7 @@ class Adc {
           init_cfg.unit_id = ADC_UNIT_2;
           ESP_ERROR_CHECK(adc_oneshot_new_unit(&init_cfg, &unit2_));
           cali_cfg.unit_id = ADC_UNIT_2;
-          ESP_ERROR_CHECK(
-              adc_cali_create_scheme_curve_fitting(&cali_cfg, &unit2_cali_));
+          ESP_ERROR_CHECK(adc_cali_create_scheme_curve_fitting(&cali_cfg, &unit2_cali_));
         }
         unit_ = unit2_;
         unit_cali_ = unit2_cali_;
