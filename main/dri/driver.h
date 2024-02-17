@@ -7,6 +7,7 @@
 #include "adc.h"
 #include "battery.h"
 #include "buzzer.h"
+#include "console.h"
 #include "encoder.h"
 #include "fs.h"
 #include "gpio.h"
@@ -18,6 +19,7 @@
 #include "spi.h"
 
 struct Driver {
+  std::unique_ptr<Console> console;
   std::unique_ptr<Fs> fs;
   std::unique_ptr<Battery> battery;
   std::unique_ptr<Buzzer> buzzer;
@@ -95,6 +97,8 @@ struct Driver {
 void init_app() {
   // clang-format off
   fs = std::make_unique<Fs>(10);
+
+  console = std::make_unique<Console>();
 
   indicator = std::make_unique<Indicator>(
   GPIO_NUM_INDICATOR,
