@@ -246,7 +246,7 @@ extern "C" void app_main(void) {
   driver = new Driver();
   sensor = new Sensor(driver);
   motion = new Motion(driver, sensor);
-  run = new Run(driver, sensor, motion);
+  run = new Run(driver, motion);
   xTaskCreatePinnedToCore(proTask, "proTask", 8192, nullptr, 20, nullptr, 0);
   xTaskCreatePinnedToCore(appTask, "appTask", 8192, nullptr, 20, nullptr, 1);
 }

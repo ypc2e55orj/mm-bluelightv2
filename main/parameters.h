@@ -43,9 +43,11 @@ constexpr float VELOCITY_DEFAULT = 0.3f;
 constexpr float ACCELERATION_DEFAULT = 1.0f;
 // 速度PIDゲイン
 constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {6.0f, 0.05f, 0.0f};
+// 最小角速度 [rad/s]
+constexpr float ANGULAR_VELOCITY_MIN = std::numbers::pi_v<float> / 10.0f;
 // デフォルト角速度 [rad/s]
 constexpr float ANGULAR_VELOCITY_DEFAULT = std::numbers::pi_v<float>;
-// デフォルト角速度 [rad/s^2]
+// デフォルト角加速度 [rad/s^2]
 constexpr float ANGULAR_ACCELERATION_DEFAULT = 20 * std::numbers::pi_v<float>;
 // 角速度PIDゲイン
 constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.4f, 0.005f, 0.0f};

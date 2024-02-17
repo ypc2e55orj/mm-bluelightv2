@@ -25,6 +25,8 @@ bool Motion::setPatternParam(const Sensed &sensed, MotionParameter &param, Motio
 // 直線
 bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget &target) {
   constexpr auto LENGTH_OFFSET = 10.0f;
+  bool is_end_zero = std::abs(param.end_velocity) <= std::numeric_limits<float>::epsilon();
+
   // 台形加速→等速待ち
   // 2as = v^2 - v0^2
   if (param.max_length - LENGTH_OFFSET - sensed.length >
@@ -34,7 +36,7 @@ bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget
   }
   // 減速
   param.acceleration = -1.0f * param.acceleration;
-  auto offset = param.end_velocity == 0.0f ? 1.0f : 0.0f;
+  auto offset = is_end_zero ? 1.0f : 0.0f;
   if (sensed.length < param.max_length - offset) {
     if (target.velocity < param.min_velocity) {
       param.acceleration = 0.0f;
@@ -43,7 +45,7 @@ bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget
     return false;
   }
   // 終了速度が停止の場合は停止するまで待つ
-  if (param.end_velocity == 0.0f) {
+  if (is_end_zero) {
     param.max_velocity = 0;
     // 停止まで待つ
     if (sensed.velocity >= 0.0f) {
