@@ -114,7 +114,8 @@ void printParam() {
       printf("%d, ", sensed.wall_left45.raw);
       printf("%d, ", sensed.wall_left90.raw);
       printf("%f, ", static_cast<double>(target.velocity));
-      printf("%f\n", static_cast<double>(target.angular_velocity));
+      printf("%f, ", static_cast<double>(target.angular_velocity));
+      printf("%f, ", static_cast<double>(target.angle));
     } else {
       printf("\x1b[2J\x1b[0;0H");
       printf(" ----- Sensor Info ----- \n");
@@ -135,6 +136,7 @@ void printParam() {
       printf("----- Target ----- \n");
       printf("velo     : %f\n", static_cast<double>(target.velocity));
       printf("ang velo : %f\n", static_cast<double>(target.angular_velocity));
+      printf("angle    : %f\n", static_cast<double>(target.angle));
     }
   }
 }
@@ -149,6 +151,20 @@ void testStraight() {
   run->straight(90, ACCELERATION_DEFAULT, VELOCITY_DEFAULT, 0.0f);
 }
 
+// テストターン
+void testTurn() {
+  // 動作テストモードを示す
+  driver->indicator->clear();
+  driver->indicator->set(0, 0x0F, 0x0F, 0);
+  driver->indicator->update();
+
+  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionTurnDirection::Left);
+  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionTurnDirection::Right);
+
+  driver->indicator->clear();
+  driver->indicator->update();
+}
+
 // テスト宴会芸
 [[noreturn]] void testEnkaigei() {
   // 動作テストモードを示す
@@ -156,13 +172,9 @@ void testStraight() {
   driver->indicator->set(0, 0x0F, 0x0F, 0);
   driver->indicator->update();
 
-  // モーター有効
-  driver->motor_right->enable();
-  driver->motor_left->enable();
-
   // 走行パラメータ
   MotionParameter param{};
-  param.pattern = MotionPattern::Turn;
+  param.pattern = MotionPattern::Feedback;
   param.max_velocity = 0;
   param.acceleration = 0;
   param.max_angular_velocity = 0;
@@ -200,10 +212,13 @@ void testStraight() {
         break;
 
       case 0x03:
-        testEnkaigei();
+        testTurn();
         break;
 
       case 0x04:
+        testEnkaigei();
+        break;
+
       case 0x05:
       case 0x06:
       case 0x07:
@@ -227,6 +242,10 @@ void testStraight() {
   driver->init_pro();
   vTaskDelay(pdMS_TO_TICKS(500));
 
+  // モーター有効化
+  driver->motor_right->enable();
+  driver->motor_left->enable();
+
   // センサ初期化
   sensor->setup();
 
@@ -246,7 +265,7 @@ extern "C" void app_main(void) {
   driver = new Driver();
   sensor = new Sensor(driver);
   motion = new Motion(driver, sensor);
-  run = new Run(driver, motion);
+  run = new Run(motion);
   xTaskCreatePinnedToCore(proTask, "proTask", 8192, nullptr, 20, nullptr, 0);
   xTaskCreatePinnedToCore(appTask, "appTask", 8192, nullptr, 20, nullptr, 1);
 }

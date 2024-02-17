@@ -8,11 +8,8 @@ class Pid {
   float gain_ki_{};
   float gain_kd_{};
 
-  float prev_target_{};
-  float prev_{};
-
-  float sum_target_{};
-  float sum_{};
+  // 前回の誤差量
+  float prev_error_{};
 
  public:
   explicit Pid(float kp, float ki, float kd) {
@@ -22,28 +19,14 @@ class Pid {
     reset();
   }
 
-  void reset() {
-    prev_target_ = 0.0f;
-    prev_ = 0.0f;
-    sum_target_ = 0.0f;
-    sum_ = 0.0f;
-  }
+  void reset() { prev_error_ = 0.0f; }
 
-  float update(float target, float current, float dt) {
-    float ret = 0.0f;
-
-    ret = gain_kp_ * (target - current) + gain_ki_ * (sum_target_ - sum_) - gain_kd_ * (prev_target_ - prev_) / dt;
-
-    prev_target_ = target;
-    prev_ = current;
-
-    if ((!std::signbit(target) && (sum_target_ + target) > sum_target_) ||
-        (std::signbit(target) && (sum_target_ + target) < sum_target_)) {
-      sum_target_ += target;
-    }
-    if ((!std::signbit(current) && (sum_ + current) > sum_) || (std::signbit(current) && (sum_ + current) < sum_)) {
-      sum_ += current;
-    }
+  float update(float target, float current, float t) {
+    // 積分値は台形近似
+    // https://controlabo.com/pid-program/
+    auto error = target - current;
+    auto ret = gain_kp_ * error + gain_ki_ * (error + prev_error_) * t / 2.0f + gain_kd_ * (error - prev_error_) / t;
+    prev_error_ = error;
 
     return ret;
   }

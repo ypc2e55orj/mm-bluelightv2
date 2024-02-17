@@ -10,7 +10,7 @@
 class Run {
  public:
   // コンストラクタ
-  explicit Run(Driver *driver, Motion *motion);
+  explicit Run(Motion *motion);
   // デストラクタ
   ~Run();
 
@@ -19,9 +19,6 @@ class Run {
   void turn(float degree, float angular_acceleration, float max_angular_velocity, MotionTurnDirection dir);
 
  private:
-  // ドライバ
-  Driver *driver_;
-
   // 目標生成クラス
   Motion *motion_;
 };

@@ -15,11 +15,7 @@
 #include "sensor.h"
 
 // 走行パターン
-enum class MotionPattern {
-  Stop,
-  Straight,
-  Turn,
-};
+enum class MotionPattern { Stop, Straight, Turn, Feedback };
 // 回転方向
 enum class MotionTurnDirection { Right, Left };
 
@@ -71,8 +67,10 @@ class Motion {
   // デストラクタ
   ~Motion();
 
-  // パラメータキューを取得
+  // パラメータを取得 (書き込み用)
   rtos::Queue<MotionParameter> &getParameterQueue() { return param_queue_; }
+  // パラメータを取得 (読み込み用)
+  const MotionParameter &getParameter() { return param_; }
 
   // 目標値を取得
   const MotionTarget &getTarget() { return target_; }

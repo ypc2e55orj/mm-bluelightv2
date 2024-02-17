@@ -27,7 +27,9 @@ enum {
 constexpr float TREAD_WIDTH = 33.0f;
 // モーターの逆起電圧定数 [mV/rpm]
 constexpr float MOTOR_KE = 0.062f;
-// タイヤの直径 / 半径 [mm]
+// ギア比 [spur/pinion]
+constexpr float GEAR_RATIO = 38.0f / 9.0f;
+// タイヤの直径 [mm]
 constexpr float TIRE_DIAMETER = 12.80f;
 
 // 動作停止電圧 [mV]
@@ -42,7 +44,7 @@ constexpr float VELOCITY_DEFAULT = 0.3f;
 // デフォルト加速度 [m/s^2]
 constexpr float ACCELERATION_DEFAULT = 1.0f;
 // 速度PIDゲイン
-constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {6.0f, 0.05f, 0.0f};
+constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {6.0f, 0.0f, 0.0f};
 // 最小角速度 [rad/s]
 constexpr float ANGULAR_VELOCITY_MIN = std::numbers::pi_v<float> / 10.0f;
 // デフォルト角速度 [rad/s]
@@ -50,7 +52,7 @@ constexpr float ANGULAR_VELOCITY_DEFAULT = std::numbers::pi_v<float>;
 // デフォルト角加速度 [rad/s^2]
 constexpr float ANGULAR_ACCELERATION_DEFAULT = 20 * std::numbers::pi_v<float>;
 // 角速度PIDゲイン
-constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.4f, 0.005f, 0.0f};
+constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.4f, 0.0f, 0.0f};
 
 // 壁センサでの壁有無しきい値 (r90, r45, l45, l90)
 constexpr int WALL_THRESHOLD_EXIST[NUM_PARAMETER_WALL] = {0, 0, 0, 0};
