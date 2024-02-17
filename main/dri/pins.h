@@ -25,10 +25,10 @@ constexpr auto GPIO_NUM_INDICATOR = GPIO_NUM_45;
 constexpr auto NUM_INDICATORS = 4;
 
 // Motor
-constexpr auto GPIO_NUM_MOTOR_RIGHT_IN1 = GPIO_NUM_42;  // AIN
-constexpr auto GPIO_NUM_MOTOR_RIGHT_IN2 = GPIO_NUM_41;
-constexpr auto GPIO_NUM_MOTOR_LEFT_IN1 = GPIO_NUM_40;  // BIN
-constexpr auto GPIO_NUM_MOTOR_LEFT_IN2 = GPIO_NUM_38;
+constexpr auto GPIO_NUM_MOTOR_RIGHT_IN1 = GPIO_NUM_42;  // Pin 48, AIN1
+constexpr auto GPIO_NUM_MOTOR_RIGHT_IN2 = GPIO_NUM_41;  // Pin 47, AIN2
+constexpr auto GPIO_NUM_MOTOR_LEFT_IN1 = GPIO_NUM_40;   // Pin 45, BIN1
+constexpr auto GPIO_NUM_MOTOR_LEFT_IN2 = GPIO_NUM_38;   // Pin 43, BIN2
 
 // Photo
 constexpr auto GPIO_NUM_PHOTO_RIGHT90 = GPIO_NUM_10;
