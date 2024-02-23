@@ -1,7 +1,0 @@
-digraph "Photo"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{Photo\n|- index_\l- flash_timer_\l- receive_timer_\l- gpio_\l- adc_\l- result_\l- task_\l- TAG\l- TIMER_RESOLUTION_HZ\l- INTERVAL_TIMER_FREQUENCY\l- INTERVAL_TIMER_COUNTS\l- FLASH_TIMER_FREQUENCY\l- FLASH_TIMER_COUNTS\l|+ Photo()\l+ ~Photo()\l+ update()\l+ wait()\l+ right90()\l+ right45()\l+ left45()\l+ left90()\l- flash_callback()\l- receive_callback()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-}

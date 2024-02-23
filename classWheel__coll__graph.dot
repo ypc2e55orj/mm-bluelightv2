@@ -1,7 +1,0 @@
-digraph "Wheel"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{Wheel\n|- tire_diameter_\l- invert_\l- reset_\l- resolution_\l- resolution_half_\l- angle_per_resolution_\l- previous_\l- angular_acceleration_\l- angular_velocity_\l- velocity_\l|+ Wheel()\l+ ~Wheel()\l+ update()\l+ reset()\l+ angular_velocity()\l+ angular_acceleration()\l+ velocity()\l- calculate_angular_velocity()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip="車輪から得られる車体情報を管理する"];
-}

@@ -1,0 +1,10 @@
+<map id="Imu::calibration" name="Imu::calibration">
+<area shape="rect" id="node1" title=" " alt="" coords="5,81,129,108"/>
+<area shape="rect" id="node2" href="$classImu.html#a5e00f8dec62b5a5301eda6f288eb7102" title=" " alt="" coords="177,81,269,108"/>
+<area shape="rect" id="node3" href="$classImu.html#ade9a2a72dae1cd27b4628c79f1377799" title=" " alt="" coords="339,5,507,32"/>
+<area shape="rect" id="node4" href="$classImu.html#a909527a990075316d591506d8f2ff224" title=" " alt="" coords="317,56,528,83"/>
+<area shape="rect" id="node5" href="$classImu.html#aaf6f6cc86577b4b7b96cc205d013a419" title=" " alt="" coords="373,107,473,133"/>
+<area shape="rect" id="node8" href="$classImu.html#a1b180bfff5e928c28a83709fd3da1641" title=" " alt="" coords="361,157,485,184"/>
+<area shape="rect" id="node6" href="$classSpi.html#ade7f363df8128f984a04896748284790" title=" " alt="" coords="576,107,699,133"/>
+<area shape="rect" id="node7" href="$classSpi.html#a91c0eeec99491ce1392baecdb8ec7495" title=" " alt="" coords="585,157,690,184"/>
+</map>

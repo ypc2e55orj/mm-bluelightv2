@@ -1,7 +1,0 @@
-digraph "MotionParameter"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{MotionParameter\n|+ pattern\l+ direction\l+ min_velocity\l+ max_velocity\l+ end_velocity\l+ max_length\l+ acceleration\l+ min_angular_velocity\l+ max_angular_velocity\l+ angular_acceleration\l+ max_angle\l+ enable_side_wall_adjust\l|}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-}

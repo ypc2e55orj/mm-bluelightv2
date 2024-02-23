@@ -1,7 +1,0 @@
-digraph "rtos::Queue&lt; T &gt;"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{rtos::Queue\< T \>\n|- queue_\l|+ Queue()\l+ ~Queue()\l+ reset()\l+ send()\l+ send_isr()\l+ send_front()\l+ send_front_isr()\l+ overwrite()\l+ overwrite_isr()\l+ receive()\land 6 more...\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-}

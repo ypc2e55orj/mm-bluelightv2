@@ -1,0 +1,3 @@
+<map id="WheelsPair" name="WheelsPair">
+<area shape="rect" id="node1" title="マウスの自己位置を推定する。 速度はエンコーダーから算出。 加速度はIMUから取得。 角速度はIMUから取得。 角加速度はIMUから算出。" alt="" coords="5,5,100,97"/>
+</map>

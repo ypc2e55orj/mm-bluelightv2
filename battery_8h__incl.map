@@ -1,0 +1,12 @@
+<map id="main/dri/battery.h" name="main/dri/battery.h">
+<area shape="rect" id="node1" title=" " alt="" coords="471,5,608,32"/>
+<area shape="rect" id="node2" href="$adc_8h.html" title=" " alt="" coords="463,80,520,107"/>
+<area shape="rect" id="node8" href="$average_8h.html" title=" " alt="" coords="736,80,823,107"/>
+<area shape="rect" id="node3" title=" " alt="" coords="5,155,92,181"/>
+<area shape="rect" id="node4" title=" " alt="" coords="117,155,261,181"/>
+<area shape="rect" id="node5" title=" " alt="" coords="285,155,487,181"/>
+<area shape="rect" id="node6" title=" " alt="" coords="511,155,685,181"/>
+<area shape="rect" id="node7" title=" " alt="" coords="709,155,900,181"/>
+<area shape="rect" id="node9" href="$ringbuffer_8h.html" title=" " alt="" coords="925,155,1021,181"/>
+<area shape="rect" id="node10" title=" " alt="" coords="945,229,1001,256"/>
+</map>

@@ -1,7 +1,0 @@
-digraph "data::RingBuffer&lt; T, N &gt;"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{data::RingBuffer\< T, N \>\n|- head_\l- tail_\l- size_\l- mask_\l- buffer_\l|+ RingBuffer()\l+ ~RingBuffer()\l+ reset()\l+ max_size()\l+ size()\l+ operator[]()\l+ operator[]()\l+ front()\l+ pushFront()\l+ popFront()\l+ back()\l+ pushBack()\l+ popBack()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-}

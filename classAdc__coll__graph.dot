@@ -1,7 +1,0 @@
-digraph "Adc"
-{
- // LATEX_PDF_SIZE
-  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
-  node [fontname="Helvetica",fontsize="10",shape=record];
-  Node1 [label="{Adc\n|- channel_\l- unit_\l- unit_cali_\l- raw_\l- voltage_\l- ATTEN_DB\l- BITWIDTH\l- unit1_\l- unit2_\l- unit1_cali_\l- unit2_cali_\l|+ Adc()\l+ ~Adc()\l+ read()\l+ read_isr()\l+ to_voltage()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
-}
