@@ -1,0 +1,28 @@
+name: Generate and deploy docs
+
+on:
+  push:
+    branches:
+      - main
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+
+    steps:
+      - name: Checkout the repository
+        uses: actions/checkout@v2
+
+      - name: Install Doxygen
+        run: sudo apt-get install doxygen -y
+
+      - name: Generate docs with Doxygen
+        run: doxygen Doxyfile
+
+      - name: Deploy docs to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./doxygen

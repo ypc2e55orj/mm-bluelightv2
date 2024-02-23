@@ -13,8 +13,5 @@ cmake-build-*
 .vscode
 .cache
 
-# Doxygen
-doxygen
-
 # maze data
 test/maze/data/*.inc
