@@ -16,7 +16,7 @@ jobs:
         uses: actions/checkout@v2
 
       - name: Install Doxygen
-        run: sudo apt-get install doxygen -y
+        run: sudo apt-get install doxygen graphviz -y
 
       - name: Generate docs with Doxygen
         run: doxygen Doxyfile
