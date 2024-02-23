@@ -1,0 +1,20 @@
+# ESP-IDF
+sdkconfig.old
+managed_components
+
+# CMake
+build
+
+# CLion
+.idea
+cmake-build-*
+
+# VSCode
+.vscode
+.cache
+
+# Doxygen
+doxygen
+
+# maze data
+test/maze/data/*.inc
