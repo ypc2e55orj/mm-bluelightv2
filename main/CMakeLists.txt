@@ -3,10 +3,12 @@ file(
         "*.cc"
         "*.h")
 
-message("### mm-bluelight ##")
+message("### ${CMAKE_PROJECT_NAME} ##")
 foreach (SOURCE IN LISTS SOURCES)
     message("Add: ${SOURCE}")
 endforeach ()
+
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -std=gnu++23")
 
 idf_component_register(
         SRCS
@@ -15,7 +17,6 @@ idf_component_register(
         ".")
 
 component_compile_options(
-        -std=gnu++23
         -mtext-section-literals
         -Wall
         -Wextra
