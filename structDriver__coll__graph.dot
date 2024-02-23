@@ -1,0 +1,7 @@
+digraph "Driver"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Driver\n|+ console\l+ fs\l+ battery\l+ buzzer\l+ encoder_right\l+ encoder_left\l+ imu\l+ indicator\l+ motor_right\l+ motor_left\l+ photo\l- spi_encoder_\l- spi_imu_\l|+ init_pro()\l+ init_app()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

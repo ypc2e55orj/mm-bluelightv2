@@ -1,0 +1,13 @@
+digraph "Odometry"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Odometry\n|- velocity_\l- acceleration_\l- length_\l- angular_velocity_\l- angular_acceleration_\l- angle_\l- x_\l- y_\l|+ Odometry()\l+ ~Odometry()\l+ reset()\l+ update()\l+ wheels_angular_acceleration()\l+ wheels_angular_velocity()\l+ wheels_velocity()\l+ acceleration()\l+ velocity()\l+ length()\l+ angular_acceleration()\l+ angular_velocity()\l+ angle()\l+ x()\l+ y()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -dri_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{Driver\n|+ console\l+ fs\l+ battery\l+ buzzer\l+ encoder_right\l+ encoder_left\l+ imu\l+ indicator\l+ motor_right\l+ motor_left\l+ photo\l- spi_encoder_\l- spi_imu_\l|+ init_pro()\l+ init_app()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structDriver.html",tooltip=" "];
+  Node3 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -left_\n-right_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node3 [label="{Wheel\n|- tire_diameter_\l- invert_\l- reset_\l- resolution_\l- resolution_half_\l- angle_per_resolution_\l- previous_\l- angular_acceleration_\l- angular_velocity_\l- velocity_\l|+ Wheel()\l+ ~Wheel()\l+ update()\l+ reset()\l+ angular_velocity()\l+ angular_acceleration()\l+ velocity()\l- calculate_angular_velocity()\l}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classWheel.html",tooltip="車輪から得られる車体情報を管理する"];
+  Node4 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -wheel_ang_accel_\n-wheel_ang_vel_\n-wheel_vel_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node4 [label="{WheelsPair\n|+ right\l+ left\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structWheelsPair.html",tooltip="マウスの自己位置を推定する。 速度はエンコーダーから算出。 加速度はIMUから取得。 角速度はIMUから取得。 角加速度はIMUから算出。"];
+}

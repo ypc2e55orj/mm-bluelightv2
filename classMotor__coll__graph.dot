@@ -1,0 +1,7 @@
+digraph "Motor"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Motor\n|+ a\l+ b\l+ a\l+ b\l- timer_\l- operator_\l- comparator_\l- generator_\l- motor_voltage_\l- MCPWM_TIMER_RESOLUTION_HZ\l- MCPWM_PWM_FREQUENCY_HZ\l- MCPWM_TIMER_PERIOD\l_TICKS\l|+ Motor()\l+ ~Motor()\l+ enable()\l+ disable()\l+ brake()\l+ coast()\l+ speed()\l+ voltage()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+}

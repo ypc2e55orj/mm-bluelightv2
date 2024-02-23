@@ -1,0 +1,26 @@
+digraph "Spi::transmit"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="RL";
+  Node1 [label="Spi::transmit",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Encoder::Encoder",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classEncoder.html#af95dd23498e04c2a13bdd0c1b994cb44",tooltip=" "];
+  Node1 -> Node3 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Imu::read_byte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#a1526f585733585c0275a1120fd6b82ad",tooltip=" "];
+  Node3 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Imu::Imu",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#a535be22e7004297f3be9c6f7be658748",tooltip=" "];
+  Node1 -> Node5 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Encoder::update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classEncoder.html#a3d2f39d9870e596cb958875ee6f7e0cd",tooltip=" "];
+  Node1 -> Node6 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Imu::update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#aaf6f6cc86577b4b7b96cc205d013a419",tooltip=" "];
+  Node6 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Imu::offset",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#a5e00f8dec62b5a5301eda6f288eb7102",tooltip=" "];
+  Node7 -> Node8 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node8 [label="Imu::calibration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#aaca064f0d7c9fc0b98eef27af05cf0f4",tooltip=" "];
+  Node1 -> Node9 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 [label="Imu::write_byte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#a1b180bfff5e928c28a83709fd3da1641",tooltip=" "];
+  Node9 -> Node4 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node9 -> Node7 [dir="back",color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

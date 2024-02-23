@@ -1,0 +1,22 @@
+digraph "Imu::offset"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  rankdir="LR";
+  Node1 [label="Imu::offset",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node1 -> Node2 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node2 [label="Imu::raw_angular_rate",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#ade9a2a72dae1cd27b4628c79f1377799",tooltip=" "];
+  Node1 -> Node3 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node3 [label="Imu::raw_linear_acceleration",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#a909527a990075316d591506d8f2ff224",tooltip=" "];
+  Node1 -> Node4 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node4 [label="Imu::update",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#aaf6f6cc86577b4b7b96cc205d013a419",tooltip=" "];
+  Node4 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node5 [label="Spi::transaction",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classSpi.html#ade7f363df8128f984a04896748284790",tooltip=" "];
+  Node4 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node6 [label="Spi::transmit",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classSpi.html#a91c0eeec99491ce1392baecdb8ec7495",tooltip=" "];
+  Node1 -> Node7 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 [label="Imu::write_byte",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$classImu.html#a1b180bfff5e928c28a83709fd3da1641",tooltip=" "];
+  Node7 -> Node5 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+  Node7 -> Node6 [color="midnightblue",fontsize="10",style="solid",fontname="Helvetica"];
+}

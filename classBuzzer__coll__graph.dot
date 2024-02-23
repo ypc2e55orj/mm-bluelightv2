@@ -1,0 +1,9 @@
+digraph "Buzzer"
+{
+ // LATEX_PDF_SIZE
+  edge [fontname="Helvetica",fontsize="10",labelfontname="Helvetica",labelfontsize="10"];
+  node [fontname="Helvetica",fontsize="10",shape=record];
+  Node1 [label="{Buzzer\n|- channel_\l- BUZZER_MEM_BLOCK_SYMBOLS\l- BUZZER_RESOLUTION_HZ\l|+ Buzzer()\l+ ~Buzzer()\l+ enable()\l+ disable()\l+ tone()\l- rmt_buzzer_encode()\l- rmt_buzzer_delete()\l- rmt_buzzer_reset()\l}",height=0.2,width=0.4,color="black", fillcolor="grey75", style="filled", fontcolor="black",tooltip=" "];
+  Node2 -> Node1 [color="grey25",fontsize="10",style="solid",label=" -encoder_" ,arrowhead="odiamond",fontname="Helvetica"];
+  Node2 [label="{Buzzer::BuzzerEncoder\n|+ base\l+ copy_encoder\l+ resolution\l|}",height=0.2,width=0.4,color="black", fillcolor="white", style="filled",URL="$structBuzzer_1_1BuzzerEncoder.html",tooltip=" "];
+}
