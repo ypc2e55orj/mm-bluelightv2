@@ -155,13 +155,11 @@ std::pair<float, float> Motion::calcMotorVoltage(const Sensed &sensed, const Mot
       auto velo = target.velocity + velo_pid_.update(target.velocity, sensed.velocity, 1.0f);
       auto ang_velo = target.angular_velocity + ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
       // 目標車輪角速度を算出
-      // auto omega_r = velo / (TIRE_DIAMETER / 2.0f) + ang_velo * (TREAD_WIDTH / TIRE_DIAMETER);
-      // auto omega_l = velo / (TIRE_DIAMETER / 2.0f) - ang_velo * (TREAD_WIDTH / TIRE_DIAMETER);
+      auto omega_r = (velo * 1000.0f) / TIRE_RADIUS + (TREAD_WIDTH / TIRE_DIAMETER) * ang_velo;
+      auto omega_l = (velo * 1000.0f) / TIRE_RADIUS - (TREAD_WIDTH / TIRE_DIAMETER) * ang_velo;
       // モーター電圧を計算
-      // auto e_r = MOTOR_KE * omega_r;
-      // auto e_l = MOTOR_KE * omega_l;
-      auto e_r = velo + ang_velo;
-      auto e_l = velo - ang_velo;
+      auto e_r = MOTOR_KE * omega_r;
+      auto e_l = MOTOR_KE * omega_l;
 
       return {e_r, e_l};
     }

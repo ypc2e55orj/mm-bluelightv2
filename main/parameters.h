@@ -31,6 +31,8 @@ constexpr float MOTOR_KE = 0.062f;
 constexpr float GEAR_RATIO = 38.0f / 9.0f;
 // タイヤの直径 [mm]
 constexpr float TIRE_DIAMETER = 12.80f;
+// タイヤの半径 [mm]
+constexpr float TIRE_RADIUS = TIRE_DIAMETER / 2.0f;
 
 // 動作停止電圧 [V]
 constexpr float VOLTAGE_LOW_LIMIT = 3.2f;
@@ -44,7 +46,7 @@ constexpr float VELOCITY_DEFAULT = 0.3f;
 // デフォルト加速度 [m/s^2]
 constexpr float ACCELERATION_DEFAULT = 1.0f;
 // 速度PIDゲイン
-constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {10.0f, 0.1f, 0.05f};
+constexpr float VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.6f, 0.01f, 0.05f};
 // 最小角速度 [rad/s]
 constexpr float ANGULAR_VELOCITY_MIN = std::numbers::pi_v<float> / 10.0f;
 // デフォルト角速度 [rad/s]

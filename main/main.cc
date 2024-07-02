@@ -202,6 +202,8 @@ void testTurn() {
   driver->indicator->enable();
   driver->buzzer->enable();
 
+  driver->buzzer->tone(C5, 100);
+
   auto xLastWakeTime = xTaskGetTickCount();
   while (true) {
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(50));
