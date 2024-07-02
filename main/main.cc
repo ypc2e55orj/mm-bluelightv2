@@ -36,6 +36,7 @@ static uint8_t selectMode() {
     if (std::abs(sensed.velocity) > MODE_THRESHOLD_SPEED) {
       // モード変更
       mode = (mode + (std::signbit(sensed.velocity) ? -1 : 1)) & 0x0F;
+      driver->buzzer->tone(C5, 50);
     }
     // インジケータ更新
     for (auto i = 0; i < driver->indicator->counts(); i++) {
@@ -53,6 +54,7 @@ static uint8_t selectMode() {
         // 左壁センサが一定以上ならモード確定
         if (sensed.wall_left90.raw > MODE_THRESHOLD_WALL[PARAMETER_WALL_LEFT90] &&
             sensed.wall_left45.raw > MODE_THRESHOLD_WALL[PARAMETER_WALL_LEFT45]) {
+          driver->buzzer->tone(C5, 100);
           return mode;
         }
 
@@ -95,6 +97,12 @@ void printParam() {
   driver->indicator->set(0, 0x0F, 0, 0);
   driver->indicator->update();
 
+  // ヘッダーを出力
+  if (is_csv)
+  {
+    printf("vbatt, vbatt_avg, velo, len, ang_velo, ang, x, y, r90, r45, l45, l90, tvelo, tang_velo, tang\n");
+  }
+
   auto xLastWakeTime = xTaskGetTickCount();
   while (true) {
     vTaskDelayUntil(&xLastWakeTime, pdMS_TO_TICKS(50));
@@ -115,7 +123,7 @@ void printParam() {
       printf("%d, ", sensed.wall_left90.raw);
       printf("%f, ", static_cast<double>(target.velocity));
       printf("%f, ", static_cast<double>(target.angular_velocity));
-      printf("%f, ", static_cast<double>(target.angle));
+      printf("%f\n", static_cast<double>(target.angle));
     } else {
       printf("\x1b[2J\x1b[0;0H");
       printf(" ----- Sensor Info ----- \n");
@@ -204,7 +212,7 @@ void testTurn() {
         break;
 
       case 0x01:
-        printSensor(false);
+        printSensor(true);
         break;
 
       case 0x02:

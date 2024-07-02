@@ -33,7 +33,6 @@ bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget
   if (param.max_length - LENGTH_OFFSET - sensed.length >
       1000.0f * (target.velocity * target.velocity - param.end_velocity * param.end_velocity) /
           (2.0f * param.acceleration)) {
-    printf("st, %f, %f, %f\n", target.velocity, sensed.velocity, sensed.length);
     return false;
   }
   // 減速
@@ -44,7 +43,6 @@ bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget
       param.acceleration = 0.0f;
       param.max_velocity = param.min_velocity;
     }
-    printf("st, %f, %f, %f\n", target.velocity, sensed.velocity, sensed.length);
     return false;
   }
   // 終了速度が停止の場合は停止するまで待つ
@@ -52,7 +50,6 @@ bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget
     param.max_velocity = 0;
     // 停止まで待つ
     if (sensed.velocity >= 0.0f) {
-      printf("st, %f, %f, %f\n", target.velocity, sensed.velocity, sensed.length);
       return false;
     }
   }
@@ -67,7 +64,6 @@ bool Motion::turn(const Sensed &sensed, MotionParameter &param, MotionTarget &ta
   // 加速→等速待ち
   if (sign * (param.max_angle - sensed.angle) * std::numbers::pi_v<float> / 180.0f >
       target.angular_velocity * target.angular_velocity / (sign * 2.0f * param.acceleration)) {
-    printf("tu, %f, %f, %f\n", target.angular_velocity, sensed.angular_velocity, sensed.angle);
     return false;
   }
   // 減速
@@ -77,7 +73,6 @@ bool Motion::turn(const Sensed &sensed, MotionParameter &param, MotionTarget &ta
       param.angular_acceleration = 0.0f;
       target.angular_velocity = sign * param.min_angular_velocity;
     }
-    printf("tu, %f, %f, %f\n", target.angular_velocity, sensed.angular_velocity, sensed.angle);
     return false;
   }
   param.acceleration = 0.0f;
@@ -85,7 +80,6 @@ bool Motion::turn(const Sensed &sensed, MotionParameter &param, MotionTarget &ta
   target.angle = param.max_angle;
   // 停止まで待つ
   if (sign * target.angular_velocity >= 0.05f) {
-    printf("tu, %f, %f, %f\n", target.angular_velocity, sensed.angular_velocity, sensed.angle);
     return false;
   }
   param.pattern = MotionPattern::Stop;
@@ -161,11 +155,9 @@ std::pair<float, float> Motion::calcMotorVoltage(const Sensed &sensed, const Mot
       auto velo = target.velocity + velo_pid_.update(target.velocity, sensed.velocity, 1.0f);
       auto ang_velo =
           target.angular_velocity + ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
-      printf("vl, %f, %f\n", velo, ang_velo);
       // 目標車輪角速度を算出
       auto omega_r = GEAR_RATIO * velo * 1000.0f / (TIRE_DIAMETER / 2.0f) + ang_velo * (TREAD_WIDTH / TIRE_DIAMETER);
       auto omega_l = GEAR_RATIO * velo * 1000.0f / (TIRE_DIAMETER / 2.0f) - ang_velo * (TREAD_WIDTH / TIRE_DIAMETER);
-      printf("om, %f, %f\n", omega_r, omega_l);
       // rpmに換算
       auto rpm_r = 30 * omega_r / std::numbers::pi_v<float>;
       auto rpm_l = 30 * omega_l / std::numbers::pi_v<float>;
@@ -213,7 +205,6 @@ void Motion::update() {
   // モーター電圧の制限
   right = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, right));
   left = std::max(-1.0f * VOLTAGE_MOTOR_LIMIT, std::min(VOLTAGE_MOTOR_LIMIT, left));
-  printf("vm, %f, %f\n", right, left);
 
   // モーター電圧を設定
   driver_->motor_right->speed(static_cast<int>(right * 1000.0f), sensor_->getSensed().battery_voltage);
