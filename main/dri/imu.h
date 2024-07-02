@@ -265,7 +265,7 @@ class Imu {
     float sum_x = 0.0f, sum_x_2 = 0.0f;
     Axis<float> accel_coeff{}, accel_inter{}, gyro_coeff{}, gyro_inter{};
     Axis<float> sum_accel_xy{}, sum_accel_y{}, sum_gyro_xy{}, sum_gyro_y{};
-    Axis<int8_t> accel_offset{}, gyro_offset{};
+    Axis<int8_t> accel_offset{};
 
     // 現在の設定をクリア
     write_byte(REG_X_OFS_USR, 0);

@@ -11,7 +11,7 @@
 
 class Adc {
  private:
-  static constexpr auto ATTEN_DB = ADC_ATTEN_DB_11;
+  static constexpr auto ATTEN_DB = ADC_ATTEN_DB_12;
   static constexpr auto BITWIDTH = ADC_BITWIDTH_12;
 
   // 各ユニットのハンドラ
