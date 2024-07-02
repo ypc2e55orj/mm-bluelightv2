@@ -9,7 +9,7 @@ Motion::Motion(Driver *dri, Sensor *sensor) : driver_(dri), sensor_(sensor) {}
 Motion::~Motion() = default;
 
 // 走行パターンに応じて現在のパラメータを設定
-bool Motion::setPatternParam(const Sensed &sensed, MotionParameter &param, MotionTarget &target) {
+bool Motion::setPatternParam(const Sensed &sensed, const MotionParameter &param, MotionTarget &target) {
   switch (param.pattern) {
     case MotionPattern::Straight:
       return straight(sensed, param, target);
@@ -17,104 +17,80 @@ bool Motion::setPatternParam(const Sensed &sensed, MotionParameter &param, Motio
     case MotionPattern::Turn:
       return turn(sensed, param, target);
 
-    case MotionPattern::Feedback:
     case MotionPattern::Stop:
-    default:
       return false;
+
+    case MotionPattern::Free:
+    default:
+      return true;
   }
 }
 // 直線
-bool Motion::straight(const Sensed &sensed, MotionParameter &param, MotionTarget &target) {
-  constexpr auto LENGTH_OFFSET = 10.0f;
-  bool is_end_zero = std::abs(param.end_velocity) <= std::numeric_limits<float>::epsilon();
+bool Motion::straight(const Sensed &sensed, const MotionParameter &param, MotionTarget &target) {
+  float sign = 1.0f;  // param.direction == MotionDirection::Forward ? 1.0f : -1.0f;
+  float accel_length = (param.max_velocity * param.max_velocity - param.start_velocity * param.start_velocity) /
+                       (2.0f * param.acceleration);
+  float deccel_length =
+      (param.max_velocity * param.max_velocity - param.end_velocity * param.end_velocity) / (2.0f * param.acceleration);
 
-  // 台形加速→等速待ち
-  // 2as = v^2 - v0^2
-  if (param.max_length - LENGTH_OFFSET - sensed.length >
-      1000.0f * (target.velocity * target.velocity - param.end_velocity * param.end_velocity) /
-          (2.0f * param.acceleration)) {
+  // 加速
+  if (accel_length > sign * sensed.length) {
+    target.acceleration = sign * param.acceleration;
+    target.max_velocity = sign * param.max_velocity;
+    return false;
+  }
+  // 等速
+  else if (param.length - deccel_length > sign * sensed.length) {
+    target.acceleration = sign * param.acceleration;
+    target.max_velocity = sign * param.max_velocity;
     return false;
   }
   // 減速
-  param.acceleration = -1.0f * param.acceleration;
-  auto offset = is_end_zero ? 1.0f : 0.0f;
-  if (sensed.length < param.max_length - offset) {
-    if (target.velocity < param.min_velocity) {
-      param.acceleration = 0.0f;
-      param.max_velocity = param.min_velocity;
+  else if (param.length > sign * sensed.length) {
+    target.acceleration = -1.0f * sign * param.acceleration;
+    if (sign * target.velocity < VELOCITY_MIN) {
+      target.acceleration = 0.0f;
+      target.velocity = sign * VELOCITY_MIN;
     }
     return false;
   }
-  // 終了速度が停止の場合は停止するまで待つ
-  if (is_end_zero) {
-    param.max_velocity = 0;
-    // 停止まで待つ
-    if (sensed.velocity >= 0.0f) {
-      return false;
-    }
-  }
-  param.pattern = MotionPattern::Stop;
+
+  target.acceleration = 0.0f;
+  target.velocity = sign * param.end_velocity;
 
   return true;
 }
 // 旋回
-bool Motion::turn(const Sensed &sensed, MotionParameter &param, MotionTarget &target) {
-  float sign = param.direction == MotionTurnDirection::Right ? -1.0f : 1.0f;
-
-  // 加速→等速待ち
-  if (sign * (param.max_angle - sensed.angle) * std::numbers::pi_v<float> / 180.0f >
-      target.angular_velocity * target.angular_velocity / (sign * 2.0f * param.acceleration)) {
-    return false;
-  }
-  // 減速
-  param.acceleration = -1.0f * param.acceleration;
-  if (sign * sensed.angle < sign * param.max_angle) {
-    if (sign * target.angular_velocity < sign * param.min_velocity) {
-      param.angular_acceleration = 0.0f;
-      target.angular_velocity = sign * param.min_angular_velocity;
-    }
-    return false;
-  }
-  param.acceleration = 0.0f;
-  target.angular_velocity = 0.0f;
-  target.angle = param.max_angle;
-  // 停止まで待つ
-  if (sign * target.angular_velocity >= 0.05f) {
-    return false;
-  }
-  param.pattern = MotionPattern::Stop;
+bool Motion::turn(const Sensed &sensed, const MotionParameter &param, MotionTarget &target) {
+  float sign = param.direction == MotionDirection::Right ? -1.0f : 1.0f;
 
   return true;
 }
 
 // 目標値を計算する
-void Motion::calcTargetVelocity(MotionParameter &param, MotionTarget &target) {
-  switch (param.pattern) {
-    case MotionPattern::Feedback:
+void Motion::calcTargetVelocity(MotionPattern pattern, MotionTarget &target) {
+  switch (pattern) {
     case MotionPattern::Turn: {
       // 角加速度から目標角速度を生成
-      target.angular_velocity += param.angular_acceleration / 1000.0f;
-      target.angle += target.angular_velocity * 180.0f / std::numbers::pi_v<float> / 1000.0f;
+      target.angular_velocity += target.angular_acceleration / 1000.0f;
       // 制限
-      if (std::abs(target.angular_velocity) > param.max_angular_velocity) {
-        target.angular_velocity = (std::signbit(target.angular_velocity) ? -1.0f : 1.0f) * param.max_angular_velocity;
-      }
-      if (std::abs(target.angle) > param.max_angle) {
-        target.angle = (std::signbit(target.angle) ? -1.0f : 1.0f) * param.max_angle;
+      if (std::abs(target.angular_velocity) > std::abs(target.max_angular_velocity)) {
+        target.angular_velocity = target.max_angular_velocity;
       }
     }
       [[fallthrough]];
 
     case MotionPattern::Straight:
       // 加速度から目標速度を生成
-      target.velocity += param.acceleration / 1000.0f;
+      target.velocity += target.acceleration / 1000.0f;
       // 制限
-      if (std::abs(target.velocity) > param.max_velocity) {
-        target.velocity = (std::signbit(target.velocity) ? -1.0f : 1.0f) * param.max_velocity;
+      if (std::abs(target.velocity) > std::abs(target.max_velocity)) {
+        target.velocity = target.max_velocity;
       }
       break;
 
     case MotionPattern::Stop:
+    case MotionPattern::Free:
       break;
   }
 }
@@ -147,13 +123,14 @@ bool Motion::adjustSideWall(const Sensed &sensed, const MotionParameter &param, 
 std::pair<float, float> Motion::calcMotorVoltage(const Sensed &sensed, const MotionParameter &param,
                                                  MotionTarget &target) {
   switch (param.pattern) {
-    case MotionPattern::Feedback:
+    case MotionPattern::Stop:
     case MotionPattern::Straight:
     case MotionPattern::Turn: {
       // https://rt-net.jp/mobility/archives/16525
       // 速度・角速度でPIDフィードバック
       auto velo = target.velocity + velo_pid_.update(target.velocity, sensed.velocity, 1.0f);
-      auto ang_velo = target.angular_velocity + ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
+      auto ang_velo =
+          target.angular_velocity + ang_velo_pid_.update(target.angular_velocity, sensed.angular_velocity, 1.0f);
       // 目標車輪角速度を算出
       auto omega_r = (velo * 1000.0f) / TIRE_RADIUS + (TREAD_WIDTH / TIRE_DIAMETER) * ang_velo;
       auto omega_l = (velo * 1000.0f) / TIRE_RADIUS - (TREAD_WIDTH / TIRE_DIAMETER) * ang_velo;
@@ -164,6 +141,7 @@ std::pair<float, float> Motion::calcMotorVoltage(const Sensed &sensed, const Mot
       return {e_r, e_l};
     }
 
+    case MotionPattern::Free:
     default:
       velo_pid_.reset();
       ang_velo_pid_.reset();
@@ -183,13 +161,13 @@ void Motion::update() {
   }
 
   // 走行パターンに応じて現在のパラメータを設定
-  if (setPatternParam(sensor_->getSensed(), param_, target_)) {
+  if (handle_notify_ != nullptr && setPatternParam(sensor_->getSensed(), param_, target_)) {
     // 完了通知
     xTaskNotifyGive(handle_notify_);
   }
 
   // 走行パターンに応じた目標速度生成
-  calcTargetVelocity(param_, target_);
+  calcTargetVelocity(param_.pattern, target_);
   // 横壁制御が出来る場合は目標角度生成
   if (param_.enable_side_wall_adjust) {
     adjustSideWall(sensor_->getSensed(), param_, target_);

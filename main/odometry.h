@@ -135,8 +135,8 @@ class Odometry {
  public:
   explicit Odometry(Driver *dri)
       : dri_(dri),
-        right_(dri_->encoder_right->resolution(), TIRE_DIAMETER, false),
-        left_(dri_->encoder_left->resolution(), TIRE_DIAMETER, true) {}
+        right_(dri_->encoder_right->resolution(), TIRE_DIAMETER, true),
+        left_(dri_->encoder_left->resolution(), TIRE_DIAMETER, false) {}
   ~Odometry() = default;
 
   /**
@@ -178,7 +178,7 @@ class Odometry {
 
     // 車体角加速度 [rad/s^2]
     auto &gyro = dri_->imu->angular_rate();
-    auto angular_velocity = -1.0f * gyro.z / 1000.0f * std::numbers::pi_v<float> / 180.0f;
+    auto angular_velocity = gyro.z / 1000.0f * std::numbers::pi_v<float> / 180.0f;
     // auto angular_velocity = (wheel_vel_.right - wheel_vel_.left) / TREAD_WIDTH;
     // 車体角速度 [rad/s]
     angular_acceleration_ = angular_velocity - angular_velocity_;

@@ -100,7 +100,7 @@ void printParam() {
   // ヘッダーを出力
   if (is_csv)
   {
-    printf("vbatt, vbatt_avg, velo, len, ang_velo, ang, x, y, r90, r45, l45, l90, tvelo, tang_velo, tang\n");
+    printf("vbatt, vbatt_avg, velo, len, ang_velo, ang, x, y, r90, r45, l45, l90, tvelo, tang_velo\n");
   }
 
   auto xLastWakeTime = xTaskGetTickCount();
@@ -123,7 +123,6 @@ void printParam() {
       printf("%d, ", sensed.wall_left90.raw);
       printf("%f, ", static_cast<double>(target.velocity));
       printf("%f, ", static_cast<double>(target.angular_velocity));
-      printf("%f\n", static_cast<double>(target.angle));
     } else {
       printf("\x1b[2J\x1b[0;0H");
       printf(" ----- Sensor Info ----- \n");
@@ -144,7 +143,6 @@ void printParam() {
       printf("----- Target ----- \n");
       printf("velo     : %f\n", static_cast<double>(target.velocity));
       printf("ang velo : %f\n", static_cast<double>(target.angular_velocity));
-      printf("angle    : %f\n", static_cast<double>(target.angle));
     }
   }
 }
@@ -156,7 +154,8 @@ void testStraight() {
   driver->indicator->set(0, 0x0F, 0x0F, 0);
   driver->indicator->update();
 
-  run->straight(90, ACCELERATION_DEFAULT, VELOCITY_DEFAULT, 0.0f);
+  run->straight(MotionDirection::Forward, 180, ACCELERATION_DEFAULT, VELOCITY_DEFAULT, 0.0f);
+  run->stop();
 }
 
 // テストターン
@@ -166,8 +165,10 @@ void testTurn() {
   driver->indicator->set(0, 0x0F, 0x0F, 0);
   driver->indicator->update();
 
-  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionTurnDirection::Left);
-  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionTurnDirection::Right);
+  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionDirection::Left);
+  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionDirection::Right);
+
+  run->stop();
 
   driver->indicator->clear();
   driver->indicator->update();
@@ -182,7 +183,7 @@ void testTurn() {
 
   // 走行パラメータ
   MotionParameter param{};
-  param.pattern = MotionPattern::Feedback;
+  param.pattern = MotionPattern::Stop;
   param.max_velocity = 0;
   param.acceleration = 0;
   param.max_angular_velocity = 0;

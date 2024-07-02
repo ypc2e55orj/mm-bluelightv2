@@ -15,46 +15,54 @@
 #include "sensor.h"
 
 // 走行パターン
-enum class MotionPattern { Stop, Straight, Turn, Feedback };
+enum class MotionPattern { Free, Stop, Straight, Turn };
 // 回転方向
-enum class MotionTurnDirection { Right, Left };
+enum class MotionDirection { Forward, Back, Right, Left };
 
-// 走行パラメータ
+// モーションタスクに与える走行パラメータ
 struct MotionParameter {
   // 走行パターン
   MotionPattern pattern;
-  // 回転方向
-  MotionTurnDirection direction;
-  // 最小速度 [m/s]
-  float min_velocity;
+  // 走行方向
+  MotionDirection direction;
+  // 加速度 [m/s^2]
+  float acceleration;
+  // 開始速度 [m/s]
+  float start_velocity;
   // 最大速度 [m/s]
   float max_velocity;
   // 終了速度 [m/s]
   float end_velocity;
   // 走行距離 [mm]
-  float max_length;
-  // 加速度 [m/s^2]
-  float acceleration;
-  // 最小角速度 [rad/s]
-  float min_angular_velocity;
-  // 最大角速度 [rad/s]
-  float max_angular_velocity;
+  float length;
   // 角加速度 [rad/s^2]
   float angular_acceleration;
+  // 開始角速度 [rad/s]
+  float start_angular_velocity;
+  // 最大角速度 [rad/s]
+  float max_angular_velocity;
+  // 終了角速度 [rad/s]
+  float end_angular_velocity;
   // 角度 [deg]
-  float max_angle;
+  float angle;
   // 横壁制御 有効/無効
   bool enable_side_wall_adjust;
 };
 
-// 目標値
+// モーションタスク内で生成されて返される値
 struct MotionTarget {
+  // 加速度 [m/s^2]
+  float acceleration;
   // 目標速度 [m/s]
   float velocity;
+  // 最大速度 [m/s]
+  float max_velocity;
+  // 各加速度 [rad/s^2]
+  float angular_acceleration;
   // 目標角速度 [rad/s]
   float angular_velocity;
-  // 目標角度 [deg]
-  float angle;
+  // 最大角速度 [rad/s]
+  float max_angular_velocity;
 };
 
 /**
@@ -109,14 +117,14 @@ class Motion {
                          WALL_ADJUST_SIDE_PID_GAIN[PARAMETER_PID_KD]};
 
   // 走行パターンに応じて現在のパラメータを設定
-  static bool setPatternParam(const Sensed &sensed, MotionParameter &param, MotionTarget &target);
+  static bool setPatternParam(const Sensed &sensed, const MotionParameter &param, MotionTarget &target);
   // 直線
-  static bool straight(const Sensed &sensed, MotionParameter &param, MotionTarget &target);
+  static bool straight(const Sensed &sensed, const MotionParameter &param, MotionTarget &target);
   // 旋回
-  static bool turn(const Sensed &sensed, MotionParameter &param, MotionTarget &target);
+  static bool turn(const Sensed &sensed, const MotionParameter &param, MotionTarget &target);
 
   // 目標値を計算する
-  static void calcTargetVelocity(MotionParameter &param, MotionTarget &target);
+  static void calcTargetVelocity(MotionPattern pattern, MotionTarget &target);
 
   // 横壁からの目標値を計算する
   bool adjustSideWall(const Sensed &sensed, const MotionParameter &param, MotionTarget &target);
