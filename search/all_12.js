@@ -12,12 +12,13 @@ var searchData=
   ['timestamp_5f_489',['timestamp_',['../classSensor.html#a963837775a9aa4f5af349c4264cf77cb',1,'Sensor']]],
   ['tire_5fdiameter_490',['TIRE_DIAMETER',['../parameters_8h.html#a8ebcdda281deda1dcba07fedadc52dfe',1,'parameters.h']]],
   ['tire_5fdiameter_5f_491',['tire_diameter_',['../classWheel.html#a2e2ae60e151d78ee5af66232568e731b',1,'Wheel']]],
-  ['to_5fvoltage_492',['to_voltage',['../classAdc.html#a392ec06a7ef34153c6aa0b5c874e7b6c',1,'Adc']]],
-  ['tone_493',['tone',['../classBuzzer.html#a97348e1956c1f55a5ec8557995e3ebcc',1,'Buzzer']]],
-  ['transaction_494',['transaction',['../classSpi.html#ade7f363df8128f984a04896748284790',1,'Spi::transaction()'],['../structSpi_1_1SpiDevice.html#a382fd454c4d2afabbf3c447cd69a2264',1,'Spi::SpiDevice::transaction()']]],
-  ['transmit_495',['transmit',['../classSpi.html#a91c0eeec99491ce1392baecdb8ec7495',1,'Spi']]],
-  ['tread_5fwidth_496',['TREAD_WIDTH',['../parameters_8h.html#a3d11cab74fbd5274331e71fc9cdadbed',1,'parameters.h']]],
-  ['turn_497',['turn',['../classRun.html#a63e2bbdb05fd38ba5a69438b1e1c7b7d',1,'Run::turn()'],['../classMotion.html#a0123b398e9d38a32bd7a7aad9eca58fd',1,'Motion::turn()']]],
-  ['turn_498',['Turn',['../motion_8h.html#a5f38dee91b10530cf4c67e1cddc66752a6b12be2513bab07567150f54467bc568',1,'motion.h']]],
-  ['tx_5fbuffer_5f_499',['tx_buffer_',['../classEncoder.html#a8c867c1b809bfab7f8fc72f2f674d017',1,'Encoder::tx_buffer_()'],['../classImu.html#a657f1abf07fbe1dec5e24c06f02103ae',1,'Imu::tx_buffer_()']]]
+  ['tire_5fradius_492',['TIRE_RADIUS',['../parameters_8h.html#a105b02056f30607dc38111c500a39733',1,'parameters.h']]],
+  ['to_5fvoltage_493',['to_voltage',['../classAdc.html#a392ec06a7ef34153c6aa0b5c874e7b6c',1,'Adc']]],
+  ['tone_494',['tone',['../classBuzzer.html#a97348e1956c1f55a5ec8557995e3ebcc',1,'Buzzer']]],
+  ['transaction_495',['transaction',['../structSpi_1_1SpiDevice.html#a382fd454c4d2afabbf3c447cd69a2264',1,'Spi::SpiDevice::transaction()'],['../classSpi.html#ade7f363df8128f984a04896748284790',1,'Spi::transaction(int index)']]],
+  ['transmit_496',['transmit',['../classSpi.html#a91c0eeec99491ce1392baecdb8ec7495',1,'Spi']]],
+  ['tread_5fwidth_497',['TREAD_WIDTH',['../parameters_8h.html#a3d11cab74fbd5274331e71fc9cdadbed',1,'parameters.h']]],
+  ['turn_498',['turn',['../classRun.html#a63e2bbdb05fd38ba5a69438b1e1c7b7d',1,'Run::turn()'],['../classMotion.html#a0123b398e9d38a32bd7a7aad9eca58fd',1,'Motion::turn()']]],
+  ['turn_499',['Turn',['../motion_8h.html#a5f38dee91b10530cf4c67e1cddc66752a6b12be2513bab07567150f54467bc568',1,'motion.h']]],
+  ['tx_5fbuffer_5f_500',['tx_buffer_',['../classImu.html#a657f1abf07fbe1dec5e24c06f02103ae',1,'Imu::tx_buffer_()'],['../classEncoder.html#a8c867c1b809bfab7f8fc72f2f674d017',1,'Encoder::tx_buffer_()']]]
 ];
