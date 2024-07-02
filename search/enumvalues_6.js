@@ -1,5 +1,4 @@
 var searchData=
 [
-  ['stop_1177',['Stop',['../motion_8h.html#a5f38dee91b10530cf4c67e1cddc66752a11a755d598c0c417f9a36758c3da7481',1,'motion.h']]],
-  ['straight_1178',['Straight',['../motion_8h.html#a5f38dee91b10530cf4c67e1cddc66752ab6bd418b8879851e86bcaccd553b74db',1,'motion.h']]]
+  ['right_1181',['Right',['../motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a92b09c7c48c520c3c55e497875da437c',1,'motion.h']]]
 ];
