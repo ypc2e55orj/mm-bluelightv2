@@ -31,7 +31,7 @@ class Pid {
     // 積分値は台形近似
     // https://controlabo.com/pid-program/
     auto error = target - current;
-    sum_error_ = (error + prev_error_) * t / 2.0f;
+    sum_error_ += (error + prev_error_) * t / 2.0f;
     auto ret = gain_kp_ * error + gain_ki_ * sum_error_ + gain_kd_ * (error - prev_error_) / t;
     prev_error_ = error;
 

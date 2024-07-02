@@ -182,7 +182,7 @@ void testTurn() {
 
   // 走行パラメータ
   MotionParameter param{};
-  param.pattern = MotionPattern::Feedback;
+  param.pattern = MotionPattern::Turn;
   param.max_velocity = 0;
   param.acceleration = 0;
   param.max_angular_velocity = 0;
