@@ -62,8 +62,8 @@ class Wheel {
     }
 
     auto angular_velocity = calculate_angular_velocity(current, delta_us);
-    angular_acceleration_ = (angular_velocity - angular_acceleration_) / static_cast<float>(delta_us) * 1000'000.0f;
-    velocity_ = angular_velocity * (tire_diameter_ / 2.0f);
+    auto current_velocity = angular_velocity * (tire_diameter_ / 2.0f);
+    velocity_ = (current_velocity + velocity_) / 2.0f;
     angular_velocity_ = angular_velocity;
     previous_ = current;
   }
@@ -74,12 +74,10 @@ class Wheel {
   void reset() {
     reset_ = true;
     angular_velocity_ = 0.0f;
-    angular_acceleration_ = 0.0f;
     velocity_ = 0.0f;
   }
 
   [[nodiscard]] float angular_velocity() const { return angular_velocity_; }
-  [[nodiscard]] float angular_acceleration() const { return angular_acceleration_; }
   [[nodiscard]] float velocity() const { return velocity_; }
 
  private:
@@ -103,9 +101,6 @@ class Wheel {
 
   //! 一つ前の観測角度
   uint16_t previous_{0};
-
-  //! 車輪の角加速度 [rad/s^2]
-  float angular_acceleration_{0.0f};
 
   //! 車輪の角速度 [rad/s]
   float angular_velocity_{0.0f};
@@ -132,7 +127,7 @@ class Wheel {
     // 角度に変換
     auto angle = static_cast<float>(delta) * angle_per_resolution_;
     // 1msでの変化量に換算する
-    return (angle / static_cast<float>(delta_us)) * 1000'000.0f;
+    return angle * (1000'000.0f / static_cast<float>(delta_us));
   }
 };
 
@@ -140,8 +135,8 @@ class Odometry {
  public:
   explicit Odometry(Driver *dri)
       : dri_(dri),
-        right_(dri_->encoder_right->resolution(), TIRE_DIAMETER, true),
-        left_(dri_->encoder_left->resolution(), TIRE_DIAMETER, false) {}
+        right_(dri_->encoder_right->resolution(), TIRE_DIAMETER, false),
+        left_(dri_->encoder_left->resolution(), TIRE_DIAMETER, true) {}
   ~Odometry() = default;
 
   /**
@@ -169,9 +164,7 @@ class Odometry {
     left_.update(dri_->encoder_left->raw(), delta_us);
 
     wheel_ang_vel_.right = right_.angular_velocity();
-    wheel_ang_accel_.right = right_.angular_acceleration();
     wheel_ang_vel_.left = left_.angular_velocity();
-    wheel_ang_accel_.left = left_.angular_acceleration();
 
     // 車体加速度[mm/s^2]
     auto &accel = dri_->imu->linear_acceleration();
@@ -185,12 +178,10 @@ class Odometry {
 
     // 車体角加速度 [rad/s^2]
     auto &gyro = dri_->imu->angular_rate();
-    auto angular_velocity = gyro.z / 1000.0f * std::numbers::pi_v<float> / 180.0f;
-    angular_acceleration_ = angular_velocity - angular_velocity_;
+    auto angular_velocity = -1.0f * gyro.z / 1000.0f * std::numbers::pi_v<float> / 180.0f;
+    // auto angular_velocity = (wheel_vel_.right - wheel_vel_.left) / TREAD_WIDTH;
     // 車体角速度 [rad/s]
-    /*
-    angular_velocity_ = (wheel_vel_.right - wheel_vel_.left) / wheel_track_width_;
-    */
+    angular_acceleration_ = angular_velocity - angular_velocity_;
     angular_velocity_ = angular_velocity;
     // 車体角度 [rad]
     auto angle = angle_ + angular_velocity_ / 1000.0f;
@@ -212,7 +203,6 @@ class Odometry {
     angle_ = angle;
   }
 
-  const WheelsPair &wheels_angular_acceleration() { return wheel_ang_accel_; }
   const WheelsPair &wheels_angular_velocity() { return wheel_ang_vel_; }
   const WheelsPair &wheels_velocity() { return wheel_vel_; }
   [[nodiscard]] float acceleration() const { return acceleration_; }

@@ -111,8 +111,8 @@ class Motor {
   void speed(int motor_voltage, int battery_voltage) {
     motor_voltage_ = motor_voltage;
     auto duty = static_cast<float>(motor_voltage) / static_cast<float>(battery_voltage);
-    mcpwm_generator_set_force_level(generator_.a, duty < 0.0f ? 0 : -1, true);
-    mcpwm_generator_set_force_level(generator_.b, duty < 0.0f ? -1 : 0, true);
+    mcpwm_generator_set_force_level(generator_.a, duty < 0.0f ? -1 : 0, true);
+    mcpwm_generator_set_force_level(generator_.b, duty < 0.0f ? 0 : -1, true);
     auto duty_ticks = static_cast<uint32_t>(MCPWM_TIMER_PERIOD_TICKS * std::abs(duty));
     mcpwm_comparator_set_compare_value(comparator_.a, duty_ticks);
     mcpwm_comparator_set_compare_value(comparator_.b, duty_ticks);
