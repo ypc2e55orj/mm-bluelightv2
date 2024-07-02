@@ -1,9 +1,9 @@
 <map id="Sensor" name="Sensor">
-<area shape="rect" id="node1" title=" " alt="" coords="183,872,349,1052"/>
-<area shape="rect" id="node2" href="$structDriver.html" title=" " alt="" coords="5,27,132,295"/>
-<area shape="rect" id="node5" href="$classOdometry.html" title=" " alt="" coords="148,424,384,809"/>
-<area shape="rect" id="node3" href="$structSensed.html" title=" " alt="" coords="446,527,646,707"/>
-<area shape="rect" id="node4" href="$structSensed_1_1Wall.html" title=" " alt="" coords="531,108,636,215"/>
-<area shape="rect" id="node6" href="$classWheel.html" title="車輪から得られる車体情報を管理する" alt="" coords="156,5,371,317"/>
-<area shape="rect" id="node7" href="$structWheelsPair.html" title="マウスの自己位置を推定する。 速度はエンコーダーから算出。 加速度はIMUから取得。 角速度はIMUから取得。 角加速度はIMUから算出。" alt="" coords="395,115,489,207"/>
+<area shape="rect" id="node1" title=" " alt="" coords="180,828,347,1008"/>
+<area shape="rect" id="node2" href="$structDriver.html" title=" " alt="" coords="5,13,132,281"/>
+<area shape="rect" id="node5" href="$classOdometry.html" title=" " alt="" coords="159,395,367,765"/>
+<area shape="rect" id="node3" href="$structSensed.html" title=" " alt="" coords="438,490,638,670"/>
+<area shape="rect" id="node4" href="$structSensed_1_1Wall.html" title=" " alt="" coords="531,93,636,200"/>
+<area shape="rect" id="node6" href="$classWheel.html" title="車輪から得られる車体情報を管理する" alt="" coords="156,5,371,288"/>
+<area shape="rect" id="node7" href="$structWheelsPair.html" title="マウスの自己位置を推定する。 速度はエンコーダーから算出。 加速度はIMUから取得。 角速度はIMUから取得。 角加速度はIMUから算出。" alt="" coords="395,101,489,193"/>
 </map>

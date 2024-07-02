@@ -1,10 +1,9 @@
 <map id="Odometry::update" name="Odometry::update">
-<area shape="rect" id="node1" title="車体情報を更新する" alt="" coords="5,132,144,159"/>
-<area shape="rect" id="node2" href="$classOdometry.html#acd1526e0ff6f61c8b961f5a6326d922a" title=" " alt="" coords="230,5,361,32"/>
-<area shape="rect" id="node3" href="$classWheel.html#a31bee039077715cfad24364af382705e" title=" " alt="" coords="192,56,399,83"/>
-<area shape="rect" id="node4" href="$classWheel.html#a26691fa0864644a28da3ada15235316f" title=" " alt="" coords="451,128,629,155"/>
-<area shape="rect" id="node5" href="$classOdometry.html#ad0d4f9cee0bfce3f559fc29ae23e5a4f" title=" " alt="" coords="194,157,397,184"/>
-<area shape="rect" id="node6" href="$classWheel.html#a01f27620027ad99390c459facb44839c" title="車輪情報を更新する" alt="" coords="237,208,353,235"/>
-<area shape="rect" id="node8" href="$classWheel.html#a70e9a16102aa88e8e74b31a75ac7e363" title=" " alt="" coords="234,259,357,285"/>
-<area shape="rect" id="node7" href="$classWheel.html#afdbc3dfe7e241ac0ce5f977d22794a24" title="車輪エンコーダーの更新周期の差分を計算し角速度に変換する。" alt="" coords="447,201,633,242"/>
+<area shape="rect" id="node1" title="車体情報を更新する" alt="" coords="5,107,144,133"/>
+<area shape="rect" id="node2" href="$classOdometry.html#acd1526e0ff6f61c8b961f5a6326d922a" title=" " alt="" coords="228,5,359,32"/>
+<area shape="rect" id="node3" href="$classWheel.html#a26691fa0864644a28da3ada15235316f" title=" " alt="" coords="447,77,625,104"/>
+<area shape="rect" id="node4" href="$classOdometry.html#ad0d4f9cee0bfce3f559fc29ae23e5a4f" title=" " alt="" coords="192,107,395,133"/>
+<area shape="rect" id="node5" href="$classWheel.html#a01f27620027ad99390c459facb44839c" title="車輪情報を更新する" alt="" coords="235,157,351,184"/>
+<area shape="rect" id="node7" href="$classWheel.html#a70e9a16102aa88e8e74b31a75ac7e363" title=" " alt="" coords="232,208,355,235"/>
+<area shape="rect" id="node6" href="$classWheel.html#afdbc3dfe7e241ac0ce5f977d22794a24" title="車輪エンコーダーの更新周期の差分を計算し角速度に変換する。" alt="" coords="443,150,629,191"/>
 </map>

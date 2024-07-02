@@ -80,7 +80,7 @@ Collaboration diagram for Wheel:</div>
 <div class="dyncontent">
 <div class="center"><img src="classWheel__coll__graph.png" border="0" usemap="#aWheel_coll__map" alt="Collaboration graph"/></div>
 <map name="aWheel_coll__map" id="aWheel_coll__map">
-<area shape="rect" title="車輪から得られる車体情報を管理する" alt="" coords="5,5,220,317"/>
+<area shape="rect" title="車輪から得られる車体情報を管理する" alt="" coords="5,5,220,288"/>
 </map>
 </div>
 <table class="memberdecls">
@@ -98,8 +98,6 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a822b07a6c99cdd151bd8c03d580c7683"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a26691fa0864644a28da3ada15235316f"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a26691fa0864644a28da3ada15235316f">angular_velocity</a> () const</td></tr>
 <tr class="separator:a26691fa0864644a28da3ada15235316f"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a31bee039077715cfad24364af382705e"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a31bee039077715cfad24364af382705e">angular_acceleration</a> () const</td></tr>
-<tr class="separator:a31bee039077715cfad24364af382705e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a70e9a16102aa88e8e74b31a75ac7e363"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a70e9a16102aa88e8e74b31a75ac7e363">velocity</a> () const</td></tr>
 <tr class="separator:a70e9a16102aa88e8e74b31a75ac7e363"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
@@ -132,9 +130,6 @@ Private Attributes</h2></td></tr>
 <tr class="memitem:a034b4ff3b775fdd7a99ac2c5224a68ef"><td class="memItemLeft" align="right" valign="top">uint16_t&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a034b4ff3b775fdd7a99ac2c5224a68ef">previous_</a> {0}</td></tr>
 <tr class="memdesc:a034b4ff3b775fdd7a99ac2c5224a68ef"><td class="mdescLeft">&#160;</td><td class="mdescRight">一つ前の観測角度  <a href="classWheel.html#a034b4ff3b775fdd7a99ac2c5224a68ef">More...</a><br /></td></tr>
 <tr class="separator:a034b4ff3b775fdd7a99ac2c5224a68ef"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a22e4a51ac1d57bee29fe696d8451be5a"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a22e4a51ac1d57bee29fe696d8451be5a">angular_acceleration_</a> {0.0f}</td></tr>
-<tr class="memdesc:a22e4a51ac1d57bee29fe696d8451be5a"><td class="mdescLeft">&#160;</td><td class="mdescRight">車輪の角加速度 [rad/s^2]  <a href="classWheel.html#a22e4a51ac1d57bee29fe696d8451be5a">More...</a><br /></td></tr>
-<tr class="separator:a22e4a51ac1d57bee29fe696d8451be5a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a59dd2909e64812726a58db3643d01562"><td class="memItemLeft" align="right" valign="top">float&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="classWheel.html#a59dd2909e64812726a58db3643d01562">angular_velocity_</a> {0.0f}</td></tr>
 <tr class="memdesc:a59dd2909e64812726a58db3643d01562"><td class="mdescLeft">&#160;</td><td class="mdescRight">車輪の角速度 [rad/s]  <a href="classWheel.html#a59dd2909e64812726a58db3643d01562">More...</a><br /></td></tr>
 <tr class="separator:a59dd2909e64812726a58db3643d01562"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -225,48 +220,6 @@ Private Attributes</h2></td></tr>
 </div>
 </div>
 <h2 class="groupheader">Member Function Documentation</h2>
-<a id="a31bee039077715cfad24364af382705e"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a31bee039077715cfad24364af382705e">&#9670;&nbsp;</a></span>angular_acceleration()</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float Wheel::angular_acceleration </td>
-          <td>(</td>
-          <td class="paramname"></td><td>)</td>
-          <td> const</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">inline</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00082">82</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00165">Odometry::update()</a>.</p>
-<div class="dynheader">
-Here is the caller graph for this function:</div>
-<div class="dyncontent">
-<div class="center"><img src="classWheel_a31bee039077715cfad24364af382705e_icgraph.png" border="0" usemap="#aclassWheel_a31bee039077715cfad24364af382705e_icgraph" alt=""/></div>
-<map name="aclassWheel_a31bee039077715cfad24364af382705e_icgraph" id="aclassWheel_a31bee039077715cfad24364af382705e_icgraph">
-<area shape="rect" title=" " alt="" coords="772,5,979,32"/>
-<area shape="rect" href="classOdometry.html#a553bda3309e401e783f6173847ae1461" title="車体情報を更新する" alt="" coords="585,5,724,32"/>
-<area shape="rect" href="classSensor.html#a542a721041768395de2c6e9012622113" title=" " alt="" coords="419,5,537,32"/>
-<area shape="rect" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7" title=" " alt="" coords="140,5,212,32"/>
-<area shape="rect" href="classSensor.html#afbfea94b9f0bf7722e9bfd38ef5ccf0b" title=" " alt="" coords="260,31,371,57"/>
-<area shape="rect" href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,5,92,32"/>
-</map>
-</div>
-
-</div>
-</div>
 <a id="a26691fa0864644a28da3ada15235316f"></a>
 <h2 class="memtitle"><span class="permalink"><a href="#a26691fa0864644a28da3ada15235316f">&#9670;&nbsp;</a></span>angular_velocity()</h2>
 
@@ -290,9 +243,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00081">81</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00080">80</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00054">update()</a>, and <a class="el" href="odometry_8h_source.html#l00165">Odometry::update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00054">update()</a>, and <a class="el" href="odometry_8h_source.html#l00160">Odometry::update()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -354,7 +307,7 @@ Here is the caller graph for this function:</div>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>車輪の角速度 [rad/s] </dd></dl>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00122">122</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00117">117</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 <div class="dynheader">
@@ -401,7 +354,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00074">74</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00150">Odometry::reset()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00145">Odometry::reset()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -464,7 +417,7 @@ Here is the caller graph for this function:</div>
 
 <p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00054">54</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00165">Odometry::update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00160">Odometry::update()</a>.</p>
 <div class="dynheader">
 Here is the call graph for this function:</div>
 <div class="dyncontent">
@@ -514,9 +467,9 @@ Here is the caller graph for this function:</div>
 </table>
 </div><div class="memdoc">
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00083">83</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00081">81</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00165">Odometry::update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00160">Odometry::update()</a>.</p>
 <div class="dynheader">
 Here is the caller graph for this function:</div>
 <div class="dyncontent">
@@ -556,37 +509,9 @@ Here is the caller graph for this function:</div>
 
 <p>分解能あたりの角度 [rad] </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00102">102</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00100">100</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00122">calculate_angular_velocity()</a>.</p>
-
-</div>
-</div>
-<a id="a22e4a51ac1d57bee29fe696d8451be5a"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a22e4a51ac1d57bee29fe696d8451be5a">&#9670;&nbsp;</a></span>angular_acceleration_</h2>
-
-<div class="memitem">
-<div class="memproto">
-<table class="mlabels">
-  <tr>
-  <td class="mlabels-left">
-      <table class="memname">
-        <tr>
-          <td class="memname">float Wheel::angular_acceleration_ {0.0f}</td>
-        </tr>
-      </table>
-  </td>
-  <td class="mlabels-right">
-<span class="mlabels"><span class="mlabel">private</span></span>  </td>
-  </tr>
-</table>
-</div><div class="memdoc">
-
-<p>車輪の角加速度 [rad/s^2] </p>
-
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00108">108</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
-
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00082">angular_acceleration()</a>, <a class="el" href="odometry_8h_source.html#l00074">reset()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00117">calculate_angular_velocity()</a>.</p>
 
 </div>
 </div>
@@ -612,9 +537,9 @@ Here is the caller graph for this function:</div>
 
 <p>車輪の角速度 [rad/s] </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00111">111</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00106">106</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00081">angular_velocity()</a>, <a class="el" href="odometry_8h_source.html#l00074">reset()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00080">angular_velocity()</a>, <a class="el" href="odometry_8h_source.html#l00074">reset()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 
 </div>
 </div>
@@ -640,7 +565,7 @@ Here is the caller graph for this function:</div>
 
 <p>エンコーダーの回転方向を反転するか </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00090">90</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00088">88</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 
@@ -668,9 +593,9 @@ Here is the caller graph for this function:</div>
 
 <p>一つ前の観測角度 </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00105">105</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00103">103</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00122">calculate_angular_velocity()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00117">calculate_angular_velocity()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 
 </div>
 </div>
@@ -696,7 +621,7 @@ Here is the caller graph for this function:</div>
 
 <p>初期化後かどうか </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00093">93</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00091">91</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00074">reset()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 
@@ -724,9 +649,9 @@ Here is the caller graph for this function:</div>
 
 <p>エンコーダーの分解能 </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00096">96</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00094">94</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00122">calculate_angular_velocity()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00117">calculate_angular_velocity()</a>, and <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 
 </div>
 </div>
@@ -752,9 +677,9 @@ Here is the caller graph for this function:</div>
 
 <p>エンコーダーの分解能の半分 </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00099">99</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00097">97</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00122">calculate_angular_velocity()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00117">calculate_angular_velocity()</a>.</p>
 
 </div>
 </div>
@@ -780,7 +705,7 @@ Here is the caller graph for this function:</div>
 
 <p>車輪の直径 [mm] </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00087">87</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00085">85</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
 <p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00054">update()</a>.</p>
 
@@ -808,9 +733,9 @@ Here is the caller graph for this function:</div>
 
 <p>車輪位置の移動速度 [mm/s] </p>
 
-<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00114">114</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
+<p class="definition">Definition at line <a class="el" href="odometry_8h_source.html#l00109">109</a> of file <a class="el" href="odometry_8h_source.html">odometry.h</a>.</p>
 
-<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00074">reset()</a>, <a class="el" href="odometry_8h_source.html#l00054">update()</a>, and <a class="el" href="odometry_8h_source.html#l00083">velocity()</a>.</p>
+<p class="reference">Referenced by <a class="el" href="odometry_8h_source.html#l00074">reset()</a>, <a class="el" href="odometry_8h_source.html#l00054">update()</a>, and <a class="el" href="odometry_8h_source.html#l00081">velocity()</a>.</p>
 
 </div>
 </div>
