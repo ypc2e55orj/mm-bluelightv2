@@ -97,9 +97,11 @@ void printParam() {
   driver->indicator->set(0, 0x0F, 0, 0);
   driver->indicator->update();
 
+  // 画面クリア
+  printf("\x1b[2J");
+
   // ヘッダーを出力
-  if (is_csv)
-  {
+  if (is_csv) {
     printf("vbatt, vbatt_avg, velo, len, ang_velo, ang, x, y, r90, r45, l45, l90, tvelo, tang_velo\n");
   }
 
@@ -123,55 +125,60 @@ void printParam() {
       printf("%d, ", sensed.wall_left90.raw);
       printf("%f, ", static_cast<double>(target.velocity));
       printf("%f, ", static_cast<double>(target.angular_velocity));
+      printf("\n");
     } else {
-      printf("\x1b[2J\x1b[0;0H");
+      printf("\x1b[0;0H");
       printf(" ----- Sensor Info ----- \n");
-      printf("bat_vol    : %d\n", sensed.battery_voltage);
-      printf("bat_vol_avg: %d\n", sensed.battery_voltage_average);
-      printf("velo    : %f\n", static_cast<double>(sensed.velocity));
-      printf("length  : %f\n", static_cast<double>(sensed.length));
-      printf("ang_velo: %f\n", static_cast<double>(sensed.angular_velocity));
-      printf("angle   : %f\n", static_cast<double>(sensed.angle));
-      printf("x: %f\n", static_cast<double>(sensed.x));
-      printf("y: %f\n", static_cast<double>(sensed.y));
+      printf("bat_vol    : %-30d\n", sensed.battery_voltage);
+      printf("bat_vol_avg: %-30d\n", sensed.battery_voltage_average);
+      printf("velo    : %-30f\n", static_cast<double>(sensed.velocity));
+      printf("length  : %-30f\n", static_cast<double>(sensed.length));
+      printf("ang_velo: %-30f\n", static_cast<double>(sensed.angular_velocity));
+      printf("angle   : %-30f\n", static_cast<double>(sensed.angle));
+      printf("x: %-30f\n", static_cast<double>(sensed.x));
+      printf("y: %-30f\n", static_cast<double>(sensed.y));
 
-      printf("right90: %d\n", sensed.wall_right90.raw);
-      printf("right45: %d\n", sensed.wall_right45.raw);
-      printf("left45 : %d\n", sensed.wall_left45.raw);
-      printf("left90 : %d\n", sensed.wall_left90.raw);
+      printf("right90: %-30d\n", sensed.wall_right90.raw);
+      printf("right45: %-30d\n", sensed.wall_right45.raw);
+      printf("left45 : %-30d\n", sensed.wall_left45.raw);
+      printf("left90 : %-30d\n", sensed.wall_left90.raw);
 
       printf("----- Target ----- \n");
-      printf("velo     : %f\n", static_cast<double>(target.velocity));
-      printf("ang velo : %f\n", static_cast<double>(target.angular_velocity));
+      printf("velo     : %-30f\n", static_cast<double>(target.velocity));
+      printf("ang velo : %-30f\n", static_cast<double>(target.angular_velocity));
     }
   }
 }
 
 // テスト直線
 void testStraight() {
-  // 動作テストモードを示す
   driver->indicator->clear();
   driver->indicator->set(0, 0x0F, 0x0F, 0);
   driver->indicator->update();
 
   run->straight(MotionDirection::Forward, 180, ACCELERATION_DEFAULT, VELOCITY_DEFAULT, 0.0f);
+  run->wait();
   run->stop();
 }
 
 // テストターン
-void testTurn() {
-  // 動作テストモードを示す
+void testRightTurn() {
+  driver->indicator->clear();
+  driver->indicator->set(0, 0x0F, 0x0F, 0);
+  driver->indicator->update();
+
+  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionDirection::Right);
+  run->wait();
+  run->stop();
+}
+void testLeftTurn() {
   driver->indicator->clear();
   driver->indicator->set(0, 0x0F, 0x0F, 0);
   driver->indicator->update();
 
   run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionDirection::Left);
-  run->turn(90, ANGULAR_ACCELERATION_DEFAULT, ANGULAR_VELOCITY_DEFAULT, MotionDirection::Right);
-
+  run->wait();
   run->stop();
-
-  driver->indicator->clear();
-  driver->indicator->update();
 }
 
 // テスト宴会芸
@@ -198,12 +205,11 @@ void testTurn() {
  */
 [[noreturn]] void appTask(void *) {
   driver->init_app();
-  vTaskDelay(pdMS_TO_TICKS(1000));
-
   driver->indicator->enable();
   driver->buzzer->enable();
-
   driver->buzzer->tone(C5, 100);
+
+  printf("mm-bluelight is started!\n");
 
   auto xLastWakeTime = xTaskGetTickCount();
   while (true) {
@@ -215,7 +221,7 @@ void testTurn() {
         break;
 
       case 0x01:
-        printSensor(true);
+        printSensor(false);
         break;
 
       case 0x02:
@@ -223,14 +229,17 @@ void testTurn() {
         break;
 
       case 0x03:
-        testTurn();
+        testRightTurn();
         break;
 
       case 0x04:
-        testEnkaigei();
+        testLeftTurn();
         break;
 
       case 0x05:
+        testEnkaigei();
+        break;
+
       case 0x06:
       case 0x07:
       case 0x08:
@@ -276,7 +285,7 @@ extern "C" void app_main(void) {
   driver = new Driver();
   sensor = new Sensor(driver);
   motion = new Motion(driver, sensor);
-  run = new Run(motion);
+  run = new Run(sensor, motion);
   xTaskCreatePinnedToCore(proTask, "proTask", 8192, nullptr, 20, nullptr, 0);
   xTaskCreatePinnedToCore(appTask, "appTask", 8192, nullptr, 20, nullptr, 1);
 }

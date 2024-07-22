@@ -4,6 +4,7 @@
 #include <array>
 #include <cstdint>
 #include <cstdio>
+#include <ostream>
 #include <queue>
 
 // Project
@@ -118,10 +119,14 @@ class Map {
   // 次に進む方向を取得する
   Direction getNextDir();
 
-  // 迷路を標準出力する
-  void print();
+  // 迷路をストリームに出力する
+  friend std::ostream &operator<<(std::ostream &os, const Map &map);
 
  private:
+  // 出力フォーマット
+  static constexpr auto MAZE_VERT_INDEX_PADDING = "    ";
+  static constexpr auto MAZE_HORIZ_INDEX_PADDING = "    ";
+
   // 歩数を保持する2次元配列
   std::array<std::array<uint8_t, MAZE_SIZE_X>, MAZE_SIZE_Y> steps_;
   // 壁の有無、訪問済みかを保持する2次元配列
@@ -167,9 +172,9 @@ class Map {
     return priority;
   }
 
-  // 自身の向きを標準出力する
-  static void printPos(Direction dir);
+  // 自身の向きをストリームに出力する
+  static void outputPos(std::ostream &os, Direction dir);
 
-  // 壁を標準出力する
-  static void printWall(Direction dir, Walls walls);
+  // 壁をストリームに出力する
+  static void outputWall(std::ostream &os, Direction dir, Walls walls);
 };

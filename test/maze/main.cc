@@ -1,19 +1,21 @@
 #include <unistd.h>
 
+#include <iostream>
+
 #include "../../main/map.h"
 #include "data/16MM2020H_student.inc"
 
 #define DELAY_MS 100
 
-int main(int argc, char **argv) {
+int main() {
   const auto mazeData = _16MM2020H_student_maze;
-  int goal_x[MAZE_GOAL_SIZE_X] = {3, 4}, goal_y[MAZE_GOAL_SIZE_Y] = {3, 4};
+  int goal_x[MAZE_GOAL_SIZE] = {3, 4}, goal_y[MAZE_GOAL_SIZE] = {3, 4};
+
   Map map(goal_x, goal_y);
+  Map::Walls walls;
 
   // 自己位置を原点に設定
   map.setPos(0, 0);
-
-  Map::Walls walls;
   // 探索走行
   while (!map.inGoal(goal_x, goal_y)) {
     // 壁設定
@@ -21,8 +23,7 @@ int main(int argc, char **argv) {
     // 壁を設定
     map.setWall(map.getPos().x, map.getPos().y, walls);
     // 出力
-    printf("\x1b[0;0H");
-    map.print();
+    std::cout << "\x1b[0;0H" << map;
     usleep(1000 * DELAY_MS);
     // 歩数マップを更新
     map.initStepsToGoal(goal_x, goal_y);
@@ -37,8 +38,7 @@ int main(int argc, char **argv) {
     // 壁を設定
     map.setWall(map.getPos().x, map.getPos().y, walls);
     // 出力
-    printf("\x1b[0;0H");
-    map.print();
+    std::cout << "\x1b[0;0H" << map;
     usleep(1000 * DELAY_MS);
     // 歩数マップを更新
     map.initStepsToStart();
@@ -50,8 +50,7 @@ int main(int argc, char **argv) {
   // 最短走行
   while (!map.inGoal(goal_x, goal_y)) {
     // 出力
-    printf("\x1b[0;0H");
-    map.print();
+    std::cout << "\x1b[0;0H" << map;
     usleep(1000 * DELAY_MS);
     // 歩数マップを更新
     map.initStepsToGoal(goal_x, goal_y);

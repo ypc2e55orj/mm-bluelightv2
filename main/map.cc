@@ -1,5 +1,8 @@
 #include "map.h"
 
+// C++
+#include <iomanip>
+
 // コンストラクタ
 Map::Map(const int (&goal_xs)[MAZE_GOAL_SIZE], const int (&goal_ys)[MAZE_GOAL_SIZE])
     : steps_(), walls_(), dir_(), pos_() {
@@ -221,28 +224,28 @@ Map::Direction Map::getNextDir() {
   return dir;
 }
 
-// 自身の向きを標準出力する
-void Map::printPos(Map::Direction dir) {
-  printf("\x1b[34m");
+// 自身の向きをストリームに出力する
+void Map::outputPos(std::ostream &os, Map::Direction dir) {
+  os << "\x1b[34m";
   switch (dir) {
     case DIRECTION_NORTH:
-      printf(" ^ ");
+      os << " ^ ";
       break;
     case DIRECTION_EAST:
-      printf(" > ");
+      os << " > ";
       break;
     case DIRECTION_SOUTH:
-      printf(" v ");
+      os << " v ";
       break;
     case DIRECTION_WEST:
-      printf(" < ");
+      os << " < ";
       break;
   }
-  printf("\x1b[0m");
+  os << "\x1b[0m";
 }
 
-// 壁を標準出力する
-void Map::printWall(Map::Direction dir, Map::Walls walls) {
+// 壁をストリームに出力する
+void Map::outputWall(std::ostream &os, Map::Direction dir, Map::Walls walls) {
   bool is_exist = (walls.byte.exist & (1 << dir)) != 0x00;
   bool is_stepped = (walls.byte.stepped & (1 << dir)) != 0x00;
   switch (dir) {
@@ -251,14 +254,14 @@ void Map::printWall(Map::Direction dir, Map::Walls walls) {
       if (is_stepped) {
         if (is_exist) {
           // 壁あり
-          printf("+%s---%s", WALL_COLOR_EXISTS, WALL_COLOR_RESET);
+          os << "+" << WALL_COLOR_EXISTS << "---" << WALL_COLOR_RESET << "+";
         } else {
           // 壁なし
-          printf("+%s   %s", WALL_COLOR_NOT_EXISTS, WALL_COLOR_RESET);
+          os << "+" << WALL_COLOR_NOT_EXISTS << "   " << WALL_COLOR_RESET << "+";
         }
       } else {
         // 不明
-        printf("+%s---%s", WALL_COLOR_UNKNOWN, WALL_COLOR_RESET);
+        os << "+" << WALL_COLOR_UNKNOWN << "   " << WALL_COLOR_RESET << "+";
       }
       break;
 
@@ -267,63 +270,60 @@ void Map::printWall(Map::Direction dir, Map::Walls walls) {
       if (is_stepped) {
         if (is_exist) {
           // 壁あり
-          printf("%s|%s", WALL_COLOR_EXISTS, WALL_COLOR_RESET);
+          os << WALL_COLOR_EXISTS << "|" << WALL_COLOR_RESET;
         } else {
           // 壁なし
-          printf("%s %s", WALL_COLOR_NOT_EXISTS, WALL_COLOR_RESET);
+          os << WALL_COLOR_NOT_EXISTS << " " << WALL_COLOR_RESET;
         }
       } else {
         // 不明
-        printf("%s|%s", WALL_COLOR_UNKNOWN, WALL_COLOR_RESET);
+        os << WALL_COLOR_UNKNOWN << "|" << WALL_COLOR_RESET;
       }
       break;
   }
 }
 
-// 迷路を標準出力する
-void Map::print() {
-  static constexpr auto MAZE_VERT_INDEX_PADDING = "    ";
-  static constexpr auto MAZE_VERT_INDEX_FORMAT = " %2d ";
-  static constexpr auto MAZE_HORIZ_INDEX_PADDING = "    ";
-  static constexpr auto MAZE_HORIZ_INDEX_FORMAT = " %2d ";
-
+// 迷路をストリームに出力する
+std::ostream &operator<<(std::ostream &os, const Map &map) {
   for (auto y = MAZE_SIZE_Y - 1; y > -1; y--) {
-    printf("%s", MAZE_VERT_INDEX_PADDING);
+    os << map.MAZE_VERT_INDEX_PADDING;
     // 北側の壁を出力
     for (auto x = 0; x < MAZE_SIZE_X; x++) {
-      printWall(DIRECTION_NORTH, walls_[y][x]);
+      map.outputWall(os, map.DIRECTION_NORTH, map.walls_[y][x]);
     }
-    printf("+\n");
+    os << "+\n";
 
-    printf(MAZE_VERT_INDEX_FORMAT, y);
+    os << std::setw(4) << y;
     for (auto x = 0; x < MAZE_SIZE_X; x++) {
       // 西側の壁を出力
-      printWall(DIRECTION_WEST, walls_[y][x]);
+      map.outputWall(os, map.DIRECTION_WEST, map.walls_[y][x]);
       // 歩数を出力
-      if (pos_.x == x && pos_.y == y) {
-        printPos(dir_);
+      if (map.pos_.x == x && map.pos_.y == y) {
+        map.outputPos(os, map.dir_);
       } else {
-        printf("%3d", steps_[y][x]);
+        os << std::setw(3) << map.steps_[y][x];
       }
     }
 
     // 東側の壁を出力
-    printWall(DIRECTION_EAST, walls_[y][MAZE_SIZE_X - 1]);
-    printf("\n");
+    map.outputWall(os, map.DIRECTION_EAST, map.walls_[y][MAZE_SIZE_X - 1]);
+    os << "\n";
   }
 
-  printf("%s", MAZE_HORIZ_INDEX_PADDING);
+  os << map.MAZE_HORIZ_INDEX_PADDING;
   // 南側の壁を出力
   for (auto x = 0; x < MAZE_SIZE_X; x++) {
     // 南側の壁を出力
-    printWall(DIRECTION_SOUTH, walls_[0][x]);
+    map.outputWall(os, map.DIRECTION_SOUTH, map.walls_[0][x]);
   }
-  printf("+\n");
+  os << "+\n";
 
-  printf("%s", MAZE_HORIZ_INDEX_PADDING);
+  os << map.MAZE_HORIZ_INDEX_PADDING;
   // x座標目盛りを出力
   for (auto x = 0; x < MAZE_SIZE_X; x++) {
-    printf(MAZE_HORIZ_INDEX_FORMAT, x);
+    os << std::setw(4) << x;
   }
-  printf("\n");
+  os << "\n";
+
+  return os;
 }

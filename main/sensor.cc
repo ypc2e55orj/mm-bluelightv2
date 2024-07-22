@@ -25,8 +25,6 @@ void Sensor::updateWallSensor(Sensed &sensed) {
   auto &left45 = driver_->photo->left45();
   auto &left90 = driver_->photo->left90();
 
-  // TODO: 後で簡潔に書き直す
-
   // 右90度 (前壁)
   sensed.wall_right90.raw = right90.flash - right90.ambient;
   sensed.wall_right90.exist = sensed.wall_right90.raw > WALL_THRESHOLD_EXIST[PARAMETER_WALL_RIGHT90];
@@ -58,6 +56,7 @@ void Sensor::update() {
   driver_->encoder_right->update();
   driver_->encoder_left->update();
   driver_->photo->wait();
+
   // オドメトリを計算
   auto timestamp = esp_timer_get_time();
   odom_.update(timestamp - timestamp_);

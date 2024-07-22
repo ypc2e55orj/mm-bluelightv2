@@ -54,7 +54,7 @@ constexpr float ANGULAR_VELOCITY_DEFAULT = std::numbers::pi_v<float>;
 // デフォルト角加速度 [rad/s^2]
 constexpr float ANGULAR_ACCELERATION_DEFAULT = 20 * std::numbers::pi_v<float>;
 // 角速度PIDゲイン
-constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.3f, 0.01f, 0.05f};
+constexpr float ANGULAR_VELOCITY_PID_GAIN[NUM_PARAMETER_PID] = {0.6f, 0.01f, 0.05f};
 
 // 壁センサでの壁有無しきい値 (r90, r45, l45, l90)
 constexpr int WALL_THRESHOLD_EXIST[NUM_PARAMETER_WALL] = {0, 0, 0, 0};
