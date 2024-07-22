@@ -1,15 +1,11 @@
 <map id="main/dri/adc.h" name="main/dri/adc.h">
-<area shape="rect" id="node1" title=" " alt="" coords="161,5,275,32"/>
+<area shape="rect" id="node1" title=" " alt="" coords="215,5,330,32"/>
 <area shape="rect" id="node2" href="$adc_8cc.html" title=" " alt="" coords="5,80,127,107"/>
-<area shape="rect" id="node3" href="$battery_8h.html" title=" " alt="" coords="203,80,340,107"/>
-<area shape="rect" id="node4" href="$driver_8h.html" title=" " alt="" coords="207,155,336,181"/>
-<area shape="rect" id="node13" href="$photo_8h.html" title=" " alt="" coords="364,80,493,107"/>
-<area shape="rect" id="node5" href="$main_8cc.html" title=" " alt="" coords="264,528,375,555"/>
-<area shape="rect" id="node6" href="$motion_8h.html" title=" " alt="" coords="213,379,330,405"/>
-<area shape="rect" id="node10" href="$odometry_8h.html" title=" " alt="" coords="257,229,389,256"/>
-<area shape="rect" id="node11" href="$sensor_8h.html" title=" " alt="" coords="315,304,428,331"/>
-<area shape="rect" id="node7" href="$motion_8cc.html" title=" " alt="" coords="157,453,279,480"/>
-<area shape="rect" id="node8" href="$run_8h.html" title=" " alt="" coords="405,453,497,480"/>
-<area shape="rect" id="node9" href="$run_8cc.html" title=" " alt="" coords="402,528,501,555"/>
-<area shape="rect" id="node12" href="$sensor_8cc.html" title=" " alt="" coords="456,379,575,405"/>
+<area shape="rect" id="node3" href="$battery_8h.html" title=" " alt="" coords="151,80,288,107"/>
+<area shape="rect" id="node4" href="$driver_8h.html" title=" " alt="" coords="261,155,391,181"/>
+<area shape="rect" id="node9" href="$photo_8h.html" title=" " alt="" coords="364,80,493,107"/>
+<area shape="rect" id="node5" href="$main_8cc.html" title=" " alt="" coords="167,379,277,405"/>
+<area shape="rect" id="node6" href="$odometry_8h.html" title=" " alt="" coords="260,229,392,256"/>
+<area shape="rect" id="node7" href="$sensor_8h.html" title=" " alt="" coords="287,304,400,331"/>
+<area shape="rect" id="node8" href="$sensor_8cc.html" title=" " alt="" coords="301,379,420,405"/>
 </map>

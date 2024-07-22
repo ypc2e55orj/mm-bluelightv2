@@ -1,13 +1,9 @@
 <map id="main/parameters.h" name="main/parameters.h">
-<area shape="rect" id="node1" title=" " alt="" coords="123,5,270,32"/>
-<area shape="rect" id="node2" href="$map_8h.html" title=" " alt="" coords="56,80,156,107"/>
-<area shape="rect" id="node5" href="$motion_8h.html" title=" " alt="" coords="123,229,241,256"/>
-<area shape="rect" id="node9" href="$odometry_8h.html" title=" " alt="" coords="235,80,367,107"/>
-<area shape="rect" id="node3" href="$main_8cc.html" title=" " alt="" coords="175,379,285,405"/>
-<area shape="rect" id="node4" href="$map_8cc.html" title=" " alt="" coords="53,155,159,181"/>
-<area shape="rect" id="node6" href="$motion_8cc.html" title=" " alt="" coords="67,304,190,331"/>
-<area shape="rect" id="node7" href="$run_8h.html" title=" " alt="" coords="316,304,408,331"/>
-<area shape="rect" id="node8" href="$run_8cc.html" title=" " alt="" coords="313,379,411,405"/>
-<area shape="rect" id="node10" href="$sensor_8h.html" title=" " alt="" coords="244,155,357,181"/>
-<area shape="rect" id="node11" href="$sensor_8cc.html" title=" " alt="" coords="367,229,485,256"/>
+<area shape="rect" id="node1" title=" " alt="" coords="98,5,245,32"/>
+<area shape="rect" id="node2" href="$map_8h.html" title=" " alt="" coords="52,80,152,107"/>
+<area shape="rect" id="node5" href="$odometry_8h.html" title=" " alt="" coords="176,80,308,107"/>
+<area shape="rect" id="node3" href="$main_8cc.html" title=" " alt="" coords="5,229,116,256"/>
+<area shape="rect" id="node4" href="$map_8cc.html" title=" " alt="" coords="54,155,161,181"/>
+<area shape="rect" id="node6" href="$sensor_8h.html" title=" " alt="" coords="185,155,299,181"/>
+<area shape="rect" id="node7" href="$sensor_8cc.html" title=" " alt="" coords="183,229,301,256"/>
 </map>

@@ -1,8 +1,5 @@
 <map id="testEnkaigei" name="testEnkaigei">
-<area shape="rect" id="node1" title=" " alt="" coords="5,56,108,83"/>
-<area shape="rect" id="node2" href="$classMotion.html#ae4a9edb598403d8f8d48caf670351f4a" title=" " alt="" coords="156,5,361,32"/>
-<area shape="rect" id="node3" href="$classrtos_1_1Queue.html#aefa2666169a2772bd2ee5f3ba94d2a35" title=" " alt="" coords="175,56,342,83"/>
-<area shape="rect" id="node4" href="$main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946" title=" " alt="" coords="211,107,307,133"/>
-<area shape="rect" id="node5" href="$classSensor.html#a19267a097e4fd8ba8e0985d1c79564eb" title=" " alt="" coords="409,81,552,108"/>
-<area shape="rect" id="node6" href="$classMotion.html#a0157dc888e8609295d8ac50c08c5248b" title=" " alt="" coords="413,132,549,159"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,108,32"/>
+<area shape="rect" id="node2" href="$main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946" title=" " alt="" coords="156,5,252,32"/>
+<area shape="rect" id="node3" href="$classSensor.html#a19267a097e4fd8ba8e0985d1c79564eb" title=" " alt="" coords="300,5,443,32"/>
 </map>

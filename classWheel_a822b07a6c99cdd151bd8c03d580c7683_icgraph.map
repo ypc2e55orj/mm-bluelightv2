@@ -1,9 +1,8 @@
 <map id="Wheel::reset" name="Wheel::reset">
-<area shape="rect" id="node1" title="リセット" alt="" coords="757,31,861,57"/>
-<area shape="rect" id="node2" href="$classOdometry.html#a699bbc51fa495b061d9a24a0c9bf39b6" title="リセット" alt="" coords="583,31,709,57"/>
-<area shape="rect" id="node3" href="$classSensor.html#a1a1496eff19b794e926ad714727866b5" title=" " alt="" coords="428,31,535,57"/>
-<area shape="rect" id="node4" href="$classSensor.html#afbfea94b9f0bf7722e9bfd38ef5ccf0b" title=" " alt="" coords="265,5,375,32"/>
-<area shape="rect" id="node7" href="$classMotion.html#a01805ce60c0e4c9aae97979dd884b59c" title=" " alt="" coords="260,56,380,83"/>
-<area shape="rect" id="node5" href="$main_8cc.html#aa9663831480a5b0a46022a59829154a7" title=" " alt="" coords="140,31,212,57"/>
-<area shape="rect" id="node6" href="$main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,31,92,57"/>
+<area shape="rect" id="node1" title="リセット" alt="" coords="748,5,852,32"/>
+<area shape="rect" id="node2" href="$classOdometry.html#a699bbc51fa495b061d9a24a0c9bf39b6" title="リセット" alt="" coords="573,5,700,32"/>
+<area shape="rect" id="node3" href="$classSensor.html#a1a1496eff19b794e926ad714727866b5" title=" " alt="" coords="419,5,525,32"/>
+<area shape="rect" id="node4" href="$classSensor.html#afbfea94b9f0bf7722e9bfd38ef5ccf0b" title=" " alt="" coords="260,5,371,32"/>
+<area shape="rect" id="node5" href="$main_8cc.html#aa9663831480a5b0a46022a59829154a7" title=" " alt="" coords="140,5,212,32"/>
+<area shape="rect" id="node6" href="$main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70" title=" " alt="" coords="5,5,92,32"/>
 </map>

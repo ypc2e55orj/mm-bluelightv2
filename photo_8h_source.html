@@ -135,7 +135,7 @@ $(function() {
 <div class="line"><a name="l00064"></a><span class="lineno">   64</span>&#160;    <span class="comment">// 読み取り</span></div>
 <div class="line"><a name="l00065"></a><span class="lineno">   65</span>&#160;    this_ptr-&gt;<a class="code" href="classPhoto.html#a9a8c02649d57723853f77fabeeef421f">adc_</a>[this_ptr-&gt;index_]-&gt;read_isr(this_ptr-&gt;result_[this_ptr-&gt;index_].ambient);</div>
 <div class="line"><a name="l00066"></a><span class="lineno">   66</span>&#160;    <span class="comment">// TODO: 下位ビット揺れ対策 後で原因を調べる</span></div>
-<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    this_ptr-&gt;result_[this_ptr-&gt;index_].ambient &gt;&gt;= 2;</div>
+<div class="line"><a name="l00067"></a><span class="lineno">   67</span>&#160;    <span class="comment">// this_ptr-&gt;result_[this_ptr-&gt;index_].ambient &gt;&gt;= 2;</span></div>
 <div class="line"><a name="l00068"></a><span class="lineno">   68</span>&#160;    <span class="comment">// 点灯</span></div>
 <div class="line"><a name="l00069"></a><span class="lineno">   69</span>&#160;    this_ptr-&gt;gpio_[this_ptr-&gt;index_]-&gt;set(<span class="keyword">true</span>);</div>
 <div class="line"><a name="l00070"></a><span class="lineno">   70</span>&#160;    <span class="comment">// 受光タイマー開始</span></div>
@@ -151,7 +151,7 @@ $(function() {
 <div class="line"><a name="l00080"></a><span class="lineno">   80</span>&#160;    <span class="comment">// 読み取り</span></div>
 <div class="line"><a name="l00081"></a><span class="lineno">   81</span>&#160;    this_ptr-&gt;<a class="code" href="classPhoto.html#a9a8c02649d57723853f77fabeeef421f">adc_</a>[this_ptr-&gt;index_]-&gt;read_isr(this_ptr-&gt;result_[this_ptr-&gt;index_].flash);</div>
 <div class="line"><a name="l00082"></a><span class="lineno">   82</span>&#160;    <span class="comment">// TODO: 下位ビット揺れ対策 後で原因を調べる</span></div>
-<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    this_ptr-&gt;result_[this_ptr-&gt;index_].flash &gt;&gt;= 2;</div>
+<div class="line"><a name="l00083"></a><span class="lineno">   83</span>&#160;    <span class="comment">// this_ptr-&gt;result_[this_ptr-&gt;index_].flash &gt;&gt;= 2;</span></div>
 <div class="line"><a name="l00084"></a><span class="lineno">   84</span>&#160;    <span class="comment">// 消灯</span></div>
 <div class="line"><a name="l00085"></a><span class="lineno">   85</span>&#160;    this_ptr-&gt;gpio_[this_ptr-&gt;index_]-&gt;set(<span class="keyword">false</span>);</div>
 <div class="line"><a name="l00086"></a><span class="lineno">   86</span>&#160;    <span class="comment">// タイマー停止</span></div>

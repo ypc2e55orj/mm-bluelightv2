@@ -1,12 +1,8 @@
 <map id="main/dri/console.h" name="main/dri/console.h">
-<area shape="rect" id="node1" title=" " alt="" coords="87,5,229,32"/>
-<area shape="rect" id="node2" href="$driver_8h.html" title=" " alt="" coords="93,80,223,107"/>
-<area shape="rect" id="node3" href="$main_8cc.html" title=" " alt="" coords="151,453,261,480"/>
-<area shape="rect" id="node4" href="$motion_8h.html" title=" " alt="" coords="99,304,217,331"/>
-<area shape="rect" id="node8" href="$odometry_8h.html" title=" " alt="" coords="144,155,276,181"/>
-<area shape="rect" id="node9" href="$sensor_8h.html" title=" " alt="" coords="201,229,315,256"/>
-<area shape="rect" id="node5" href="$motion_8cc.html" title=" " alt="" coords="43,379,166,405"/>
-<area shape="rect" id="node6" href="$run_8h.html" title=" " alt="" coords="292,379,384,405"/>
-<area shape="rect" id="node7" href="$run_8cc.html" title=" " alt="" coords="289,453,387,480"/>
-<area shape="rect" id="node10" href="$sensor_8cc.html" title=" " alt="" coords="343,304,461,331"/>
+<area shape="rect" id="node1" title=" " alt="" coords="93,5,236,32"/>
+<area shape="rect" id="node2" href="$driver_8h.html" title=" " alt="" coords="100,80,229,107"/>
+<area shape="rect" id="node3" href="$main_8cc.html" title=" " alt="" coords="5,304,116,331"/>
+<area shape="rect" id="node4" href="$odometry_8h.html" title=" " alt="" coords="99,155,231,181"/>
+<area shape="rect" id="node5" href="$sensor_8h.html" title=" " alt="" coords="125,229,239,256"/>
+<area shape="rect" id="node6" href="$sensor_8cc.html" title=" " alt="" coords="140,304,259,331"/>
 </map>

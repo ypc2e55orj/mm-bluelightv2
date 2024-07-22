@@ -76,8 +76,8 @@ $(function() {
 <div class="line"><a name="l00005"></a><span class="lineno">    5</span>&#160;<span class="comment">// Project</span></div>
 <div class="line"><a name="l00006"></a><span class="lineno">    6</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="driver_8h.html">dri/driver.h</a>&quot;</span></div>
 <div class="line"><a name="l00007"></a><span class="lineno">    7</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="map_8h.html">map.h</a>&quot;</span></div>
-<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="motion_8h.html">motion.h</a>&quot;</span></div>
-<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="run_8h.html">run.h</a>&quot;</span></div>
+<div class="line"><a name="l00008"></a><span class="lineno">    8</span>&#160;<span class="preprocessor">#include &quot;motion.h&quot;</span></div>
+<div class="line"><a name="l00009"></a><span class="lineno">    9</span>&#160;<span class="preprocessor">#include &quot;run.h&quot;</span></div>
 <div class="line"><a name="l00010"></a><span class="lineno">   10</span>&#160;<span class="preprocessor">#include &quot;<a class="code" href="sensor_8h.html">sensor.h</a>&quot;</span></div>
 <div class="line"><a name="l00011"></a><span class="lineno">   11</span>&#160; </div>
 <div class="line"><a name="l00012"></a><span class="lineno">   12</span>&#160;<span class="comment">// バックグラウンドタスク</span></div>
@@ -90,9 +90,9 @@ $(function() {
 <div class="line"><a name="l00019"></a><span class="lineno">   19</span>&#160;<span class="comment">// センサ値計算クラス</span></div>
 <div class="line"><a name="l00020"></a><span class="lineno"><a class="line" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">   20</a></span>&#160;<a class="code" href="classSensor.html">Sensor</a> *<a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00021"></a><span class="lineno">   21</span>&#160;<span class="comment">// 目標値生成・モーター出力クラス</span></div>
-<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">   22</a></span>&#160;<a class="code" href="classMotion.html">Motion</a> *<a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00022"></a><span class="lineno"><a class="line" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">   22</a></span>&#160;Motion *<a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00023"></a><span class="lineno">   23</span>&#160;<span class="comment">// 走行</span></div>
-<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">   24</a></span>&#160;<a class="code" href="classRun.html">Run</a> *<a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a> = <span class="keyword">nullptr</span>;</div>
+<div class="line"><a name="l00024"></a><span class="lineno"><a class="line" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">   24</a></span>&#160;Run *<a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a> = <span class="keyword">nullptr</span>;</div>
 <div class="line"><a name="l00025"></a><span class="lineno">   25</span>&#160; </div>
 <div class="line"><a name="l00026"></a><span class="lineno">   26</span>&#160;<span class="comment">// モード選択</span></div>
 <div class="line"><a name="l00027"></a><span class="lineno"><a class="line" href="main_8cc.html#a573ebc6bd03a97d596937089d62f7256">   27</a></span>&#160;<span class="keyword">static</span> uint8_t <a class="code" href="main_8cc.html#a573ebc6bd03a97d596937089d62f7256">selectMode</a>() {</div>
@@ -161,221 +161,217 @@ $(function() {
 <div class="line"><a name="l00090"></a><span class="lineno">   90</span>&#160;<span class="comment">// センサ値表示</span></div>
 <div class="line"><a name="l00091"></a><span class="lineno"><a class="line" href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">   91</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">printSensor</a>(<span class="keywordtype">bool</span> is_csv) {</div>
 <div class="line"><a name="l00092"></a><span class="lineno">   92</span>&#160;  <span class="keyword">auto</span> &amp;sensed = <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>-&gt;<a class="code" href="classSensor.html#a19267a097e4fd8ba8e0985d1c79564eb">getSensed</a>();</div>
-<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keyword">auto</span> &amp;target = <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>-&gt;<a class="code" href="classMotion.html#a0157dc888e8609295d8ac50c08c5248b">getTarget</a>();</div>
+<div class="line"><a name="l00093"></a><span class="lineno">   93</span>&#160;  <span class="keyword">auto</span> &amp;target = <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>-&gt;getTarget();</div>
 <div class="line"><a name="l00094"></a><span class="lineno">   94</span>&#160; </div>
 <div class="line"><a name="l00095"></a><span class="lineno">   95</span>&#160;  <span class="comment">// 出力モードを示す</span></div>
 <div class="line"><a name="l00096"></a><span class="lineno">   96</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
 <div class="line"><a name="l00097"></a><span class="lineno">   97</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0, 0);</div>
 <div class="line"><a name="l00098"></a><span class="lineno">   98</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
 <div class="line"><a name="l00099"></a><span class="lineno">   99</span>&#160; </div>
-<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="comment">// ヘッダーを出力</span></div>
-<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  <span class="keywordflow">if</span> (is_csv)</div>
-<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160;  {</div>
-<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;    printf(<span class="stringliteral">&quot;vbatt, vbatt_avg, velo, len, ang_velo, ang, x, y, r90, r45, l45, l90, tvelo, tang_velo\n&quot;</span>);</div>
-<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  }</div>
-<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160; </div>
-<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  <span class="keyword">auto</span> xLastWakeTime = xTaskGetTickCount();</div>
-<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160;  <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(50));</div>
-<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160; </div>
-<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    <span class="comment">// 表示</span></div>
-<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160;    <span class="keywordflow">if</span> (is_csv) {</div>
-<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.battery_voltage);</div>
-<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.battery_voltage_average);</div>
-<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.velocity));</div>
-<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.length));</div>
-<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angular_velocity));</div>
-<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angle));</div>
-<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.x));</div>
-<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.y));</div>
-<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_right90.raw);</div>
-<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_right45.raw);</div>
-<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_left45.raw);</div>
-<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_left90.raw);</div>
-<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.velocity));</div>
-<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.angular_velocity));</div>
-<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;    } <span class="keywordflow">else</span> {</div>
-<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      printf(<span class="stringliteral">&quot;\x1b[2J\x1b[0;0H&quot;</span>);</div>
-<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      printf(<span class="stringliteral">&quot; ----- Sensor Info ----- \n&quot;</span>);</div>
-<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;      printf(<span class="stringliteral">&quot;bat_vol    : %d\n&quot;</span>, sensed.battery_voltage);</div>
-<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      printf(<span class="stringliteral">&quot;bat_vol_avg: %d\n&quot;</span>, sensed.battery_voltage_average);</div>
-<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      printf(<span class="stringliteral">&quot;velo    : %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.velocity));</div>
-<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      printf(<span class="stringliteral">&quot;length  : %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.length));</div>
-<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      printf(<span class="stringliteral">&quot;ang_velo: %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angular_velocity));</div>
-<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      printf(<span class="stringliteral">&quot;angle   : %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angle));</div>
-<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      printf(<span class="stringliteral">&quot;x: %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.x));</div>
-<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      printf(<span class="stringliteral">&quot;y: %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.y));</div>
-<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160; </div>
-<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;      printf(<span class="stringliteral">&quot;right90: %d\n&quot;</span>, sensed.wall_right90.raw);</div>
-<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;      printf(<span class="stringliteral">&quot;right45: %d\n&quot;</span>, sensed.wall_right45.raw);</div>
-<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160;      printf(<span class="stringliteral">&quot;left45 : %d\n&quot;</span>, sensed.wall_left45.raw);</div>
-<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;      printf(<span class="stringliteral">&quot;left90 : %d\n&quot;</span>, sensed.wall_left90.raw);</div>
-<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160; </div>
-<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      printf(<span class="stringliteral">&quot;----- Target ----- \n&quot;</span>);</div>
-<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      printf(<span class="stringliteral">&quot;velo     : %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.velocity));</div>
-<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160;      printf(<span class="stringliteral">&quot;ang velo : %f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.angular_velocity));</div>
-<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;    }</div>
-<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;  }</div>
-<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;}</div>
-<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160; </div>
-<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;<span class="comment">// テスト直線</span></div>
-<div class="line"><a name="l00151"></a><span class="lineno"><a class="line" href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">  151</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">testStraight</a>() {</div>
-<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160;  <span class="comment">// 動作テストモードを示す</span></div>
-<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
-<div class="line"><a name="l00154"></a><span class="lineno">  154</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
-<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
-<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160; </div>
-<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;<a class="code" href="classRun.html#a02ec133f8bb7eaec6427bfb62e21718b">straight</a>(<a class="code" href="motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a67d2f6740a8eaebf4d5c6f79be8da481">MotionDirection::Forward</a>, 180, <a class="code" href="parameters_8h.html#ad6a7d3bbc349d45cda8e6d6dc233b1a2">ACCELERATION_DEFAULT</a>, <a class="code" href="parameters_8h.html#aed8b369dbd47a7ff06000c64abd44f31">VELOCITY_DEFAULT</a>, 0.0f);</div>
-<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;<a class="code" href="classRun.html#ad44bd8c66a1d05f15eebf31cc698eca2">stop</a>();</div>
-<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;}</div>
-<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160; </div>
-<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;<span class="comment">// テストターン</span></div>
-<div class="line"><a name="l00162"></a><span class="lineno"><a class="line" href="main_8cc.html#a51ac78eb82e1098fd6085bdaa9fe02ff">  162</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a51ac78eb82e1098fd6085bdaa9fe02ff">testTurn</a>() {</div>
-<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160;  <span class="comment">// 動作テストモードを示す</span></div>
-<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
-<div class="line"><a name="l00165"></a><span class="lineno">  165</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
-<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
-<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160; </div>
-<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;<a class="code" href="classRun.html#ac4f80a6609f748e5c07a89cf4d9cde16">turn</a>(90, <a class="code" href="parameters_8h.html#aa91a8bd032c25f1ca783b0dc72873c60">ANGULAR_ACCELERATION_DEFAULT</a>, <a class="code" href="parameters_8h.html#aa1048d961b2ad1179243af07408c038e">ANGULAR_VELOCITY_DEFAULT</a>, <a class="code" href="motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a945d5e233cf7d6240f6b783b36a374ff">MotionDirection::Left</a>);</div>
-<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;<a class="code" href="classRun.html#ac4f80a6609f748e5c07a89cf4d9cde16">turn</a>(90, <a class="code" href="parameters_8h.html#aa91a8bd032c25f1ca783b0dc72873c60">ANGULAR_ACCELERATION_DEFAULT</a>, <a class="code" href="parameters_8h.html#aa1048d961b2ad1179243af07408c038e">ANGULAR_VELOCITY_DEFAULT</a>, <a class="code" href="motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a92b09c7c48c520c3c55e497875da437c">MotionDirection::Right</a>);</div>
-<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160; </div>
-<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;<a class="code" href="classRun.html#ad44bd8c66a1d05f15eebf31cc698eca2">stop</a>();</div>
-<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160; </div>
-<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
-<div class="line"><a name="l00174"></a><span class="lineno">  174</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
-<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;}</div>
-<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160; </div>
-<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;<span class="comment">// テスト宴会芸</span></div>
-<div class="line"><a name="l00178"></a><span class="lineno"><a class="line" href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">  178</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">testEnkaigei</a>() {</div>
-<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <span class="comment">// 動作テストモードを示す</span></div>
-<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
-<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
-<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
+<div class="line"><a name="l00100"></a><span class="lineno">  100</span>&#160;  <span class="comment">// 画面クリア</span></div>
+<div class="line"><a name="l00101"></a><span class="lineno">  101</span>&#160;  printf(<span class="stringliteral">&quot;\x1b[2J&quot;</span>);</div>
+<div class="line"><a name="l00102"></a><span class="lineno">  102</span>&#160; </div>
+<div class="line"><a name="l00103"></a><span class="lineno">  103</span>&#160;  <span class="comment">// ヘッダーを出力</span></div>
+<div class="line"><a name="l00104"></a><span class="lineno">  104</span>&#160;  <span class="keywordflow">if</span> (is_csv) {</div>
+<div class="line"><a name="l00105"></a><span class="lineno">  105</span>&#160;    printf(<span class="stringliteral">&quot;vbatt, vbatt_avg, velo, len, ang_velo, ang, x, y, r90, r45, l45, l90, tvelo, tang_velo\n&quot;</span>);</div>
+<div class="line"><a name="l00106"></a><span class="lineno">  106</span>&#160;  }</div>
+<div class="line"><a name="l00107"></a><span class="lineno">  107</span>&#160; </div>
+<div class="line"><a name="l00108"></a><span class="lineno">  108</span>&#160;  <span class="keyword">auto</span> xLastWakeTime = xTaskGetTickCount();</div>
+<div class="line"><a name="l00109"></a><span class="lineno">  109</span>&#160;  <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00110"></a><span class="lineno">  110</span>&#160;    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(50));</div>
+<div class="line"><a name="l00111"></a><span class="lineno">  111</span>&#160; </div>
+<div class="line"><a name="l00112"></a><span class="lineno">  112</span>&#160;    <span class="comment">// 表示</span></div>
+<div class="line"><a name="l00113"></a><span class="lineno">  113</span>&#160;    <span class="keywordflow">if</span> (is_csv) {</div>
+<div class="line"><a name="l00114"></a><span class="lineno">  114</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.battery_voltage);</div>
+<div class="line"><a name="l00115"></a><span class="lineno">  115</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.battery_voltage_average);</div>
+<div class="line"><a name="l00116"></a><span class="lineno">  116</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.velocity));</div>
+<div class="line"><a name="l00117"></a><span class="lineno">  117</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.length));</div>
+<div class="line"><a name="l00118"></a><span class="lineno">  118</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angular_velocity));</div>
+<div class="line"><a name="l00119"></a><span class="lineno">  119</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angle));</div>
+<div class="line"><a name="l00120"></a><span class="lineno">  120</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.x));</div>
+<div class="line"><a name="l00121"></a><span class="lineno">  121</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.y));</div>
+<div class="line"><a name="l00122"></a><span class="lineno">  122</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_right90.raw);</div>
+<div class="line"><a name="l00123"></a><span class="lineno">  123</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_right45.raw);</div>
+<div class="line"><a name="l00124"></a><span class="lineno">  124</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_left45.raw);</div>
+<div class="line"><a name="l00125"></a><span class="lineno">  125</span>&#160;      printf(<span class="stringliteral">&quot;%d, &quot;</span>, sensed.wall_left90.raw);</div>
+<div class="line"><a name="l00126"></a><span class="lineno">  126</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.velocity));</div>
+<div class="line"><a name="l00127"></a><span class="lineno">  127</span>&#160;      printf(<span class="stringliteral">&quot;%f, &quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.angular_velocity));</div>
+<div class="line"><a name="l00128"></a><span class="lineno">  128</span>&#160;      printf(<span class="stringliteral">&quot;\n&quot;</span>);</div>
+<div class="line"><a name="l00129"></a><span class="lineno">  129</span>&#160;    } <span class="keywordflow">else</span> {</div>
+<div class="line"><a name="l00130"></a><span class="lineno">  130</span>&#160;      printf(<span class="stringliteral">&quot;\x1b[0;0H&quot;</span>);</div>
+<div class="line"><a name="l00131"></a><span class="lineno">  131</span>&#160;      printf(<span class="stringliteral">&quot; ----- Sensor Info ----- \n&quot;</span>);</div>
+<div class="line"><a name="l00132"></a><span class="lineno">  132</span>&#160;      printf(<span class="stringliteral">&quot;bat_vol    : %-30d\n&quot;</span>, sensed.battery_voltage);</div>
+<div class="line"><a name="l00133"></a><span class="lineno">  133</span>&#160;      printf(<span class="stringliteral">&quot;bat_vol_avg: %-30d\n&quot;</span>, sensed.battery_voltage_average);</div>
+<div class="line"><a name="l00134"></a><span class="lineno">  134</span>&#160;      printf(<span class="stringliteral">&quot;velo    : %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.velocity));</div>
+<div class="line"><a name="l00135"></a><span class="lineno">  135</span>&#160;      printf(<span class="stringliteral">&quot;length  : %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.length));</div>
+<div class="line"><a name="l00136"></a><span class="lineno">  136</span>&#160;      printf(<span class="stringliteral">&quot;ang_velo: %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angular_velocity));</div>
+<div class="line"><a name="l00137"></a><span class="lineno">  137</span>&#160;      printf(<span class="stringliteral">&quot;angle   : %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.angle));</div>
+<div class="line"><a name="l00138"></a><span class="lineno">  138</span>&#160;      printf(<span class="stringliteral">&quot;x: %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.x));</div>
+<div class="line"><a name="l00139"></a><span class="lineno">  139</span>&#160;      printf(<span class="stringliteral">&quot;y: %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(sensed.y));</div>
+<div class="line"><a name="l00140"></a><span class="lineno">  140</span>&#160; </div>
+<div class="line"><a name="l00141"></a><span class="lineno">  141</span>&#160;      printf(<span class="stringliteral">&quot;right90: %-30d\n&quot;</span>, sensed.wall_right90.raw);</div>
+<div class="line"><a name="l00142"></a><span class="lineno">  142</span>&#160;      printf(<span class="stringliteral">&quot;right45: %-30d\n&quot;</span>, sensed.wall_right45.raw);</div>
+<div class="line"><a name="l00143"></a><span class="lineno">  143</span>&#160;      printf(<span class="stringliteral">&quot;left45 : %-30d\n&quot;</span>, sensed.wall_left45.raw);</div>
+<div class="line"><a name="l00144"></a><span class="lineno">  144</span>&#160;      printf(<span class="stringliteral">&quot;left90 : %-30d\n&quot;</span>, sensed.wall_left90.raw);</div>
+<div class="line"><a name="l00145"></a><span class="lineno">  145</span>&#160; </div>
+<div class="line"><a name="l00146"></a><span class="lineno">  146</span>&#160;      printf(<span class="stringliteral">&quot;----- Target ----- \n&quot;</span>);</div>
+<div class="line"><a name="l00147"></a><span class="lineno">  147</span>&#160;      printf(<span class="stringliteral">&quot;velo     : %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.velocity));</div>
+<div class="line"><a name="l00148"></a><span class="lineno">  148</span>&#160;      printf(<span class="stringliteral">&quot;ang velo : %-30f\n&quot;</span>, <span class="keyword">static_cast&lt;</span><span class="keywordtype">double</span><span class="keyword">&gt;</span>(target.angular_velocity));</div>
+<div class="line"><a name="l00149"></a><span class="lineno">  149</span>&#160;    }</div>
+<div class="line"><a name="l00150"></a><span class="lineno">  150</span>&#160;  }</div>
+<div class="line"><a name="l00151"></a><span class="lineno">  151</span>&#160;}</div>
+<div class="line"><a name="l00152"></a><span class="lineno">  152</span>&#160; </div>
+<div class="line"><a name="l00153"></a><span class="lineno">  153</span>&#160;<span class="comment">// テスト直線</span></div>
+<div class="line"><a name="l00154"></a><span class="lineno"><a class="line" href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">  154</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">testStraight</a>() {</div>
+<div class="line"><a name="l00155"></a><span class="lineno">  155</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
+<div class="line"><a name="l00156"></a><span class="lineno">  156</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
+<div class="line"><a name="l00157"></a><span class="lineno">  157</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
+<div class="line"><a name="l00158"></a><span class="lineno">  158</span>&#160; </div>
+<div class="line"><a name="l00159"></a><span class="lineno">  159</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;straight(MotionDirection::Forward, 180, <a class="code" href="parameters_8h.html#ad6a7d3bbc349d45cda8e6d6dc233b1a2">ACCELERATION_DEFAULT</a>, <a class="code" href="parameters_8h.html#aed8b369dbd47a7ff06000c64abd44f31">VELOCITY_DEFAULT</a>, 0.0f);</div>
+<div class="line"><a name="l00160"></a><span class="lineno">  160</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;wait();</div>
+<div class="line"><a name="l00161"></a><span class="lineno">  161</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;stop();</div>
+<div class="line"><a name="l00162"></a><span class="lineno">  162</span>&#160;}</div>
+<div class="line"><a name="l00163"></a><span class="lineno">  163</span>&#160; </div>
+<div class="line"><a name="l00164"></a><span class="lineno">  164</span>&#160;<span class="comment">// テストターン</span></div>
+<div class="line"><a name="l00165"></a><span class="lineno"><a class="line" href="main_8cc.html#ab6b7389f097feed1f85f41194885da4a">  165</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="main_8cc.html#ab6b7389f097feed1f85f41194885da4a">testRightTurn</a>() {</div>
+<div class="line"><a name="l00166"></a><span class="lineno">  166</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
+<div class="line"><a name="l00167"></a><span class="lineno">  167</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
+<div class="line"><a name="l00168"></a><span class="lineno">  168</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
+<div class="line"><a name="l00169"></a><span class="lineno">  169</span>&#160; </div>
+<div class="line"><a name="l00170"></a><span class="lineno">  170</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;turn(90, <a class="code" href="parameters_8h.html#aa91a8bd032c25f1ca783b0dc72873c60">ANGULAR_ACCELERATION_DEFAULT</a>, <a class="code" href="parameters_8h.html#aa1048d961b2ad1179243af07408c038e">ANGULAR_VELOCITY_DEFAULT</a>, MotionDirection::Right);</div>
+<div class="line"><a name="l00171"></a><span class="lineno">  171</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;wait();</div>
+<div class="line"><a name="l00172"></a><span class="lineno">  172</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;stop();</div>
+<div class="line"><a name="l00173"></a><span class="lineno">  173</span>&#160;}</div>
+<div class="line"><a name="l00174"></a><span class="lineno"><a class="line" href="main_8cc.html#a81e46e6b54cb717c86de9f2c7b7221f6">  174</a></span>&#160;<span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a81e46e6b54cb717c86de9f2c7b7221f6">testLeftTurn</a>() {</div>
+<div class="line"><a name="l00175"></a><span class="lineno">  175</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
+<div class="line"><a name="l00176"></a><span class="lineno">  176</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
+<div class="line"><a name="l00177"></a><span class="lineno">  177</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
+<div class="line"><a name="l00178"></a><span class="lineno">  178</span>&#160; </div>
+<div class="line"><a name="l00179"></a><span class="lineno">  179</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;turn(90, <a class="code" href="parameters_8h.html#aa91a8bd032c25f1ca783b0dc72873c60">ANGULAR_ACCELERATION_DEFAULT</a>, <a class="code" href="parameters_8h.html#aa1048d961b2ad1179243af07408c038e">ANGULAR_VELOCITY_DEFAULT</a>, MotionDirection::Left);</div>
+<div class="line"><a name="l00180"></a><span class="lineno">  180</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;wait();</div>
+<div class="line"><a name="l00181"></a><span class="lineno">  181</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a>-&gt;stop();</div>
+<div class="line"><a name="l00182"></a><span class="lineno">  182</span>&#160;}</div>
 <div class="line"><a name="l00183"></a><span class="lineno">  183</span>&#160; </div>
-<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;  <span class="comment">// 走行パラメータ</span></div>
-<div class="line"><a name="l00185"></a><span class="lineno">  185</span>&#160;  <a class="code" href="structMotionParameter.html">MotionParameter</a> param{};</div>
-<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  param.<a class="code" href="structMotionParameter.html#a094069e9bda0dfe100a119bafd4ca8ec">pattern</a> = <a class="code" href="motion_8h.html#a5f38dee91b10530cf4c67e1cddc66752a11a755d598c0c417f9a36758c3da7481">MotionPattern::Stop</a>;</div>
-<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  param.max_velocity = 0;</div>
-<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  param.acceleration = 0;</div>
-<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  param.max_angular_velocity = 0;</div>
-<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160;  param.angular_acceleration = 0;</div>
-<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>-&gt;<a class="code" href="classMotion.html#ae4a9edb598403d8f8d48caf670351f4a">getParameterQueue</a>().<a class="code" href="classrtos_1_1Queue.html#aefa2666169a2772bd2ee5f3ba94d2a35">overwrite</a>(&amp;param);</div>
-<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160; </div>
-<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  <a class="code" href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">printSensor</a>(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;}</div>
-<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160; </div>
-<div class="line"><a name="l00199"></a><span class="lineno"><a class="line" href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">  199</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">appTask</a>(<span class="keywordtype">void</span> *) {</div>
-<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#a539ff92df4089b92699b4bded51f28bd">init_app</a>();</div>
-<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;  vTaskDelay(pdMS_TO_TICKS(1000));</div>
+<div class="line"><a name="l00184"></a><span class="lineno">  184</span>&#160;<span class="comment">// テスト宴会芸</span></div>
+<div class="line"><a name="l00185"></a><span class="lineno"><a class="line" href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">  185</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">testEnkaigei</a>() {</div>
+<div class="line"><a name="l00186"></a><span class="lineno">  186</span>&#160;  <span class="comment">// 動作テストモードを示す</span></div>
+<div class="line"><a name="l00187"></a><span class="lineno">  187</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;clear();</div>
+<div class="line"><a name="l00188"></a><span class="lineno">  188</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;set(0, 0x0F, 0x0F, 0);</div>
+<div class="line"><a name="l00189"></a><span class="lineno">  189</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;update();</div>
+<div class="line"><a name="l00190"></a><span class="lineno">  190</span>&#160; </div>
+<div class="line"><a name="l00191"></a><span class="lineno">  191</span>&#160;  <span class="comment">// 走行パラメータ</span></div>
+<div class="line"><a name="l00192"></a><span class="lineno">  192</span>&#160;  MotionParameter param{};</div>
+<div class="line"><a name="l00193"></a><span class="lineno">  193</span>&#160;  param.pattern = MotionPattern::Stop;</div>
+<div class="line"><a name="l00194"></a><span class="lineno">  194</span>&#160;  param.max_velocity = 0;</div>
+<div class="line"><a name="l00195"></a><span class="lineno">  195</span>&#160;  param.acceleration = 0;</div>
+<div class="line"><a name="l00196"></a><span class="lineno">  196</span>&#160;  param.max_angular_velocity = 0;</div>
+<div class="line"><a name="l00197"></a><span class="lineno">  197</span>&#160;  param.angular_acceleration = 0;</div>
+<div class="line"><a name="l00198"></a><span class="lineno">  198</span>&#160;  <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>-&gt;getParameterQueue().overwrite(&amp;param);</div>
+<div class="line"><a name="l00199"></a><span class="lineno">  199</span>&#160; </div>
+<div class="line"><a name="l00200"></a><span class="lineno">  200</span>&#160;  <a class="code" href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">printSensor</a>(<span class="keyword">true</span>);</div>
+<div class="line"><a name="l00201"></a><span class="lineno">  201</span>&#160;}</div>
 <div class="line"><a name="l00202"></a><span class="lineno">  202</span>&#160; </div>
-<div class="line"><a name="l00203"></a><span class="lineno">  203</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;enable();</div>
-<div class="line"><a name="l00204"></a><span class="lineno">  204</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#af9b4eed9d1764e92bed30e6a8fe42161">buzzer</a>-&gt;enable();</div>
-<div class="line"><a name="l00205"></a><span class="lineno">  205</span>&#160; </div>
-<div class="line"><a name="l00206"></a><span class="lineno">  206</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#af9b4eed9d1764e92bed30e6a8fe42161">buzzer</a>-&gt;tone(<a class="code" href="buzzer_8h.html#adf9d34ec6c1f897af14146e8800a4265">C5</a>, 100);</div>
-<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160; </div>
-<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <span class="keyword">auto</span> xLastWakeTime = xTaskGetTickCount();</div>
-<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(50));</div>
-<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160;    <span class="keywordflow">switch</span> (<a class="code" href="main_8cc.html#a573ebc6bd03a97d596937089d62f7256">selectMode</a>()) {</div>
-<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;      <span class="keywordflow">default</span>:</div>
-<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160;      <span class="keywordflow">case</span> 0x00:</div>
-<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;        <a class="code" href="main_8cc.html#aba67899efe1ea59e792b00045fa61f75">printParam</a>();</div>
-<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160; </div>
-<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;      <span class="keywordflow">case</span> 0x01:</div>
-<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;        <a class="code" href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">printSensor</a>(<span class="keyword">true</span>);</div>
-<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160; </div>
-<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;      <span class="keywordflow">case</span> 0x02:</div>
-<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160;        <a class="code" href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">testStraight</a>();</div>
-<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160; </div>
-<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;      <span class="keywordflow">case</span> 0x03:</div>
-<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160;        <a class="code" href="main_8cc.html#a51ac78eb82e1098fd6085bdaa9fe02ff">testTurn</a>();</div>
-<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160; </div>
-<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;      <span class="keywordflow">case</span> 0x04:</div>
-<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160;        <a class="code" href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">testEnkaigei</a>();</div>
-<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160; </div>
-<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;      <span class="keywordflow">case</span> 0x05:</div>
-<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160;      <span class="keywordflow">case</span> 0x06:</div>
-<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      <span class="keywordflow">case</span> 0x07:</div>
-<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;      <span class="keywordflow">case</span> 0x08:</div>
-<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;      <span class="keywordflow">case</span> 0x09:</div>
-<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160;      <span class="keywordflow">case</span> 0x0A:</div>
-<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      <span class="keywordflow">case</span> 0x0B:</div>
-<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;      <span class="keywordflow">case</span> 0x0C:</div>
-<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;      <span class="keywordflow">case</span> 0x0D:</div>
-<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160;      <span class="keywordflow">case</span> 0x0E:</div>
-<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;      <span class="keywordflow">case</span> 0x0F:</div>
-<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;        <span class="keywordflow">break</span>;</div>
-<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;    }</div>
-<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;  }</div>
-<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;}</div>
-<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160; </div>
-<div class="line"><a name="l00252"></a><span class="lineno"><a class="line" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">  252</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">proTask</a>(<span class="keywordtype">void</span> *) {</div>
-<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#ab1618ba68776ade46df46ec323674b4f">init_pro</a>();</div>
-<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;  vTaskDelay(pdMS_TO_TICKS(500));</div>
-<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160; </div>
-<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;  <span class="comment">// モーター有効化</span></div>
-<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#ae00c4bbda9ba69c195e292998fb78188">motor_right</a>-&gt;enable();</div>
-<div class="line"><a name="l00258"></a><span class="lineno">  258</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#adf567886625239a40365461a72d77363">motor_left</a>-&gt;enable();</div>
-<div class="line"><a name="l00259"></a><span class="lineno">  259</span>&#160; </div>
-<div class="line"><a name="l00260"></a><span class="lineno">  260</span>&#160;  <span class="comment">// センサ初期化</span></div>
-<div class="line"><a name="l00261"></a><span class="lineno">  261</span>&#160;  <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>-&gt;<a class="code" href="classSensor.html#afbfea94b9f0bf7722e9bfd38ef5ccf0b">setup</a>();</div>
-<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160; </div>
-<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  <span class="comment">// TODO: 止める手段を作る (フラッシュ読み書きのため)</span></div>
-<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160;  <span class="keyword">auto</span> xLastWakeTime = xTaskGetTickCount();</div>
-<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
-<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;    <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>-&gt;<a class="code" href="classSensor.html#a542a721041768395de2c6e9012622113">update</a>();</div>
-<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;    <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>-&gt;<a class="code" href="classMotion.html#a01805ce60c0e4c9aae97979dd884b59c">update</a>();</div>
-<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160;    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(1));</div>
-<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  }</div>
-<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;}</div>
+<div class="line"><a name="l00206"></a><span class="lineno"><a class="line" href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">  206</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">appTask</a>(<span class="keywordtype">void</span> *) {</div>
+<div class="line"><a name="l00207"></a><span class="lineno">  207</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#a539ff92df4089b92699b4bded51f28bd">init_app</a>();</div>
+<div class="line"><a name="l00208"></a><span class="lineno">  208</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#aab7272dae310c9a6102ee3f69907bf08">indicator</a>-&gt;enable();</div>
+<div class="line"><a name="l00209"></a><span class="lineno">  209</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#af9b4eed9d1764e92bed30e6a8fe42161">buzzer</a>-&gt;enable();</div>
+<div class="line"><a name="l00210"></a><span class="lineno">  210</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#af9b4eed9d1764e92bed30e6a8fe42161">buzzer</a>-&gt;tone(<a class="code" href="buzzer_8h.html#adf9d34ec6c1f897af14146e8800a4265">C5</a>, 100);</div>
+<div class="line"><a name="l00211"></a><span class="lineno">  211</span>&#160; </div>
+<div class="line"><a name="l00212"></a><span class="lineno">  212</span>&#160;  printf(<span class="stringliteral">&quot;mm-bluelight is started!\n&quot;</span>);</div>
+<div class="line"><a name="l00213"></a><span class="lineno">  213</span>&#160; </div>
+<div class="line"><a name="l00214"></a><span class="lineno">  214</span>&#160;  <span class="keyword">auto</span> xLastWakeTime = xTaskGetTickCount();</div>
+<div class="line"><a name="l00215"></a><span class="lineno">  215</span>&#160;  <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00216"></a><span class="lineno">  216</span>&#160;    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(50));</div>
+<div class="line"><a name="l00217"></a><span class="lineno">  217</span>&#160;    <span class="keywordflow">switch</span> (<a class="code" href="main_8cc.html#a573ebc6bd03a97d596937089d62f7256">selectMode</a>()) {</div>
+<div class="line"><a name="l00218"></a><span class="lineno">  218</span>&#160;      <span class="keywordflow">default</span>:</div>
+<div class="line"><a name="l00219"></a><span class="lineno">  219</span>&#160;      <span class="keywordflow">case</span> 0x00:</div>
+<div class="line"><a name="l00220"></a><span class="lineno">  220</span>&#160;        <a class="code" href="main_8cc.html#aba67899efe1ea59e792b00045fa61f75">printParam</a>();</div>
+<div class="line"><a name="l00221"></a><span class="lineno">  221</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00222"></a><span class="lineno">  222</span>&#160; </div>
+<div class="line"><a name="l00223"></a><span class="lineno">  223</span>&#160;      <span class="keywordflow">case</span> 0x01:</div>
+<div class="line"><a name="l00224"></a><span class="lineno">  224</span>&#160;        <a class="code" href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">printSensor</a>(<span class="keyword">false</span>);</div>
+<div class="line"><a name="l00225"></a><span class="lineno">  225</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00226"></a><span class="lineno">  226</span>&#160; </div>
+<div class="line"><a name="l00227"></a><span class="lineno">  227</span>&#160;      <span class="keywordflow">case</span> 0x02:</div>
+<div class="line"><a name="l00228"></a><span class="lineno">  228</span>&#160;        <a class="code" href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">testStraight</a>();</div>
+<div class="line"><a name="l00229"></a><span class="lineno">  229</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00230"></a><span class="lineno">  230</span>&#160; </div>
+<div class="line"><a name="l00231"></a><span class="lineno">  231</span>&#160;      <span class="keywordflow">case</span> 0x03:</div>
+<div class="line"><a name="l00232"></a><span class="lineno">  232</span>&#160;        <a class="code" href="main_8cc.html#ab6b7389f097feed1f85f41194885da4a">testRightTurn</a>();</div>
+<div class="line"><a name="l00233"></a><span class="lineno">  233</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00234"></a><span class="lineno">  234</span>&#160; </div>
+<div class="line"><a name="l00235"></a><span class="lineno">  235</span>&#160;      <span class="keywordflow">case</span> 0x04:</div>
+<div class="line"><a name="l00236"></a><span class="lineno">  236</span>&#160;        <a class="code" href="main_8cc.html#a81e46e6b54cb717c86de9f2c7b7221f6">testLeftTurn</a>();</div>
+<div class="line"><a name="l00237"></a><span class="lineno">  237</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00238"></a><span class="lineno">  238</span>&#160; </div>
+<div class="line"><a name="l00239"></a><span class="lineno">  239</span>&#160;      <span class="keywordflow">case</span> 0x05:</div>
+<div class="line"><a name="l00240"></a><span class="lineno">  240</span>&#160;        <a class="code" href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">testEnkaigei</a>();</div>
+<div class="line"><a name="l00241"></a><span class="lineno">  241</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00242"></a><span class="lineno">  242</span>&#160; </div>
+<div class="line"><a name="l00243"></a><span class="lineno">  243</span>&#160;      <span class="keywordflow">case</span> 0x06:</div>
+<div class="line"><a name="l00244"></a><span class="lineno">  244</span>&#160;      <span class="keywordflow">case</span> 0x07:</div>
+<div class="line"><a name="l00245"></a><span class="lineno">  245</span>&#160;      <span class="keywordflow">case</span> 0x08:</div>
+<div class="line"><a name="l00246"></a><span class="lineno">  246</span>&#160;      <span class="keywordflow">case</span> 0x09:</div>
+<div class="line"><a name="l00247"></a><span class="lineno">  247</span>&#160;      <span class="keywordflow">case</span> 0x0A:</div>
+<div class="line"><a name="l00248"></a><span class="lineno">  248</span>&#160;      <span class="keywordflow">case</span> 0x0B:</div>
+<div class="line"><a name="l00249"></a><span class="lineno">  249</span>&#160;      <span class="keywordflow">case</span> 0x0C:</div>
+<div class="line"><a name="l00250"></a><span class="lineno">  250</span>&#160;      <span class="keywordflow">case</span> 0x0D:</div>
+<div class="line"><a name="l00251"></a><span class="lineno">  251</span>&#160;      <span class="keywordflow">case</span> 0x0E:</div>
+<div class="line"><a name="l00252"></a><span class="lineno">  252</span>&#160;      <span class="keywordflow">case</span> 0x0F:</div>
+<div class="line"><a name="l00253"></a><span class="lineno">  253</span>&#160;        <span class="keywordflow">break</span>;</div>
+<div class="line"><a name="l00254"></a><span class="lineno">  254</span>&#160;    }</div>
+<div class="line"><a name="l00255"></a><span class="lineno">  255</span>&#160;  }</div>
+<div class="line"><a name="l00256"></a><span class="lineno">  256</span>&#160;}</div>
+<div class="line"><a name="l00257"></a><span class="lineno">  257</span>&#160; </div>
+<div class="line"><a name="l00261"></a><span class="lineno"><a class="line" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">  261</a></span>&#160;[[noreturn]] <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">proTask</a>(<span class="keywordtype">void</span> *) {</div>
+<div class="line"><a name="l00262"></a><span class="lineno">  262</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#ab1618ba68776ade46df46ec323674b4f">init_pro</a>();</div>
+<div class="line"><a name="l00263"></a><span class="lineno">  263</span>&#160;  vTaskDelay(pdMS_TO_TICKS(500));</div>
+<div class="line"><a name="l00264"></a><span class="lineno">  264</span>&#160; </div>
+<div class="line"><a name="l00265"></a><span class="lineno">  265</span>&#160;  <span class="comment">// モーター有効化</span></div>
+<div class="line"><a name="l00266"></a><span class="lineno">  266</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#ae00c4bbda9ba69c195e292998fb78188">motor_right</a>-&gt;enable();</div>
+<div class="line"><a name="l00267"></a><span class="lineno">  267</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>-&gt;<a class="code" href="structDriver.html#adf567886625239a40365461a72d77363">motor_left</a>-&gt;enable();</div>
+<div class="line"><a name="l00268"></a><span class="lineno">  268</span>&#160; </div>
+<div class="line"><a name="l00269"></a><span class="lineno">  269</span>&#160;  <span class="comment">// センサ初期化</span></div>
+<div class="line"><a name="l00270"></a><span class="lineno">  270</span>&#160;  <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>-&gt;<a class="code" href="classSensor.html#afbfea94b9f0bf7722e9bfd38ef5ccf0b">setup</a>();</div>
 <div class="line"><a name="l00271"></a><span class="lineno">  271</span>&#160; </div>
-<div class="line"><a name="l00275"></a><span class="lineno"><a class="line" href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70">  275</a></span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70">app_main</a>(<span class="keywordtype">void</span>) {</div>
-<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a> = <span class="keyword">new</span> <a class="code" href="structDriver.html">Driver</a>();</div>
-<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;  <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a> = <span class="keyword">new</span> <a class="code" href="classSensor.html">Sensor</a>(<a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>);</div>
-<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a> = <span class="keyword">new</span> <a class="code" href="classMotion.html">Motion</a>(<a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>, <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>);</div>
-<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a> = <span class="keyword">new</span> <a class="code" href="classRun.html">Run</a>(<a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>);</div>
-<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160;  xTaskCreatePinnedToCore(<a class="code" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">proTask</a>, <span class="stringliteral">&quot;proTask&quot;</span>, 8192, <span class="keyword">nullptr</span>, 20, <span class="keyword">nullptr</span>, 0);</div>
-<div class="line"><a name="l00281"></a><span class="lineno">  281</span>&#160;  xTaskCreatePinnedToCore(<a class="code" href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">appTask</a>, <span class="stringliteral">&quot;appTask&quot;</span>, 8192, <span class="keyword">nullptr</span>, 20, <span class="keyword">nullptr</span>, 1);</div>
-<div class="line"><a name="l00282"></a><span class="lineno">  282</span>&#160;}</div>
+<div class="line"><a name="l00272"></a><span class="lineno">  272</span>&#160;  <span class="comment">// TODO: 止める手段を作る (フラッシュ読み書きのため)</span></div>
+<div class="line"><a name="l00273"></a><span class="lineno">  273</span>&#160;  <span class="keyword">auto</span> xLastWakeTime = xTaskGetTickCount();</div>
+<div class="line"><a name="l00274"></a><span class="lineno">  274</span>&#160;  <span class="keywordflow">while</span> (<span class="keyword">true</span>) {</div>
+<div class="line"><a name="l00275"></a><span class="lineno">  275</span>&#160;    <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>-&gt;<a class="code" href="classSensor.html#a542a721041768395de2c6e9012622113">update</a>();</div>
+<div class="line"><a name="l00276"></a><span class="lineno">  276</span>&#160;    <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>-&gt;update();</div>
+<div class="line"><a name="l00277"></a><span class="lineno">  277</span>&#160;    vTaskDelayUntil(&amp;xLastWakeTime, pdMS_TO_TICKS(1));</div>
+<div class="line"><a name="l00278"></a><span class="lineno">  278</span>&#160;  }</div>
+<div class="line"><a name="l00279"></a><span class="lineno">  279</span>&#160;}</div>
+<div class="line"><a name="l00280"></a><span class="lineno">  280</span>&#160; </div>
+<div class="line"><a name="l00284"></a><span class="lineno"><a class="line" href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70">  284</a></span>&#160;<span class="keyword">extern</span> <span class="stringliteral">&quot;C&quot;</span> <span class="keywordtype">void</span> <a class="code" href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70">app_main</a>(<span class="keywordtype">void</span>) {</div>
+<div class="line"><a name="l00285"></a><span class="lineno">  285</span>&#160;  <a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a> = <span class="keyword">new</span> <a class="code" href="structDriver.html">Driver</a>();</div>
+<div class="line"><a name="l00286"></a><span class="lineno">  286</span>&#160;  <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a> = <span class="keyword">new</span> <a class="code" href="classSensor.html">Sensor</a>(<a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>);</div>
+<div class="line"><a name="l00287"></a><span class="lineno">  287</span>&#160;  <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a> = <span class="keyword">new</span> Motion(<a class="code" href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a>, <a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>);</div>
+<div class="line"><a name="l00288"></a><span class="lineno">  288</span>&#160;  <a class="code" href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a> = <span class="keyword">new</span> Run(<a class="code" href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a>, <a class="code" href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a>);</div>
+<div class="line"><a name="l00289"></a><span class="lineno">  289</span>&#160;  xTaskCreatePinnedToCore(<a class="code" href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">proTask</a>, <span class="stringliteral">&quot;proTask&quot;</span>, 8192, <span class="keyword">nullptr</span>, 20, <span class="keyword">nullptr</span>, 0);</div>
+<div class="line"><a name="l00290"></a><span class="lineno">  290</span>&#160;  xTaskCreatePinnedToCore(<a class="code" href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">appTask</a>, <span class="stringliteral">&quot;appTask&quot;</span>, 8192, <span class="keyword">nullptr</span>, 20, <span class="keyword">nullptr</span>, 1);</div>
+<div class="line"><a name="l00291"></a><span class="lineno">  291</span>&#160;}</div>
 <div class="ttc" id="abuzzer_8h_html_adf9d34ec6c1f897af14146e8800a4265"><div class="ttname"><a href="buzzer_8h.html#adf9d34ec6c1f897af14146e8800a4265">C5</a></div><div class="ttdeci">static constexpr uint32_t C5</div><div class="ttdef"><b>Definition:</b> <a href="buzzer_8h_source.html#l00024">buzzer.h:24</a></div></div>
-<div class="ttc" id="aclassMotion_html"><div class="ttname"><a href="classMotion.html">Motion</a></div><div class="ttdef"><b>Definition:</b> <a href="motion_8h_source.html#l00071">motion.h:71</a></div></div>
-<div class="ttc" id="aclassMotion_html_a0157dc888e8609295d8ac50c08c5248b"><div class="ttname"><a href="classMotion.html#a0157dc888e8609295d8ac50c08c5248b">Motion::getTarget</a></div><div class="ttdeci">const MotionTarget &amp; getTarget()</div><div class="ttdef"><b>Definition:</b> <a href="motion_8h_source.html#l00084">motion.h:84</a></div></div>
-<div class="ttc" id="aclassMotion_html_a01805ce60c0e4c9aae97979dd884b59c"><div class="ttname"><a href="classMotion.html#a01805ce60c0e4c9aae97979dd884b59c">Motion::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="motion_8cc_source.html#l00154">motion.cc:154</a></div></div>
-<div class="ttc" id="aclassMotion_html_ae4a9edb598403d8f8d48caf670351f4a"><div class="ttname"><a href="classMotion.html#ae4a9edb598403d8f8d48caf670351f4a">Motion::getParameterQueue</a></div><div class="ttdeci">rtos::Queue&lt; MotionParameter &gt; &amp; getParameterQueue()</div><div class="ttdef"><b>Definition:</b> <a href="motion_8h_source.html#l00079">motion.h:79</a></div></div>
-<div class="ttc" id="aclassRun_html"><div class="ttname"><a href="classRun.html">Run</a></div><div class="ttdef"><b>Definition:</b> <a href="run_8h_source.html#l00010">run.h:10</a></div></div>
-<div class="ttc" id="aclassRun_html_a02ec133f8bb7eaec6427bfb62e21718b"><div class="ttname"><a href="classRun.html#a02ec133f8bb7eaec6427bfb62e21718b">Run::straight</a></div><div class="ttdeci">void straight(MotionDirection direction, float length, float acceleration, float max_velocity, float end_velocity)</div><div class="ttdef"><b>Definition:</b> <a href="run_8cc_source.html#l00009">run.cc:9</a></div></div>
-<div class="ttc" id="aclassRun_html_ac4f80a6609f748e5c07a89cf4d9cde16"><div class="ttname"><a href="classRun.html#ac4f80a6609f748e5c07a89cf4d9cde16">Run::turn</a></div><div class="ttdeci">void turn(float degree, float angular_acceleration, float max_angular_velocity, MotionDirection dir)</div><div class="ttdef"><b>Definition:</b> <a href="run_8cc_source.html#l00026">run.cc:26</a></div></div>
-<div class="ttc" id="aclassRun_html_ad44bd8c66a1d05f15eebf31cc698eca2"><div class="ttname"><a href="classRun.html#ad44bd8c66a1d05f15eebf31cc698eca2">Run::stop</a></div><div class="ttdeci">void stop()</div><div class="ttdef"><b>Definition:</b> <a href="run_8cc_source.html#l00040">run.cc:40</a></div></div>
 <div class="ttc" id="aclassSensor_html"><div class="ttname"><a href="classSensor.html">Sensor</a></div><div class="ttdef"><b>Definition:</b> <a href="sensor_8h_source.html#l00037">sensor.h:37</a></div></div>
 <div class="ttc" id="aclassSensor_html_a19267a097e4fd8ba8e0985d1c79564eb"><div class="ttname"><a href="classSensor.html#a19267a097e4fd8ba8e0985d1c79564eb">Sensor::getSensed</a></div><div class="ttdeci">const Sensed &amp; getSensed()</div><div class="ttdef"><b>Definition:</b> <a href="sensor_8h_source.html#l00052">sensor.h:52</a></div></div>
-<div class="ttc" id="aclassSensor_html_a542a721041768395de2c6e9012622113"><div class="ttname"><a href="classSensor.html#a542a721041768395de2c6e9012622113">Sensor::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="sensor_8cc_source.html#l00053">sensor.cc:53</a></div></div>
+<div class="ttc" id="aclassSensor_html_a542a721041768395de2c6e9012622113"><div class="ttname"><a href="classSensor.html#a542a721041768395de2c6e9012622113">Sensor::update</a></div><div class="ttdeci">void update()</div><div class="ttdef"><b>Definition:</b> <a href="sensor_8cc_source.html#l00051">sensor.cc:51</a></div></div>
 <div class="ttc" id="aclassSensor_html_afbfea94b9f0bf7722e9bfd38ef5ccf0b"><div class="ttname"><a href="classSensor.html#afbfea94b9f0bf7722e9bfd38ef5ccf0b">Sensor::setup</a></div><div class="ttdeci">void setup()</div><div class="ttdef"><b>Definition:</b> <a href="sensor_8cc_source.html#l00015">sensor.cc:15</a></div></div>
-<div class="ttc" id="aclassrtos_1_1Queue_html_aefa2666169a2772bd2ee5f3ba94d2a35"><div class="ttname"><a href="classrtos_1_1Queue.html#aefa2666169a2772bd2ee5f3ba94d2a35">rtos::Queue::overwrite</a></div><div class="ttdeci">bool overwrite(const T *item)</div><div class="ttdef"><b>Definition:</b> <a href="rtos_8h_source.html#l00033">rtos.h:33</a></div></div>
 <div class="ttc" id="adriver_8h_html"><div class="ttname"><a href="driver_8h.html">driver.h</a></div></div>
-<div class="ttc" id="amain_8cc_html_a04ba83a16a6c1e61b19c2fc33497d5d4"><div class="ttname"><a href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">appTask</a></div><div class="ttdeci">static void appTask(void *)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00199">main.cc:199</a></div></div>
+<div class="ttc" id="amain_8cc_html_a04ba83a16a6c1e61b19c2fc33497d5d4"><div class="ttname"><a href="main_8cc.html#a04ba83a16a6c1e61b19c2fc33497d5d4">appTask</a></div><div class="ttdeci">static void appTask(void *)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00206">main.cc:206</a></div></div>
 <div class="ttc" id="amain_8cc_html_a284d204016ba071d327a277d87c4239f"><div class="ttname"><a href="main_8cc.html#a284d204016ba071d327a277d87c4239f">sensor</a></div><div class="ttdeci">Sensor * sensor</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00020">main.cc:20</a></div></div>
-<div class="ttc" id="amain_8cc_html_a51ac78eb82e1098fd6085bdaa9fe02ff"><div class="ttname"><a href="main_8cc.html#a51ac78eb82e1098fd6085bdaa9fe02ff">testTurn</a></div><div class="ttdeci">void testTurn()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00162">main.cc:162</a></div></div>
 <div class="ttc" id="amain_8cc_html_a573ebc6bd03a97d596937089d62f7256"><div class="ttname"><a href="main_8cc.html#a573ebc6bd03a97d596937089d62f7256">selectMode</a></div><div class="ttdeci">static uint8_t selectMode()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00027">main.cc:27</a></div></div>
-<div class="ttc" id="amain_8cc_html_a630544a7f0a2cc40d8a7fefab7e2fe70"><div class="ttname"><a href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70">app_main</a></div><div class="ttdeci">void app_main(void)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00275">main.cc:275</a></div></div>
+<div class="ttc" id="amain_8cc_html_a630544a7f0a2cc40d8a7fefab7e2fe70"><div class="ttname"><a href="main_8cc.html#a630544a7f0a2cc40d8a7fefab7e2fe70">app_main</a></div><div class="ttdeci">void app_main(void)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00284">main.cc:284</a></div></div>
 <div class="ttc" id="amain_8cc_html_a747568ed99f59370abe9447b21bb0be3"><div class="ttname"><a href="main_8cc.html#a747568ed99f59370abe9447b21bb0be3">run</a></div><div class="ttdeci">Run * run</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00024">main.cc:24</a></div></div>
+<div class="ttc" id="amain_8cc_html_a81e46e6b54cb717c86de9f2c7b7221f6"><div class="ttname"><a href="main_8cc.html#a81e46e6b54cb717c86de9f2c7b7221f6">testLeftTurn</a></div><div class="ttdeci">void testLeftTurn()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00174">main.cc:174</a></div></div>
 <div class="ttc" id="amain_8cc_html_a8d91efdf39a0464f04ce971d9c2e8946"><div class="ttname"><a href="main_8cc.html#a8d91efdf39a0464f04ce971d9c2e8946">printSensor</a></div><div class="ttdeci">void printSensor(bool is_csv)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00091">main.cc:91</a></div></div>
 <div class="ttc" id="amain_8cc_html_a90db69f33fa84bbf082eb0bd3b56e5b1"><div class="ttname"><a href="main_8cc.html#a90db69f33fa84bbf082eb0bd3b56e5b1">motion</a></div><div class="ttdeci">Motion * motion</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00022">main.cc:22</a></div></div>
-<div class="ttc" id="amain_8cc_html_aa6d20d6115d1c26c29b4a22f62c7b569"><div class="ttname"><a href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">testStraight</a></div><div class="ttdeci">void testStraight()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00151">main.cc:151</a></div></div>
-<div class="ttc" id="amain_8cc_html_aa9663831480a5b0a46022a59829154a7"><div class="ttname"><a href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">proTask</a></div><div class="ttdeci">static void proTask(void *)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00252">main.cc:252</a></div></div>
+<div class="ttc" id="amain_8cc_html_aa6d20d6115d1c26c29b4a22f62c7b569"><div class="ttname"><a href="main_8cc.html#aa6d20d6115d1c26c29b4a22f62c7b569">testStraight</a></div><div class="ttdeci">void testStraight()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00154">main.cc:154</a></div></div>
+<div class="ttc" id="amain_8cc_html_aa9663831480a5b0a46022a59829154a7"><div class="ttname"><a href="main_8cc.html#aa9663831480a5b0a46022a59829154a7">proTask</a></div><div class="ttdeci">static void proTask(void *)</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00261">main.cc:261</a></div></div>
 <div class="ttc" id="amain_8cc_html_ab5aec5c53702939db83bc8fec8aaeb45"><div class="ttname"><a href="main_8cc.html#ab5aec5c53702939db83bc8fec8aaeb45">driver</a></div><div class="ttdeci">Driver * driver</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00018">main.cc:18</a></div></div>
+<div class="ttc" id="amain_8cc_html_ab6b7389f097feed1f85f41194885da4a"><div class="ttname"><a href="main_8cc.html#ab6b7389f097feed1f85f41194885da4a">testRightTurn</a></div><div class="ttdeci">void testRightTurn()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00165">main.cc:165</a></div></div>
 <div class="ttc" id="amain_8cc_html_aba67899efe1ea59e792b00045fa61f75"><div class="ttname"><a href="main_8cc.html#aba67899efe1ea59e792b00045fa61f75">printParam</a></div><div class="ttdeci">void printParam()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00075">main.cc:75</a></div></div>
-<div class="ttc" id="amain_8cc_html_aef43dfa3ccba34f716f05b96e615d729"><div class="ttname"><a href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">testEnkaigei</a></div><div class="ttdeci">void testEnkaigei()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00178">main.cc:178</a></div></div>
+<div class="ttc" id="amain_8cc_html_aef43dfa3ccba34f716f05b96e615d729"><div class="ttname"><a href="main_8cc.html#aef43dfa3ccba34f716f05b96e615d729">testEnkaigei</a></div><div class="ttdeci">void testEnkaigei()</div><div class="ttdef"><b>Definition:</b> <a href="main_8cc_source.html#l00185">main.cc:185</a></div></div>
 <div class="ttc" id="amap_8h_html"><div class="ttname"><a href="map_8h.html">map.h</a></div></div>
-<div class="ttc" id="amotion_8h_html"><div class="ttname"><a href="motion_8h.html">motion.h</a></div></div>
-<div class="ttc" id="amotion_8h_html_a5f38dee91b10530cf4c67e1cddc66752a11a755d598c0c417f9a36758c3da7481"><div class="ttname"><a href="motion_8h.html#a5f38dee91b10530cf4c67e1cddc66752a11a755d598c0c417f9a36758c3da7481">MotionPattern::Stop</a></div><div class="ttdeci">@ Stop</div></div>
-<div class="ttc" id="amotion_8h_html_a971229cd58122d7cb05ca9af3bc8ddb4a67d2f6740a8eaebf4d5c6f79be8da481"><div class="ttname"><a href="motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a67d2f6740a8eaebf4d5c6f79be8da481">MotionDirection::Forward</a></div><div class="ttdeci">@ Forward</div></div>
-<div class="ttc" id="amotion_8h_html_a971229cd58122d7cb05ca9af3bc8ddb4a92b09c7c48c520c3c55e497875da437c"><div class="ttname"><a href="motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a92b09c7c48c520c3c55e497875da437c">MotionDirection::Right</a></div><div class="ttdeci">@ Right</div></div>
-<div class="ttc" id="amotion_8h_html_a971229cd58122d7cb05ca9af3bc8ddb4a945d5e233cf7d6240f6b783b36a374ff"><div class="ttname"><a href="motion_8h.html#a971229cd58122d7cb05ca9af3bc8ddb4a945d5e233cf7d6240f6b783b36a374ff">MotionDirection::Left</a></div><div class="ttdeci">@ Left</div></div>
 <div class="ttc" id="aparameters_8h_html_a0af81b50097df8d44b1a8f5e4e8014fa"><div class="ttname"><a href="parameters_8h.html#a0af81b50097df8d44b1a8f5e4e8014fa">MODE_THRESHOLD_SPEED</a></div><div class="ttdeci">constexpr float MODE_THRESHOLD_SPEED</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00078">parameters.h:78</a></div></div>
 <div class="ttc" id="aparameters_8h_html_a41145cd5dcd7d07eb7e006805b9f20ef"><div class="ttname"><a href="parameters_8h.html#a41145cd5dcd7d07eb7e006805b9f20ef">MAZE_SIZE_Y</a></div><div class="ttdeci">constexpr int MAZE_SIZE_Y</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00068">parameters.h:68</a></div></div>
 <div class="ttc" id="aparameters_8h_html_a5ecdeab3cb73a48d58672dc8688264b2"><div class="ttname"><a href="parameters_8h.html#a5ecdeab3cb73a48d58672dc8688264b2">MAZE_SIZE_X</a></div><div class="ttdeci">constexpr int MAZE_SIZE_X</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00067">parameters.h:67</a></div></div>
@@ -391,7 +387,6 @@ $(function() {
 <div class="ttc" id="aparameters_8h_html_ae2f96c22616a0d8dc69c6c78eb43988e"><div class="ttname"><a href="parameters_8h.html#ae2f96c22616a0d8dc69c6c78eb43988e">MAZE_GOAL_X</a></div><div class="ttdeci">constexpr int MAZE_GOAL_X[MAZE_GOAL_SIZE]</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00072">parameters.h:72</a></div></div>
 <div class="ttc" id="aparameters_8h_html_aed8b369dbd47a7ff06000c64abd44f31"><div class="ttname"><a href="parameters_8h.html#aed8b369dbd47a7ff06000c64abd44f31">VELOCITY_DEFAULT</a></div><div class="ttdeci">constexpr float VELOCITY_DEFAULT</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00045">parameters.h:45</a></div></div>
 <div class="ttc" id="aparameters_8h_html_af40c075c5d598ceef46fc25b6c9c9e2f"><div class="ttname"><a href="parameters_8h.html#af40c075c5d598ceef46fc25b6c9c9e2f">MAZE_GOAL_SIZE</a></div><div class="ttdeci">constexpr int MAZE_GOAL_SIZE</div><div class="ttdef"><b>Definition:</b> <a href="parameters_8h_source.html#l00070">parameters.h:70</a></div></div>
-<div class="ttc" id="arun_8h_html"><div class="ttname"><a href="run_8h.html">run.h</a></div></div>
 <div class="ttc" id="asensor_8h_html"><div class="ttname"><a href="sensor_8h.html">sensor.h</a></div></div>
 <div class="ttc" id="astructDriver_html"><div class="ttname"><a href="structDriver.html">Driver</a></div><div class="ttdef"><b>Definition:</b> <a href="driver_8h_source.html#l00021">driver.h:21</a></div></div>
 <div class="ttc" id="astructDriver_html_a539ff92df4089b92699b4bded51f28bd"><div class="ttname"><a href="structDriver.html#a539ff92df4089b92699b4bded51f28bd">Driver::init_app</a></div><div class="ttdeci">void init_app()</div><div class="ttdoc">Core 1で使用されるドライバ</div><div class="ttdef"><b>Definition:</b> <a href="driver_8h_source.html#l00097">driver.h:97</a></div></div>
@@ -400,8 +395,6 @@ $(function() {
 <div class="ttc" id="astructDriver_html_adf567886625239a40365461a72d77363"><div class="ttname"><a href="structDriver.html#adf567886625239a40365461a72d77363">Driver::motor_left</a></div><div class="ttdeci">std::unique_ptr&lt; Motor &gt; motor_left</div><div class="ttdef"><b>Definition:</b> <a href="driver_8h_source.html#l00031">driver.h:31</a></div></div>
 <div class="ttc" id="astructDriver_html_ae00c4bbda9ba69c195e292998fb78188"><div class="ttname"><a href="structDriver.html#ae00c4bbda9ba69c195e292998fb78188">Driver::motor_right</a></div><div class="ttdeci">std::unique_ptr&lt; Motor &gt; motor_right</div><div class="ttdef"><b>Definition:</b> <a href="driver_8h_source.html#l00030">driver.h:30</a></div></div>
 <div class="ttc" id="astructDriver_html_af9b4eed9d1764e92bed30e6a8fe42161"><div class="ttname"><a href="structDriver.html#af9b4eed9d1764e92bed30e6a8fe42161">Driver::buzzer</a></div><div class="ttdeci">std::unique_ptr&lt; Buzzer &gt; buzzer</div><div class="ttdef"><b>Definition:</b> <a href="driver_8h_source.html#l00025">driver.h:25</a></div></div>
-<div class="ttc" id="astructMotionParameter_html"><div class="ttname"><a href="structMotionParameter.html">MotionParameter</a></div><div class="ttdef"><b>Definition:</b> <a href="motion_8h_source.html#l00023">motion.h:23</a></div></div>
-<div class="ttc" id="astructMotionParameter_html_a094069e9bda0dfe100a119bafd4ca8ec"><div class="ttname"><a href="structMotionParameter.html#a094069e9bda0dfe100a119bafd4ca8ec">MotionParameter::pattern</a></div><div class="ttdeci">MotionPattern pattern</div><div class="ttdef"><b>Definition:</b> <a href="motion_8h_source.html#l00025">motion.h:25</a></div></div>
 </div><!-- fragment --></div><!-- contents -->
 <!-- start footer part -->
 <hr class="footer"/><address class="footer"><small>

@@ -1,5 +1,4 @@
 <map id="printSensor" name="printSensor">
-<area shape="rect" id="node1" title=" " alt="" coords="5,31,101,57"/>
+<area shape="rect" id="node1" title=" " alt="" coords="5,5,101,32"/>
 <area shape="rect" id="node2" href="$classSensor.html#a19267a097e4fd8ba8e0985d1c79564eb" title=" " alt="" coords="149,5,292,32"/>
-<area shape="rect" id="node3" href="$classMotion.html#a0157dc888e8609295d8ac50c08c5248b" title=" " alt="" coords="153,56,289,83"/>
 </map>

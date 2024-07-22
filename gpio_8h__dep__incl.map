@@ -1,13 +1,9 @@
 <map id="main/dri/gpio.h" name="main/dri/gpio.h">
-<area shape="rect" id="node1" title=" " alt="" coords="98,5,218,32"/>
-<area shape="rect" id="node2" href="$driver_8h.html" title=" " alt="" coords="93,155,223,181"/>
-<area shape="rect" id="node11" href="$photo_8h.html" title=" " alt="" coords="145,80,275,107"/>
-<area shape="rect" id="node3" href="$main_8cc.html" title=" " alt="" coords="151,528,261,555"/>
-<area shape="rect" id="node4" href="$motion_8h.html" title=" " alt="" coords="99,379,217,405"/>
-<area shape="rect" id="node8" href="$odometry_8h.html" title=" " alt="" coords="144,229,276,256"/>
-<area shape="rect" id="node9" href="$sensor_8h.html" title=" " alt="" coords="201,304,315,331"/>
-<area shape="rect" id="node5" href="$motion_8cc.html" title=" " alt="" coords="43,453,166,480"/>
-<area shape="rect" id="node6" href="$run_8h.html" title=" " alt="" coords="292,453,384,480"/>
-<area shape="rect" id="node7" href="$run_8cc.html" title=" " alt="" coords="289,528,387,555"/>
-<area shape="rect" id="node10" href="$sensor_8cc.html" title=" " alt="" coords="343,379,461,405"/>
+<area shape="rect" id="node1" title=" " alt="" coords="105,5,225,32"/>
+<area shape="rect" id="node2" href="$driver_8h.html" title=" " alt="" coords="100,155,229,181"/>
+<area shape="rect" id="node7" href="$photo_8h.html" title=" " alt="" coords="152,80,281,107"/>
+<area shape="rect" id="node3" href="$main_8cc.html" title=" " alt="" coords="5,379,116,405"/>
+<area shape="rect" id="node4" href="$odometry_8h.html" title=" " alt="" coords="99,229,231,256"/>
+<area shape="rect" id="node5" href="$sensor_8h.html" title=" " alt="" coords="125,304,239,331"/>
+<area shape="rect" id="node6" href="$sensor_8cc.html" title=" " alt="" coords="140,379,259,405"/>
 </map>
